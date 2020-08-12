@@ -460,15 +460,89 @@ function get_b(xs, ys, xy) {
                 To make our algorithm work on shapes which are very similar we need to take into account every single point in the shape.
             </p>
             <p>
-                So we need to get the value of sum(x^2), sum(y^2) and sum(xy) for every single point in our shape. Sum up an infinite number would give us an infinitely high value (and it would take a long time to do one by one).
-                So instead we'll compute an average value for the 3 sums of all the points using integration.
+                So in our equations for 'a' and 'b' we now need to calculate
+                <script id="xsquaresum"  type="math/asciimath">
+                    sum[y_i^2]
+                </script>,
+                <script id="xsq333uaresum"  type="math/asciimath">
+                    sum[x_i^2]
+                </script>
+                and
+                <script id="xsqu3434aresum"  type="math/asciimath">
+                    sum[y_ix_i]
+                </script>
+                for all of the infinite points inside our shape.
             </p>
             <p>
-                We will handle each segment of our polygon separately and combine the result at the end.
+                Summing up these values for an infinite number would give us an infinitely high value.
+                So instead we'll compute the average values for
+                <script id="xsquar3434esum"  type="math/asciimath">
+                    y_i^2
+                </script>,
+                <script id="xsq333u3434aresum"  type="math/asciimath">
+                    x_i^2
+                </script>
+                and
+                <script id="xsqu34343434aresum"  type="math/asciimath">
+                    y_ix_i
+                </script>
+                of all the points using integration.
             </p>
             <p>
-                Each segment (from one point to another) can be expressed as a line which will fit the equation y = m*x+c.
+                So our equations for 'a' and 'b' become:
             </p>
+            <div class="equationDiv">
+                <script id="aDerdfdsfdfsivative" type="math/asciimath">
+                   a = root(4)( (sum(y_i^2)^2) / (sum(x_i^2)*sum(y_i^2) - sum(x_iy_i)^2)  )   ->    a = root(4)( ((sum(y_i^2))/n)^2 / ( (sum(x_i^2))/n*(sum(y_i^2))/n - ((sum(x_iy_i))/n)^2 )
+                </script>
+            </div>
+            <div class="equationDiv">
+                <script id="bDerdfsdffixmeivative_2_" type="math/asciimath">
+                   b = -(a sum(y_ix_i))/(sum(y_i^2))
+                </script>
+                <script id="arrowRightBValue" type="math/asciimath">
+                    ->
+                </script>
+                <script id="bDerdfsdffidfdfxmeivative_2_" type="math/asciimath">
+                   b = -(a (sum(y_ix_i))/n)/((sum(y_i^2))/n)
+                </script>
+            </div>
+            <p>
+                To compute the values of
+                <script id="bDerdffddfdsdffidfdfxmeivative_2_" type="math/asciimath">
+                   (sum(y_i^2))/n
+                </script>
+                ,
+                <script id="bDerddfdfffddfdsdffidfdfxmeivative_2_" type="math/asciimath">
+                   (sum(x_i^2))/n
+                </script>
+                and
+                <script id="bDerfdfddffddfdsdffidfdfxmeivative_2_" type="math/asciimath">
+                   (sum(y_ix_i))/n
+                </script>
+                we will break our polygon into segments and combine the values of each segment at the end.
+            </p>
+            <p>
+                Each segment (from one point to another) can be expressed as a line which will fit the equation of a line:
+                <script id="bDerdffddfdsdffidfdfxmeivfdsfdsfative_2_dfd" type="math/asciimath">
+                   y = mx+c
+                </script>
+                .
+                We can use integration on each of these line segments to get to get the average value of
+                <script id="bDerdffddfdsdffidfdfxmeivfdsfdsfative_2_" type="math/asciimath">
+                   y_i^2
+                </script>
+                ,
+                <script id="bDerddfdfffddfdsdffidfsdfdfdfxmeivative_2_" type="math/asciimath">
+                   x_i^2
+                </script>
+                and
+                <script id="bDerfdfddffddfdsdffdfdsfdsfidfdfxmeivative_2_" type="math/asciimath">
+                   y_ix_i
+                </script>
+                for every point under the line.
+            </p>
+            <img width="800px" src="./images/Screen%20Shot%202020-08-01%20at%2011.07.01%20AM.png" />
             <p>
                 At any x value on our line the average value of y^2 of all the points from y = 0 straight up to the line is. p is the current point on the y axis
             </p>
@@ -483,15 +557,18 @@ function get_b(xs, ys, xy) {
                 previous function multiplied by the size of the y value of that point. Then the average value of that
                 new function divided by the area of our previous function will be the average value of y^2.
             </p>
-            <script>
-                "y_squared_average" = 1/3*(int_(x_1)^(x_2)(mx+c)^3dx)/(int_(x_1)^(x_2)(mx+c)dx)
-            </script>
-
             <div class="equationDiv">
                 <script id="aDere12321" type="math/asciimath">
-                    "y_squared_average" = 1/3*(int_(x_1)^(x_2)(mx+c)^3dx)/(int_(x_1)^(x_2)(mx+c)dx)
+                    (sum(y_i^2))/n = 1/3*(int_(x_1)^(x_2)(mx+c)^3dx)/(int_(x_1)^(x_2)(mx+c)dx)
                 </script>
             </div>
+
+            //update the equations on the paper
+            //each vertex...to the line
+            //update the equations here
+            //commit and publish
+
+
             <p>
                 we'll use the same logic for the average value of x*y. The average value at any x coordinate on our polygon segment
             </p>
@@ -505,11 +582,11 @@ function get_b(xs, ys, xy) {
             </p>
             <div class="equationDiv">
                 <script id="aDeride43fsdfvative12321" type="math/asciimath">
-                    "xy_average" = 1/2*(int_(x_1)^(x_2)x*(mx+c)^2dx)/(int_(x_1)^(x_2)(mx+c)dx)
+                    (sum(y_ix_i))/n = 1/2*(int_(x_1)^(x_2)x*(mx+c)^2dx)/(int_(x_1)^(x_2)(mx+c)dx)
                 </script>
             </div>
             <p>
-                and the average x*y value at every single x coordinate
+
             </p>
             <div class="footer">
                 <hr>
