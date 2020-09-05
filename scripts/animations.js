@@ -345,8 +345,8 @@ function addSquareDemo2() {
         let changedShape = g_basicSquareDemo2.shape;
 
         //FIXME: the order here is wrong, WTF???
-        let b = g_pick_a;
-        let a = g_pick_b;
+        let b = g_pick_b;
+        let a = g_pick_a;
 
 
         const transMat = [
@@ -357,11 +357,11 @@ function addSquareDemo2() {
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
 
 
-        const valHack = 1 / 100 * 1 / .4;
+        const valHack = 1;
         const v3vals = get3SumOfVals(g_basicSquareDemo2.shape, valHack);
         fillDemoVals("v8", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(7, 7));
+        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(100, 100));
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
         drawPolyFull(canvasObj.ctx, changedShape);
 

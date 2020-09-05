@@ -1474,7 +1474,8 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
     let y2 = [];
 
     for (let i = 0; i < axisRes; i++) {
-        let ifq = (axisRes-1) - i;
+        // let ifq = (axisRes-1) - i;
+        let ifq = i;
         x2.push((ifq + xAxisAdd) * xAxisMult + xAxisAddFinal);
         y2.push((ifq + yAxisAdd) * yAxisMult + yAxisAddFinal);
     }
@@ -1491,8 +1492,8 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
     }
     return {
         z: z2,
-        y: x2,
-        x: y2,
+        y: y2,
+        x: x2,
         type: 'surface',
         colorscale: [
             [0, 'rgb(255,255,255)'],
@@ -1502,6 +1503,7 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
 }
 
 function getDataForSquareDemo2() {
+    return 0;
     const axisRes = 50;
     return getDataForShape(square_shape_inner, .72 * .03 * (axisRes / 100),
         13, .72 * .2 * .24 * (axisRes / 100), -(axisRes / 2), axisRes, 50, 0, 0)
@@ -1510,7 +1512,8 @@ function getDataForSquareDemo2() {
 function getDataForSquareDemo() {
     ///.....
     const axisRes = 50;
-    return getDataForShape(shape1_shape, .012, 0, .04, 0, 50, 4000000, -0.99, -.8)
+    // return getDataForShape(square_shape_small, .012, 0, .04, 0, 50, 4000000, -1.5, -1.0)
+    return getDataForShape(square_shape_small, .05, 0, .05, 0, 50, 70, -0, -1)
 }
 
 
