@@ -337,7 +337,7 @@ function get3SumOfVals(inputShape, scaleHack) {
 function addSquareDemo2(shape, scale) {
     g_basicSquareDemo2 = new AnimatedCanvas("basicSquareDemo2");
     g_basicSquareDemo2.transformationMatrix = getIdentityMatrix();
-    g_basicSquareDemo2.draw = function(a, b) {
+    g_basicSquareDemo2.draw = function(a, b, img, transpt) {
         const canvasObj = getCleanCanvas(g_basicSquareDemo2.canvasIdStub);
         setUpSquareDemoVars("v8", 12);
 
@@ -346,7 +346,7 @@ function addSquareDemo2(shape, scale) {
         const transMat = [
             [a, b, 0],
             [0, 1.0 / a, 0],
-            [0, 0, 0],
+            [0, 0, 1],
         ];
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
@@ -356,6 +356,16 @@ function addSquareDemo2(shape, scale) {
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(g_scale_shape, g_scale_shape));
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
+
+        if (img != null) {
+            //calc the mat
+            let mat = getIdentityMatrix();
+            mat = matrixMultiply(getTranslateMatrix(-100, -100), mat)
+            mat = matrixMultiply(transMat, mat)
+            mat = matrixMultiply(getTranslateMatrix(100, 100), mat)
+            // mat = matrixMultiply(getTranslateMatrix(2000, 2000), mat)
+            drawImageWithTransformations(canvasObj.ctx, img, mat)
+        }
         drawPolyFull(canvasObj.ctx, changedShape);
 
         // setTimeout(g_basicSquareDemo2.draw, 0);

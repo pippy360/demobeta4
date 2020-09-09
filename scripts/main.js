@@ -1477,8 +1477,8 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
     };
 }
 
-function getDataForSquareDemo(inShape) {
-    return getDataForShape(inShape.shape,
+function getDataForSquareDemo(fixedShape, inShape) {
+    return getDataForShape(fixedShape,
         inShape.xAxisMult,
         inShape.xAxisAdd,
         inShape.yAxisMult,
@@ -1510,12 +1510,13 @@ let g_plot;
 
 function setGplot(inputShape) {
     const transpt = findCentroid(inputShape.shape);
+    debugger;
     let transx = transpt[0];
     let transy = transpt[1];
-    inputShape.shape = applyTransformationMatrixToAllKeypoints(
+    const inshape = applyTransformationMatrixToAllKeypoints(
         inputShape.shape, getTranslateMatrix(-transx, -transy));
     //data being passed in is junk
-    g_plot = Plotly.newPlot('myDiv', [getDataForSquareDemo(inputShape)], {
+    g_plot = Plotly.newPlot('myDiv', [getDataForSquareDemo(inshape, inputShape)], {
         scene: {
             xaxis: {title: 'a'},
             yaxis: {title: 'b'},
@@ -1523,11 +1524,11 @@ function setGplot(inputShape) {
         }
     });
 
-    let demo = addSquareDemo2(inputShape.shape, inputShape.xscale);
+    let demo = addSquareDemo2(inshape, inputShape.xscale);
 
     let myPlot = document.getElementById('myDiv');
     myPlot.on('plotly_hover', function (data) {
-        demo.draw(data.points[0].x, data.points[0].y);
+        demo.draw(data.points[0].x, data.points[0].y, inputShape.img, transpt);
     });
 }
 
@@ -1544,6 +1545,7 @@ const triangle_shape_wrap = {
     yAxisAddFinal: -1,
     yscale: 1,
     xscale: 1,
+    img: null,
 }
 
 const square_shape_wrap = {
@@ -1559,6 +1561,7 @@ const square_shape_wrap = {
     yAxisAddFinal: -1,
     yscale: 70,
     xscale: 70,
+    img: null,
 }
 
 const circle_shape_small_wrapper = {
@@ -1574,7 +1577,29 @@ const circle_shape_small_wrapper = {
     yAxisAddFinal: -1,
     yscale: 70,
     xscale: 70,
+    img: null,
 }
+circle_shape_small_wrapper.img = new Image();
+circle_shape_small_wrapper.img.src = "images/boo.jpg";
+
+const shape1_shape_wrapper = {
+    shape: shape1_shape,
+    inShape: 0,
+    xAxisMult: .05,
+    xAxisAdd: 0,
+    yAxisMult: .05,
+    yAxisAdd: 0,
+    axisRes: 50,
+    maxSumVal: 50,
+    xAxisAddFinal: 0,
+    yAxisAddFinal: -1,
+    yscale: 1,
+    xscale: 1,
+    img: null,
+}
+shape1_shape_wrapper.img = new Image();
+shape1_shape_wrapper.img.src = "images/image.png";
+
 
 document.addEventListener("DOMContentLoaded", function() {
     setGplot(square_shape_wrap);
