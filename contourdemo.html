@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="scripts/shapes.js"></script>
+<script src="scripts/common.js"></script>
+<script src="scripts/downscale.js"></script>
+<script src="scripts/drawWrappers.js"></script>
+<script src="scripts/matrixMaths.js"></script>
+<script src="scripts/nelderMead.js"></script>
+<script src="scripts/phash.js"></script>
+<script src="scripts/polygonFuncs.js"></script>
+<script src="scripts/transformOperations.js"></script>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+<script src="https://d3js.org/d3-color.v2.min.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
+<script src="https://d3js.org/d3-array.v2.min.js"></script>
+<script src="https://d3js.org/d3-color.v2.min.js"></script>
+<script src="https://d3js.org/d3-format.v2.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
+<script src="https://d3js.org/d3-time.v2.min.js"></script>
+<script src="https://d3js.org/d3-time-format.v3.min.js"></script>
+<script src="https://d3js.org/d3-scale.v3.min.js"></script>
+<script>
+
+    const div = 2;
+    const width = 800
+    const height = 600
+    const n = width//Math.ceil((x1 - x0) / q);
+    const m = height//Math.ceil((y1 - y0) / q);
+
+    path = d3.geoPath()
+
+    function getSumVal(shape, a, b, maxSumVal) {
+        const inShape = applyTransformationMatrixToAllKeypoints(shape, [[a, b], [0, 1.0 / a]]);
+        let result = 0;
+        for (let i = 0; i < inShape.length; i++) {
+            result += inShape[i][0] ** 2 + inShape[i][1] ** 2;
+        }
+        if (result > maxSumVal) {
+            return maxSumVal;
+        }
+        return result;
+    }
+
+    function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd,
+                             axisResX,
+                             axisResY,
+                             maxSumVal, xAxisAddFinal,
+                             yAxisAddFinal) {
+
+        const transpt = findCentroid(inShape);
+        const fixedShape = applyTransformationMatrixToAllKeypoints(inShape, getTranslateMatrix(transpt[0], transpt[1]));
+
+        let z2 = [];
+        let x2 = [];
+        let y2 = [];
+
+        for (let i = 0; i < axisResY; i++) {
+            // let ifq = (axisRes-1) - i;
+            x2.push(i * xAxisMult + xAxisAddFinal);
+        }
+        for (let i = 0; i < axisResX; i++) {
+            y2.push(i * yAxisMult + yAxisAddFinal);
+        }
+        for (let i = 0; i < axisResY; i++) {
+            let z2_row = [];
+            for (let j = 0; j < axisResX; j++) {
+                let a = (j + xAxisAdd) * xAxisMult + xAxisAddFinal;
+                let b = (i + yAxisAdd) * yAxisMult + yAxisAddFinal;
+
+                // z2.push({
+                //     x: a,
+                //     y: b,
+                //     z: getSumVal(fixedShape, a, b, maxSumVal)
+                // });
+                z2.push( ( ( getSumVal(fixedShape, a, b, maxSumVal)-7.9) *900)  -8);
+            }
+            // z2.push(z2_row);
+        }
+        return z2;
+        // return {
+        //     width: axisRes,
+        //     height: axisRes,
+        //     values: z2
+        // };
+    }
+
+    function getDataForSquareDemo(inShape) {
+        return getDataForShape(inShape.shape,
+            inShape.xAxisMult,
+            inShape.xAxisAdd,
+            inShape.yAxisMult,
+            inShape.yAxisAdd,
+            inShape.axisResX,
+            inShape.axisResY,
+            inShape.maxSumVal,
+            inShape.xAxisAddFinal,
+            inShape.yAxisAddFinal,
+            inShape.xscale,
+            inShape.yscale);
+    }
+
+    const square_shape_wrap = {
+        shape: square_shape_small,
+        inShape: 0,
+        xAxisMult: .010,
+        xAxisAdd: -15,
+        yAxisMult: .02,
+        yAxisAdd: -80,
+        axisResX: n,
+        axisResY: m,
+        maxSumVal: 50,
+        xAxisAddFinal: 0,
+        yAxisAddFinal: -1,
+        yscale: 400,
+        xscale: 70,
+        img: null,
+    }
+
+
+    // function getDataForBounds(coords, inShape) {
+    //     let x1 = coords[0][0]
+    //     let y1 = coords[0][1]
+    //     let x2 = coords[1][0]
+    //     let y2 = coords[1][1]
+    //
+    //     inShape.xAxisAddFinal = x1;
+    //     inShape.yAxisAddFinal = y1;
+    //     return getDataForSquareDemo(inShape)
+    // }
+
+    let data = getDataForSquareDemo(square_shape_wrap)
+    console.log(data);
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+</body>
+
+
+
+<script>
+
+    x = d3.scaleLinear([-1, 2], [0, width + 28])
+    y = d3.scaleLinear([-1, 1], [height, 0])
+    color2 = d3.scaleLinear([0, 500], [0, 1])
+    // thresholds = d3.range(1, 20, .3).map(i => Math.pow(2, i))
+    thresholds = d3.range(1, 20, .7).map(i => Math.pow(2, i))
+
+    value = (x, y) =>
+        (1 + (x + y + 1) ** 2 * (19 - 14 * x + 3 * x ** 2 - 14 * y + 6 * x * y + 3 * y ** 2))
+        * (30 + (2 * x - 3 * y) ** 2 * (18 - 32 * x + 12 * x * x + 48 * y - 36 * x * y + 27 * y ** 2))
+
+    function grid_func() {
+        const q = div; // The level of detail, e.g., sample every 4 pixels in x and y.
+        const x0 = -q / 2;
+        const x1 = width + 28 + q;
+        const y0 = -q / 2;
+        const y1 = height + q;
+        grid = data;
+        grid.x = -q;
+        grid.y = -q;
+        grid.k = q;
+        grid.n = n;
+        grid.m = m;
+        return grid;
+    }
+
+    grid = grid_func();
+
+    yAxis = g => g
+        .attr("transform", "translate(-1,0)")
+        .call(d3.axisRight(y))
+        .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove())
+
+    xAxis = g => g
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisTop(x).ticks(width / height * 10))
+        .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove())
+
+    transform = ({type, value, coordinates}) => {
+        return {type, value, coordinates: coordinates.map(rings => {
+                return rings.map(points => {
+                    return points.map(([x, y]) => ([
+                        grid.x + grid.k * x,
+                        grid.y + grid.k * y
+                    ]));
+                });
+            })};
+    }
+
+    contours = d3.contours()
+        .size([grid.n, grid.m])
+        .thresholds(thresholds)
+        (grid)
+        .map(transform)
+
+
+
+    color = d3.scaleSequentialLog(
+        d3.extent(thresholds),
+        d3.interpolateMagma
+    )
+
+    //find in document instead
+    const svg = d3.select("#my_dataviz")
+        .append("svg")
+        .attr("viewBox", [0, 0, width + 28, height])
+        .style("display", "block")
+        .style("margin", "0 -14px")
+        .style("width", "calc(100% + 28px)");
+
+    const g = svg.append("g");
+
+    g.attr("fill", "none")
+        .attr("stroke", "#fff")
+        .attr("stroke-opacity", 0.5)
+        .selectAll("path")
+        // .data(contours);
+
+    for (let i = 0; i < thresholds.length; i++) {
+        //thresholds
+       _contour = contours[i];
+       threshold = thresholds[i]
+        g.append("path")
+            .attr("d", path(_contour))
+            .attr("fill", color(threshold-1.9))
+            .attr("stroke-opacity", 0.25);
+    }
+    for (const _contour of contours) {
+    }
+        // .attr("fill", d => color(d.value))
+        // .attr("d", d3.geoPath());
+
+    svg.append("g")
+        .call(xAxis);
+
+    svg.append("g")
+        .call(yAxis);
+
+
+</script>
+
+</html>
