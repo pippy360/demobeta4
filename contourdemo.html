@@ -38,30 +38,7 @@
         return result;
     }
 
-    function getDataForShape(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
-    {
-        const transpt = findCentroid(inShape);
-        const fixedShape = applyTransformationMatrixToAllKeypoints(inShape, getTranslateMatrix(transpt[0], transpt[1]));
-        let dataArr = [];
 
-        for (let i = 0; i < axisResY; i++) {
-            for (let j = 0; j < axisResX; j++) {
-                let xlen = pointEnd[0] - pointStart[0];
-                let ylen = pointEnd[1] - pointStart[1];
-                let a = (pointStart[0]) + ((xlen/axisResX)*j);
-                let b = (pointStart[1]) + ((ylen/axisResY)*i);
-                let v = getSumVal(fixedShape, a, b, maxSumVal);
-                v -= 7.9;
-                v *= 900;
-                dataArr.push( v );
-            }
-        }
-        return dataArr;
-    }
-
-    function getDataForSquareDemo(inShape, pt1, pt2, n, m) {
-        return getDataForShape(inShape.shape, n, m, pt1, pt2, inShape.maxSumVal);
-    }
 
 </script>
 
@@ -78,36 +55,35 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$( function() {
-    $( "#somethingnew" ).draggable({
-        drag: function () {
-            var offset = $(this).offset();
-            var xPos = offset.left;
-            var yPos = offset.top;
-        }
-    });
-});
-
-$( function() {
-    $( "#somethingnew2" ).draggable({
-        drag: function () {
-            const offset = $(this).offset();
-            const xPos = offset.left;
-            const yPos = offset.top;
-            const offset2 = $("#my_dataviz2").offset();
-            const xPos2 = offset2.left;
-            const yPos2 = offset2.top;
-            console.log((xPos-xPos2) + " : " + (yPos-yPos2));
-        }
-    });
-});
-</script>
 
 </body>
 
 <script>
 
+function getDataForShape_flat(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
+{
+    const transpt = findCentroid(inShape);
+    const fixedShape = applyTransformationMatrixToAllKeypoints(inShape, getTranslateMatrix(transpt[0], transpt[1]));
+    let dataArr = [];
+
+    for (let i = 0; i < axisResY; i++) {
+        for (let j = 0; j < axisResX; j++) {
+            let xlen = pointEnd[0] - pointStart[0];
+            let ylen = pointEnd[1] - pointStart[1];
+            let a = (pointStart[0]) + ((xlen/axisResX)*j);
+            let b = (pointStart[1]) + ((ylen/axisResY)*i);
+            let v = getSumVal(fixedShape, a, b, maxSumVal);
+            v -= 7.9;
+            v *= 900;
+            dataArr.push( v );
+        }
+    }
+    return dataArr;
+}
+
+function getDataForSquareDemo(inShape, pt1, pt2, n, m) {
+    return getDataForShape_flat(inShape.shape, n, m, pt1, pt2, inShape.maxSumVal);
+}
 
 function drawGraph(id, inshape, pt1, pt2) {
     const width = 600;
@@ -174,6 +150,8 @@ function drawGraph(id, inshape, pt1, pt2) {
             .call(yAxis);
 
     }
+
+
 }
 
 const square_shape_wrap = {
@@ -186,6 +164,17 @@ const g_pt1 = [0, -2];
 const g_pt2 = [2,  2];
 drawGraph("#my_dataviz", square_shape_wrap, g_pt1, g_pt2);
 drawGraph("#my_dataviz2", square_shape_wrap, g_pt1, g_pt2);
+
+$( function() {
+    $( "#somethingnew" ).draggable({
+        drag: function () {
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        }
+    });
+});
+
 
 </script>
 

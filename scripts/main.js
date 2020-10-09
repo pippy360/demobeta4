@@ -269,20 +269,6 @@ function getTransformedPoint(point, mat, invMat) {
     return applyTransformationMatrixToPoint(t, mat);
 }
 
-function applyTransformationMatrixToPoint_m(point, mat) {
-    var resPoint = matrixMultiply( mat, [[point[0]], [point[1]], [1]]);
-    return [ resPoint[0][0], resPoint[1][0] ]
-}
-
-function applyTransformationMatrixToAllKeypoints(keypoints, transformationMat) {
-    var ret = [];
-    for (var i = 0; i < keypoints.length; i++) {
-        var transformedKeypoint = applyTransformationMatrixToPoint_m(keypoints[i], transformationMat);
-        ret.push(transformedKeypoint);
-    }
-    return ret;
-}
-
 function getAreaDiff(X) {
     let angle = X[0] % 360;
     //transform the shape, calc the diff
@@ -1437,9 +1423,6 @@ function getSumVal(shape, a, b, maxSumVal) {
     for (let i = 0; i < inShape.length; i++) {
         result += inShape[i][0] ** 2 + inShape[i][1] ** 2;
     }
-    if (result > maxSumVal) {
-        return maxSumVal;
-    }
     return result;
 }
 
@@ -1469,11 +1452,16 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
         z: z2,
         y: y2,
         x: x2,
-        type: 'surface',
-        colorscale: [
-            [0, 'rgb(255,255,255)'],
-            [1, 'rgb(0,0,0)'],
-        ]
+        type: 'heatmap',
+        // colorscale: [
+        //     [0, 'rgb(255,255,255)'],
+        //     [1, 'rgb(0,0,0)'],
+        // ]
+        // contours: {
+        //     start: 8,
+        //     end: 30,
+        //     size: .5
+        // }
     };
 }
 
@@ -1510,26 +1498,26 @@ let g_plot;
 
 function setGplot(inputShape) {
     const transpt = findCentroid(inputShape.shape);
-    debugger;
     let transx = transpt[0];
     let transy = transpt[1];
     const inshape = applyTransformationMatrixToAllKeypoints(
         inputShape.shape, getTranslateMatrix(-transx, -transy));
     //data being passed in is junk
-    g_plot = Plotly.newPlot('myDiv', [getDataForSquareDemo(inshape, inputShape)], {
-        scene: {
-            xaxis: {title: 'a'},
-            yaxis: {title: 'b'},
-            zaxis: {title: 'f(a, b)'},
-        }
-    });
-
+    // g_plot = Plotly.newPlot('myDiv', [getDataForSquareDemo(inshape, inputShape)], {
+    //     scene: {
+    //         xaxis: {title: 'a'},
+    //         yaxis: {title: 'b'},
+    //         zaxis: {title: 'f(a, b)'},
+    //     }
+    // });
+    //
     let demo = addSquareDemo2(inshape, inputShape.xscale);
+    demo.draw(data.points[0].x, data.points[0].y, inputShape.img, transpt);
+    //
+    // let myPlot = document.getElementById('myDiv');
+    // myPlot.on('plotly_hover', function (data) {
 
-    let myPlot = document.getElementById('myDiv');
-    myPlot.on('plotly_hover', function (data) {
-        demo.draw(data.points[0].x, data.points[0].y, inputShape.img, transpt);
-    });
+    // });
 }
 
 const triangle_shape_wrap = {
@@ -1600,9 +1588,26 @@ const shape1_shape_wrapper = {
 shape1_shape_wrapper.img = new Image();
 shape1_shape_wrapper.img.src = "images/image.png";
 
+const call_of_duty_shape_wrapper = {
+    shape: call_of_duty_shape,
+    inShape: 0,
+    xAxisMult: .05,
+    xAxisAdd: 0,
+    yAxisMult: .05,
+    yAxisAdd: 0,
+    axisRes: 50,
+    maxSumVal: 100000,
+    xAxisAddFinal: 0,
+    yAxisAddFinal: -1,
+    yscale: 1,
+    xscale: 1,
+    img: null,
+}
+call_of_duty_shape_wrapper.img = new Image();
+call_of_duty_shape_wrapper.img.src = "images/IMG_20191024_130833.jpg";
 
 document.addEventListener("DOMContentLoaded", function() {
-    setGplot(square_shape_wrap);
+    // setGplot(square_shape_wrap);
     // setGplot(triangle_shape_wrap);
 })
 
