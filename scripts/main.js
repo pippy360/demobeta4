@@ -1415,9 +1415,9 @@ function dataFromFormular(func) {
     return output;
 }
 
-var square_shape_inner = [[-1, -1], [-1, 1], [1, 1], [1, -1]];
+const square_shape_inner = [[-1, -1], [-1, 1], [1, 1], [1, -1]];
 
-function getSumVal(shape, a, b, maxSumVal) {
+function getSumVal(shape, a, b) {
     const inShape = applyTransformationMatrixToAllKeypoints(shape, [[a, b], [0, 1.0 / a]]);
     let result = 0;
     for (let i = 0; i < inShape.length; i++) {
@@ -1433,7 +1433,6 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
     let y2 = [];
 
     for (let i = 0; i < axisRes; i++) {
-        // let ifq = (axisRes-1) - i;
         x2.push(i * xAxisMult + xAxisAddFinal);
         y2.push(i * yAxisMult + yAxisAddFinal);
     }
@@ -1453,15 +1452,6 @@ function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axis
         y: y2,
         x: x2,
         type: 'heatmap',
-        // colorscale: [
-        //     [0, 'rgb(255,255,255)'],
-        //     [1, 'rgb(0,0,0)'],
-        // ]
-        // contours: {
-        //     start: 8,
-        //     end: 30,
-        //     size: .5
-        // }
     };
 }
 
@@ -1493,31 +1483,10 @@ function abtoSelection(a, b, plotlyplot) {
     }
 }
 
-let g_scale_shape = 1;
 let g_plot;
 
+//FIXME: remove this
 function setGplot(inputShape) {
-    const transpt = findCentroid(inputShape.shape);
-    let transx = transpt[0];
-    let transy = transpt[1];
-    const inshape = applyTransformationMatrixToAllKeypoints(
-        inputShape.shape, getTranslateMatrix(-transx, -transy));
-    //data being passed in is junk
-    // g_plot = Plotly.newPlot('myDiv', [getDataForSquareDemo(inshape, inputShape)], {
-    //     scene: {
-    //         xaxis: {title: 'a'},
-    //         yaxis: {title: 'b'},
-    //         zaxis: {title: 'f(a, b)'},
-    //     }
-    // });
-    //
-    let demo = addSquareDemo2(inshape, inputShape.xscale);
-    demo.draw(data.points[0].x, data.points[0].y, inputShape.img, transpt);
-    //
-    // let myPlot = document.getElementById('myDiv');
-    // myPlot.on('plotly_hover', function (data) {
-
-    // });
 }
 
 const triangle_shape_wrap = {

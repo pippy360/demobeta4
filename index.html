@@ -349,16 +349,16 @@
                 <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>
                 <button onclick="setGplot(call_of_duty_shape_wrapper)">Call of duty</button>
             </div>
-            <div id="somethingnew2" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
 
             <figure class="text-center">
-                <div id="my_dataviz2" style="width: 600px; height: 600px; float: left"></div>
-<!--                <div id="myDiv" style="width: 600px; height: 401px; display: inline-block"></div>-->
+                <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                <div id="graph2DDataViz_top" style="width: 400px; height: 400px; float: left">
+                </div>
                 <div style="height: 402px; width: 402px; display: inline-block">
                     <div class="linebreak">
                         <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="basicSquareDemo2" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="basicSquareDemo2_ui" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_up" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_up_ui" width="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -366,9 +366,24 @@
                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
             </figure>
+            <figure class="text-center">
+                <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                <div id="graph2DDataViz_bottom" style="width: 400px; height: 400px; float: left">
 
-            <div id="somethingnew" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-            <div id="my_dataviz" style="width: 600px; height: 600px"></div>
+                </div>
+                <div style="height: 402px; width: 402px; display: inline-block">
+                    <div class="linebreak">
+                        <div class="canvasWrapper">
+                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_bottom" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_bottom_ui" width="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <figcaption>
+                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
+                </figcaption>
+            </figure>
+
 
             <style>
                 #_mydiv {
@@ -559,7 +574,7 @@ function get_b(xs, ys, xy) {
                 we will break our polygon into segments and combine the values of each segment at the end.
             </p>
             <p>
-                Each segment (from one point to another) can be expressed as a line which will fit the equation of a line:
+                Each segment (from one edge to another) can be expressed as a line which will fit the equation of a line:
                 <script id="bDerdffddfdsdffidfdfxmeivfdsfdsfative_2_dfd" type="math/asciimath">
                    y = mx+c
                 </script>
@@ -704,45 +719,56 @@ function get_b(xs, ys, xy) {
         return getDataForShape_flat(inShape.shape, n, m, pt1, pt2, inShape.maxSumVal);
     }
 
-    function drawGraph(id, inshape) {
-        const pt1 = inshape.pt1;
-        const pt2 = inshape.pt2;
-        const transpt = findCentroid(inshape.shape);
-        let transx = transpt[0];
-        let transy = transpt[1];
-        const fixedshape = applyTransformationMatrixToAllKeypoints(
-            inshape.shape, getTranslateMatrix(-transx, -transy));
-        let demo = addSquareDemo2(fixedshape, 1);
-
-
-        $( function() {
-            $( "#somethingnew2" ).draggable({
-                drag: function () {
-                    const offset = $(this).offset();
-                    const xPos = offset.left;
-                    const yPos = offset.top;
-                    const viz = $("#my_dataviz2 svg");
-                    const offset2 = viz.offset();
-                    const xPos2 = offset2.left;
-                    const yPos2 = offset2.top;
-                    const percX = (xPos - xPos2)/viz.width();
-                    const percY = (yPos - yPos2)/viz.height();
-
-                    const xval = inshape.pt1[0] + ((inshape.pt2[0] - inshape.pt1[0])*percX);
-                    const yval = inshape.pt1[1] + ((inshape.pt2[1] - inshape.pt1[1])*percY);
-
-                    demo.draw(xval, yval, inshape.img, transpt);
-                    console.log(xval + " : " + yval);
-                }
-            });
-        });
-
+    function drawGraph(id, draggableId, animatedCanvasId, shapeContainer) {
         const width = 400;
         const height = 400;
 
-        const path = d3.geoPath()
+        const pt1 = shapeContainer.pt1;
+        const pt2 = shapeContainer.pt2;
+        const transpt = findCentroid(shapeContainer.shape);
+        const fixedshape = applyTransformationMatrixToAllKeypoints(
+                                        shapeContainer.shape, getTranslateMatrix(-transpt[0], -transpt[1]));
 
-        const ret = getDataForSquareDemo(inshape, pt1, pt2, width, height);
+        let demo = buildMovableImageAndShapeDemo(fixedshape, animatedCanvasId, 1);
+
+        const img = new Image();
+        $( function() {
+            $("#" + draggableId ).draggable({
+                drag: function () {
+                    const offset = $(this).offset();
+                    const viz = $("#"+ id +" svg");
+                    const svgPos = viz.offset();
+                    const percX = (offset.left - svgPos.left)/viz.width();
+                    const percY = (offset.top - svgPos.top)/viz.height();
+
+                    const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
+                    const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
+
+                    demo.draw(xval, yval, img, transpt);
+                }
+            });
+        });
+        img.onload = function () {
+            demo.draw(1, 0, img, transpt);
+        };
+        img.src = shapeContainer.imgsrc;
+
+        const spanx = shapeContainer.pt2[0] - shapeContainer.pt1[0];
+        const pixelPerValuex = math.abs(400/spanx);
+        const stepsx = 1 - shapeContainer.pt1[0];
+        const left = stepsx * pixelPerValuex;
+
+        const spany = shapeContainer.pt2[1] - shapeContainer.pt1[1];
+        const pixelPerValuey = math.abs(400/spany);
+        const stepsy = 0 - shapeContainer.pt1[1];
+        const top = stepsy * pixelPerValuey;
+        $("#" + draggableId).css({
+            top:  top,
+            left: left,
+        });
+
+        const path = d3.geoPath()
+        const ret = getDataForSquareDemo(shapeContainer, pt1, pt2, width, height);
         const grid = ret[0];
         const min = ret[1];
         const thresholds = d3.range(1, 33, .7).map(i => Math.pow(2, i) + (min))
@@ -758,12 +784,11 @@ function get_b(xs, ys, xy) {
         )
 
         //find in document instead
-        const svg = d3.select(id)
+        const svg = d3.select("#" + id)
             .append("svg")
             .attr("viewBox", [0, 0, width, height])
             .style("display", "block")
-            .style("margin", "0 -14px")
-            .style("width", "calc(100% + 28px)");
+            .style("width", "100%");
 
         const g = svg.append("g");
 
@@ -782,7 +807,7 @@ function get_b(xs, ys, xy) {
 
         {
             // draw the axis
-            const x = d3.scaleLinear([pt1[0], pt2[0]], [0, width + 28])
+            const x = d3.scaleLinear([pt1[0], pt2[0]], [0, width])
             const y = d3.scaleLinear([pt1[1], pt2[1]], [0, height])
             yAxis = g => g
                 .attr("transform", "translate(-1,0)")
@@ -801,7 +826,6 @@ function get_b(xs, ys, xy) {
 
             svg.append("g")
                 .call(yAxis);
-
         }
     }
 
@@ -814,42 +838,18 @@ function get_b(xs, ys, xy) {
     }
 
     const call_of_duty_inner = {
+        imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
         maxSumVal: 50000000000000,
         img: null,
         pt1: [-0, -6],
         pt2: [ 6,  6]
     }
-    call_of_duty_inner.img = new Image();
-    call_of_duty_inner.img.src = "images/IMG_20191024_130833.jpg";
 
-    // const g_pt1 = [-0, -20];
-    // const g_pt2 = [ 20,  10];
-    // drawGraph("#my_dataviz", square_shape_wrap_inner, g_pt1, g_pt2);
-    drawGraph("#my_dataviz2", call_of_duty_inner);
-
-    //
-    // $( function() {
-    //     $( "#somethingnew" ).draggable({
-    //         drag: function () {
-    //             const offset = $(this).offset();
-    //             const xPos = offset.left;
-    //             const yPos = offset.top;
-    //             const viz = $("#my_dataviz svg");
-    //             const offset2 = viz.offset();
-    //             const xPos2 = offset2.left;
-    //             const yPos2 = offset2.top;
-    //             const percX = (xPos - xPos2)/viz.width();
-    //             const percY = (yPos - yPos2)/viz.height();
-    //
-    //             const xval = call_of_duty_inner.pt1[0] + ((call_of_duty_inner.pt2[0] - call_of_duty_inner.pt1[0])*percX);
-    //             const yval = call_of_duty_inner.pt1[1] + ((call_of_duty_inner.pt2[1] - call_of_duty_inner.pt1[1])*percY);
-    //
-    //             console.log( "xcal: " + (xPos - xPos2) + " ycal: " + (yPos - yPos2) + " " + xval + " : " + yval);
-    //         }
-    //     });
-    // });
-
+    window.addEventListener("DOMContentLoaded", function(event) {
+        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_up", call_of_duty_inner);
+        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", call_of_duty_inner);
+    });
 
 </script>
 </body>
