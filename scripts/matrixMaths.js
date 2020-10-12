@@ -122,3 +122,19 @@ function minusTwoPoints(point1, point2) {
         point1[1] - point2[1]
     ]
 }
+
+function applyTransformationMatrixToPoint_m(point, mat) {
+    var resPoint = matrixMultiply( mat, [[point[0]], [point[1]], [1]]);
+    return [ resPoint[0][0], resPoint[1][0] ]
+}
+
+function applyTransformationMatrixToAllKeypoints(keypoints, transformationMat) {
+    var ret = [];
+    for (var i = 0; i < keypoints.length; i++) {
+        var transformedKeypoint = applyTransformationMatrixToPoint_m(keypoints[i], transformationMat);
+        ret.push(transformedKeypoint);
+    }
+    return ret;
+}
+
+

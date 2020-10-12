@@ -29,9 +29,6 @@ class AnimatedCanvas {
         this.keypointIndex = 0;
         this.lastTimeStamp = Date.now();
     }
-    draw() {
-
-    }
 }
 
 let keypoints_demo1 = [
@@ -309,39 +306,33 @@ function addSquareDemo() {
 }
 addSquareDemo();
 
-let g_basicSquareDemo2;
-
-let g_a = 1;
-let g_b = 0;
-
-function sumupshape(inputShape, scaleHack) {
+function sumupshape(inputShape) {
     let result = 0;
     for (let i = 0; i < inputShape.length; i++) {
-        result += (inputShape[i][0] * scaleHack) ** 2 + (inputShape[i][1] * scaleHack) ** 2;
+        result += inputShape[i][0] ** 2 + inputShape[i][1] ** 2;
     }
     return result;
 }
 
 //returns [sum x**2, sum y**2, sum x*y]
-function get3SumOfVals(inputShape, scaleHack) {
+function get3SumOfVals(inputShape) {
     let result = [0, 0, 0];
     for (let i = 0; i < inputShape.length; i++) {
-        result[0] += (inputShape[i][0] * scaleHack) ** 2;
-        result[1] += (inputShape[i][1] * scaleHack) ** 2;
-        result[2] += (inputShape[i][0] * scaleHack) * (inputShape[i][1] * scaleHack);
+        result[0] += inputShape[i][0] ** 2;
+        result[1] += inputShape[i][1] ** 2;
+        result[2] += inputShape[i][0] * inputShape[i][1];
     }
     return result;
 
 }
 
-function addSquareDemo2(shape, scale) {
-    g_basicSquareDemo2 = new AnimatedCanvas("basicSquareDemo2");
-    g_basicSquareDemo2.transformationMatrix = getIdentityMatrix();
-    g_basicSquareDemo2.draw = function(a, b, img, transpt) {
-        const canvasObj = getCleanCanvas(g_basicSquareDemo2.canvasIdStub);
-        setUpSquareDemoVars("v8", 12);
+function buildMovableImageAndShapeDemo(inshape, animatedCanvasId, scale) {
 
-        let changedShape = g_basicSquareDemo2.shape;
+    const result = {};
+    result.draw = function(a, b, img, transpt) {
+        let shape = inshape;
+        const canvasObj = getCleanCanvas(animatedCanvasId);
+        setUpSquareDemoVars("v8", 12);
 
         const transMat = [
             [a, b, 0],
@@ -349,31 +340,25 @@ function addSquareDemo2(shape, scale) {
             [0, 0, 1],
         ];
 
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
-        const valHack = 1;
-        const v3vals = get3SumOfVals(g_basicSquareDemo2.shape, valHack);
-        fillDemoVals("v8", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
+        shape = applyTransformationMatrixToAllKeypoints(shape, transMat);
+        const v3vals = get3SumOfVals(shape);
+        fillDemoVals("v8", [[a, b, a, a, b, b, a, sumupshape(shape), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(g_scale_shape, g_scale_shape));
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
+        shape = applyTransformationMatrixToAllKeypoints(shape, getScaleMatrix(scale, scale));
+        shape = applyTransformationMatrixToAllKeypoints(shape, getTranslateMatrix(200, 200));
 
         if (img != null) {
-            //calc the mat
             let mat = getIdentityMatrix();
-            mat = matrixMultiply(getTranslateMatrix(-100, -100), mat)
+            mat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), mat)
             mat = matrixMultiply(transMat, mat)
-            mat = matrixMultiply(getTranslateMatrix(100, 100), mat)
-            // mat = matrixMultiply(getTranslateMatrix(2000, 2000), mat)
-            drawImageWithTransformations(canvasObj.ctx, img, mat)
-        }
-        drawPolyFull(canvasObj.ctx, changedShape);
+            mat = matrixMultiply(getTranslateMatrix(200, 200), mat)
 
-        // setTimeout(g_basicSquareDemo2.draw, 0);
+            drawImageWithTransformations(canvasObj.ctx, img, mat, [0,0], img.width, img.height)
+        }
+        drawPolyFull(canvasObj.ctx, shape);
     };
 
-    g_basicSquareDemo2.shape = applyTransformationMatrixToAllKeypoints(shape, getScaleMatrix(scale, scale));
-    g_basicSquareDemo2.draw(1, 0);
-    return g_basicSquareDemo2;
+    return result;
 }
 
 
