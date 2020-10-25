@@ -248,13 +248,6 @@ function applyTransformationMatrixToPoint(point, mat) {
     return [ resPoint[0][0], resPoint[1][0] ];
 }
 
-function applyTransformationMatrixToAllPoints(points, mat) {
-    var result = []
-    for (var i = 0; i < points.length; i++)
-        result.push_back(applyTransformationMatrixToPoint(points[i]))
-    return result;
-}
-
 function getTransformationMatrixFromScale(scale, rotation, imgw, imgh) {
     var mat = getTranslateMatrix(imgw/2, imgh/2);
     mat = matrixMultiply(mat, getRotationMatrix(rotation));
@@ -779,7 +772,7 @@ function drawCenterOfGravityHalfPoints(ctx, fixedHitPoints, cPoint) {
     drawPoints_m(ctx, [topHalfPoint, topRightPoint], "green");
 }
 
-function paintuiresult(cPoint, fixMat, resHitPoints, c_result, image)
+function paintUiResult(cPoint, fixMat, resHitPoints, c_result, image)
 {
     var imgmat = getIdentityMatrix();
     imgmat = matrixMultiply(getTranslateMatrix(-cPoint[0], -cPoint[1]), imgmat);
@@ -1418,6 +1411,10 @@ function dataFromFormular(func) {
 const square_shape_inner = [[-1, -1], [-1, 1], [1, 1], [1, -1]];
 
 function getSumVal(shape, a, b) {
+    //FIXME: we should just have a max val and tweak it
+    if (a == 0)
+        a = 0.001;
+
     const inShape = applyTransformationMatrixToAllKeypoints(shape, [[a, b], [0, 1.0 / a]]);
     let result = 0;
     for (let i = 0; i < inShape.length; i++) {

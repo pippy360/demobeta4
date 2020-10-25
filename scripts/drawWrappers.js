@@ -93,30 +93,18 @@ function drawPolyFull(ctx, shape, stroke, fill) {
     ctx.stroke();
 }
 
-function drawImageWithTransformations(ctx, img, mat, offset, width, height) {
-    offset = (offset == undefined)? [0,0] : offset;
-    width = (width == undefined) ? ctx.canvas.width : width;
-    height = (height == undefined) ? ctx.canvas.height : height;
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.webkitImageSmoothingEnabled = true;
-    ctx.mozImageSmoothingEnabled = true;
-
+function drawImageWithTransformations(ctx, img, mat, width, height) {
     ctx.save();
     canvasTransform(ctx, mat);
-    ctx.drawImage(img, offset[0], offset[1], width, height);
+    ctx.drawImage(img, 0, 0, width, height);
     ctx.restore();
 }
 
-function drawImageWithTransformations_put(ctx, imgdata, mat) {
-    ctx.imageSmoothingEnabled = true;
-    ctx.webkitImageSmoothingEnabled = true;
-    ctx.mozImageSmoothingEnabled = true;
-
-    ctx.save();
-    canvasTransform(ctx, mat);
-    ctx.putImageData(imgdata, 0, 0);
-    ctx.restore();
+function drawImageAndShapeWithTransformation(canvasId, img, shape, mat, width, height) {
+    let canvasObj = getCleanCanvas(canvasId);
+    drawImageWithTransformations(canvasObj.ctx, img, mat, width, height)
+    shape = applyTransformationMatrixToAllKeypoints(shape, mat);
+    drawPolyFull(canvasObj.ctx_ui, shape);
 }
 
 function drawPoint_m(interactiveCanvasContext, point, colour, width) {

@@ -350,15 +350,33 @@
                 <button onclick="setGplot(call_of_duty_shape_wrapper)">Call of duty</button>
             </div>
 
-            <figure class="text-center">
-                <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                <div id="graph2DDataViz_top" style="width: 400px; height: 400px; float: left">
-                </div>
-                <div style="height: 402px; width: 402px; display: inline-block">
-                    <div class="linebreak">
-                        <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_up" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_up_ui" width="400"></canvas>
+            <figure class="text-center" style="width: 1206px;">
+                <div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_up" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_up_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageScaled_up" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_up_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; float: left">
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_up" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_up_ui" width="300"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -507,6 +525,8 @@ function get_b(xs, ys, xy) {
             <p>
                 We now have an algorithm which works on a set of points. The example above have been using the edge points of the polygons but this doesn't work if the outline/shape changes slightly or if we describe the same shape but with different edges.
             </p>
+
+            <h2>Dealing with Noise</h2>
             <p>
                 To make our algorithm work on shapes which are very similar we need to take into account every single point in the shape.
             </p>
@@ -698,6 +718,7 @@ function get_b(xs, ys, xy) {
         let dataArr = [];
 
         let min = undefined;
+        let max = undefined;
         for (let i = 0; i < axisResY; i++) {
             for (let j = 0; j < axisResX; j++) {
                 let xlen = pointEnd[0] - pointStart[0];
@@ -706,30 +727,87 @@ function get_b(xs, ys, xy) {
                 let b = (pointStart[1]) + ((ylen/axisResY)*i);
                 let v = getSumVal(fixedShape, a, b, maxSumVal);
 
+                if (!isFinite(v))
+                    debugger;
+
                 if (min == undefined || v < min)
                     min = v;
+
+                if (isFinite(v) && (max == undefined || v > max))
+                    max = v;
 
                 dataArr.push( v );
             }
         }
-        return [dataArr, min];
+        return {
+            data: dataArr,
+            min: min,
+            max: max,
+        }
     }
 
-    function getDataForSquareDemo(inShape, pt1, pt2, n, m) {
-        return getDataForShape_flat(inShape.shape, n, m, pt1, pt2, inShape.maxSumVal);
+    function getDataForSquareDemo(shape, pt1, pt2, n, m, maxValue) {
+        return getDataForShape_flat(shape, n, m, pt1, pt2, maxValue);
     }
 
-    function drawGraph(id, draggableId, animatedCanvasId, shapeContainer) {
-        const width = 400;
-        const height = 400;
+    function getTransformedBoundingBox(width, height, mat) {
+        const initialBoundingBox = [
+            [0,0],
+            [0,height],
+            [width, height],
+            [width,0],
+        ];
+        const transformedShape = applyTransformationMatrixToAllKeypoints(initialBoundingBox, mat);
+        let minX, maxX, minY, maxY;
+        for (let i = 0; i < transformedShape.length; i++)
+        {
+            if (minX == undefined || transformedShape[i][0] < minX)
+                minX = transformedShape[i][0];
 
+            if (maxX == undefined || transformedShape[i][0] > maxX)
+                maxX = transformedShape[i][0];
+
+            if (minY == undefined || transformedShape[i][1] < minY)
+                minY = transformedShape[i][1];
+
+            if (maxY == undefined || transformedShape[i][1] > maxY)
+                maxY = transformedShape[i][1];
+        }
+        return {
+            minX: minX,
+            maxX: maxX,
+            minY: minY,
+            maxY: maxY
+        }
+    }
+
+    function drawMovableImageAndShapeDemo(animatedCanvasId, a, b, img, shape, preTransform, width, height) {
+        const transpt = findCentroid(shape);
+        setUpSquareDemoVars("v8", 12);
+
+        const transMat = [
+            [a, b, 0],
+            [0, 1.0 / a, 0],
+            [0, 0, 1],
+        ];
+
+        let mat = getIdentityMatrix();
+        mat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), mat)
+        mat = matrixMultiply(preTransform, mat)
+        mat = matrixMultiply(transMat, mat)
+        mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat)
+
+        drawImageAndShapeWithTransformation(animatedCanvasId, img, shape, mat, img.width, img.height);
+    }
+
+    function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer) {
+        const width = $("#graph2DDataViz_top").width();
+        const height = $("#graph2DDataViz_top").height();
         const pt1 = shapeContainer.pt1;
         const pt2 = shapeContainer.pt2;
-        const transpt = findCentroid(shapeContainer.shape);
-        const fixedshape = applyTransformationMatrixToAllKeypoints(
-                                        shapeContainer.shape, getTranslateMatrix(-transpt[0], -transpt[1]));
-
-        let demo = buildMovableImageAndShapeDemo(fixedshape, animatedCanvasId, 1);
+        const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, shapeContainer.initialTransform)
+        const transpt = findCentroid(shape);
+        const area = calcPolygonArea(shape);
 
         const img = new Image();
         $( function() {
@@ -740,16 +818,51 @@ function get_b(xs, ys, xy) {
                     const svgPos = viz.offset();
                     const percX = (offset.left - svgPos.left)/viz.width();
                     const percY = (offset.top - svgPos.top)/viz.height();
-
                     const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
                     const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
 
-                    demo.draw(xval, yval, img, transpt);
+                    drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, shapeContainer.initialTransform, width, height);
                 }
             });
         });
+
         img.onload = function () {
-            demo.draw(1, 0, img, transpt);
+            debugger;
+            const imgWidth = img.width;
+            const imgHeight = img.height;
+
+            //scale it to the canvas size
+            let scale;
+            let offset = [0, 0];
+            const imgBounds = getTransformedBoundingBox(img.width, img.height, shapeContainer.initialTransform);
+            const transformedWidth = imgBounds.maxX - imgBounds.minX;
+            const transformedHeight = imgBounds.maxY - imgBounds.minY;
+            if (transformedWidth > transformedHeight) {
+                scale = $("#"+noChangesId).width()/transformedWidth;
+                offset[1] = ($("#"+noChangesId).height()/2) - (transformedHeight * scale)/2.0;
+            } else {
+                scale = $("#"+noChangesId).height()/transformedHeight;
+                offset[0] = ($("#"+noChangesId).width()/2) - (transformedWidth * scale)/2.0;
+            }
+
+            let scaleMat = getIdentityMatrix();
+            scaleMat = matrixMultiply(getScaleMatrix(scale, scale), scaleMat);
+            scaleMat = matrixMultiply(getTranslateMatrix(offset[0], offset[1]), scaleMat);
+            scaleMat = matrixMultiply(scaleMat, shapeContainer.initialTransform);
+            //Draw the shape with no changes
+            drawImageAndShapeWithTransformation(noChangesId, img, shapeContainer.shape, scaleMat, imgWidth, imgHeight);
+
+            //Scale the image to a constant size and center it
+
+            let translateMat = getTranslateMatrix(-transpt[0], -transpt[1]);
+            // translateMat = matrixMultiply(getScaleMatrix(400/area, 400/area), translateMat);
+            // translateMat = matrixMultiply(shapeContainer.initialTransform, translateMat);
+            translateMat = matrixMultiply(getTranslateMatrix(width/2, height/2), translateMat);
+            translateMat = matrixMultiply(translateMat, shapeContainer.initialTransform);
+            drawImageAndShapeWithTransformation(imageScaledId, img, shapeContainer.shape,
+                translateMat, imgWidth, imgHeight);
+
+            drawMovableImageAndShapeDemo(animatedCanvasId, 1, 0, img, shapeContainer.shape, shapeContainer.initialTransform, width, height);
         };
         img.src = shapeContainer.imgsrc;
 
@@ -768,10 +881,12 @@ function get_b(xs, ys, xy) {
         });
 
         const path = d3.geoPath()
-        const ret = getDataForSquareDemo(shapeContainer, pt1, pt2, width, height);
-        const grid = ret[0];
-        const min = ret[1];
-        const thresholds = d3.range(1, 33, .7).map(i => Math.pow(2, i) + (min))
+        const ret = getDataForSquareDemo(shape, pt1, pt2, width, height, shapeContainer.maxValue);
+        const grid = ret.data;
+        const min = ret.min;
+        const max = ret.max;
+
+        const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (min/2))
 
         const contours = d3.contours()
             .size([width, height])
@@ -830,6 +945,7 @@ function get_b(xs, ys, xy) {
     }
 
     const square_shape_wrap_inner = {
+        imgsrc: "images/IMG_20191024_130833.jpg",
         shape: square_shape_small,
         maxSumVal: 500000000000,
         img: null,
@@ -840,6 +956,11 @@ function get_b(xs, ys, xy) {
     const call_of_duty_inner = {
         imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
+        initialTransform: [
+            [1,1,0],
+            [0,1,0],
+            [0,0,1]
+        ],
         maxSumVal: 50000000000000,
         img: null,
         pt1: [-0, -6],
@@ -847,8 +968,8 @@ function get_b(xs, ys, xy) {
     }
 
     window.addEventListener("DOMContentLoaded", function(event) {
-        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_up", call_of_duty_inner);
-        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", call_of_duty_inner);
+        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_up", "imageNoChanges_up", "imageScaled_up", call_of_duty_inner);
+        // drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", square_shape_wrap_inner);
     });
 
 </script>
