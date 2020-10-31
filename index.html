@@ -355,48 +355,71 @@
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_up" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_up_ui" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" width="300"></canvas>
                             </div>
                         </div>
                     </div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageScaled_up" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageScaled_up_ui" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_top_ui" width="300"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; float: left">
+                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; position: relative; float: left">
+                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                            <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                        </div>
                     </div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_up" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_up_ui" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top_ui" width="300"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <figcaption>
                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
             </figure>
-            <figure class="text-center">
-                <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                <div id="graph2DDataViz_bottom" style="width: 400px; height: 400px; float: left">
-
-                </div>
-                <div style="height: 402px; width: 402px; display: inline-block">
-                    <div class="linebreak">
-                        <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_bottom" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="transformedImageAndShape_bottom_ui" width="400"></canvas>
+            <figure class="text-center" style="width: 1206px;">
+                <div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageScaled_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_bottom_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="graph2DDataViz_bottom" style="width: 300px; height: 300px; position: relative; float: left">
+                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                            <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom_ui" width="300"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <figcaption>
                     The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
@@ -736,7 +759,7 @@ function get_b(xs, ys, xy) {
                 if (isFinite(v) && (max == undefined || v > max))
                     max = v;
 
-                dataArr.push( v );
+                dataArr.push(v);
             }
         }
         return {
@@ -800,12 +823,14 @@ function get_b(xs, ys, xy) {
         drawImageAndShapeWithTransformation(animatedCanvasId, img, shape, mat, img.width, img.height);
     }
 
-    function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer) {
+    function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform) {
+        debugger;
+
         const width = $("#graph2DDataViz_top").width();
         const height = $("#graph2DDataViz_top").height();
         const pt1 = shapeContainer.pt1;
         const pt2 = shapeContainer.pt2;
-        const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, shapeContainer.initialTransform)
+        const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, initialTransform)
         const transpt = findCentroid(shape);
         const area = calcPolygonArea(shape);
 
@@ -821,35 +846,32 @@ function get_b(xs, ys, xy) {
                     const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
                     const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
 
-                    drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, shapeContainer.initialTransform, width, height);
+                    drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, initialTransform, width, height);
                 }
             });
         });
 
         img.onload = function () {
-            debugger;
             const imgWidth = img.width;
             const imgHeight = img.height;
 
             //scale it to the canvas size
             let scale;
             let offset = [0, 0];
-            const imgBounds = getTransformedBoundingBox(img.width, img.height, shapeContainer.initialTransform);
+            const imgBounds = getTransformedBoundingBox(img.width, img.height, initialTransform);
             const transformedWidth = imgBounds.maxX - imgBounds.minX;
             const transformedHeight = imgBounds.maxY - imgBounds.minY;
             if (transformedWidth > transformedHeight) {
                 scale = $("#"+noChangesId).width()/transformedWidth;
-                offset[1] = ($("#"+noChangesId).height()/2) - (transformedHeight * scale)/2.0;
             } else {
                 scale = $("#"+noChangesId).height()/transformedHeight;
-                offset[0] = ($("#"+noChangesId).width()/2) - (transformedWidth * scale)/2.0;
             }
 
             let scaleMat = getIdentityMatrix();
+            scaleMat = matrixMultiply(getTranslateMatrix(-imgWidth/2, -imgHeight/2), scaleMat);
+            scaleMat = matrixMultiply(initialTransform, scaleMat);
             scaleMat = matrixMultiply(getScaleMatrix(scale, scale), scaleMat);
-            scaleMat = matrixMultiply(getTranslateMatrix(offset[0], offset[1]), scaleMat);
-            scaleMat = matrixMultiply(scaleMat, shapeContainer.initialTransform);
-            //Draw the shape with no changes
+            scaleMat = matrixMultiply(getTranslateMatrix(150, 150), scaleMat);
             drawImageAndShapeWithTransformation(noChangesId, img, shapeContainer.shape, scaleMat, imgWidth, imgHeight);
 
             //Scale the image to a constant size and center it
@@ -858,11 +880,11 @@ function get_b(xs, ys, xy) {
             // translateMat = matrixMultiply(getScaleMatrix(400/area, 400/area), translateMat);
             // translateMat = matrixMultiply(shapeContainer.initialTransform, translateMat);
             translateMat = matrixMultiply(getTranslateMatrix(width/2, height/2), translateMat);
-            translateMat = matrixMultiply(translateMat, shapeContainer.initialTransform);
+            translateMat = matrixMultiply(translateMat, initialTransform);
             drawImageAndShapeWithTransformation(imageScaledId, img, shapeContainer.shape,
                 translateMat, imgWidth, imgHeight);
 
-            drawMovableImageAndShapeDemo(animatedCanvasId, 1, 0, img, shapeContainer.shape, shapeContainer.initialTransform, width, height);
+            drawMovableImageAndShapeDemo(animatedCanvasId, 1, 0, img, shapeContainer.shape, initialTransform, width, height);
         };
         img.src = shapeContainer.imgsrc;
 
@@ -875,10 +897,10 @@ function get_b(xs, ys, xy) {
         const pixelPerValuey = math.abs(400/spany);
         const stepsy = 0 - shapeContainer.pt1[1];
         const top = stepsy * pixelPerValuey;
-        $("#" + draggableId).css({
-            top:  top,
-            left: left,
-        });
+        // $("#" + draggableId).css({
+        //     top:  top,
+        //     left: left,
+        // });
 
         const path = d3.geoPath()
         const ret = getDataForSquareDemo(shape, pt1, pt2, width, height, shapeContainer.maxValue);
@@ -956,20 +978,29 @@ function get_b(xs, ys, xy) {
     const call_of_duty_inner = {
         imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
-        initialTransform: [
-            [1,1,0],
+        maxSumVal: 50000000000000,
+        img: null,
+        pt1: [-0, -3],
+        pt2: [ 2,  3]
+    }
+
+    const example1 = {
+        common: call_of_duty_inner,
+        initialTransform1: [
+            [1,-2,0],
             [0,1,0],
             [0,0,1]
         ],
-        maxSumVal: 50000000000000,
-        img: null,
-        pt1: [-0, -6],
-        pt2: [ 6,  6]
+        initialTransform2: [
+            [1,0,0],
+            [0,1,0],
+            [0,0,1]
+        ],
     }
 
     window.addEventListener("DOMContentLoaded", function(event) {
-        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_up", "imageNoChanges_up", "imageScaled_up", call_of_duty_inner);
-        // drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", square_shape_wrap_inner);
+        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, example1.initialTransform1);
+        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, example1.initialTransform2);
     });
 
 </script>
