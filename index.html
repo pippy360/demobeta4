@@ -334,23 +334,10 @@
                     f(shape,"_v80","_v81") = "_v82"^2*"_v88"+2*"_v83"*"_v84" *"_v810"+"_v85"^2*"_v811"+("_v89"/"_v86"^2)="_v87"
                 </script>
             </div>
-            <style>
-                #scene {
-                    top: 0px !important;
-                    left: 0px !important;
-                    width: 600px !important;
-                    height: 400px !important;
-                }
-            </style>
-            <div>
-                <button onclick="setGplot(square_shape_wrap)">Square</button>
-                <button onclick="setGplot(triangle_shape_wrap)">Triangle</button>
-                <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>
-                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>
-                <button onclick="setGplot(call_of_duty_shape_wrapper)">Call of duty</button>
-            </div>
-
-            <figure class="text-center" style="width: 1206px;">
+            <figure class="text-center" style="width: 1206px; height: 322px;">
+                <figcaption>
+                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
+                </figcaption>
                 <div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
@@ -382,12 +369,29 @@
                         </div>
                     </div>
                 </div>
-
-                <figcaption>
-                   The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
-                </figcaption>
             </figure>
-            <figure class="text-center" style="width: 1206px;">
+            <div style="width: 1206px; height: 200px">
+                <div style="float:left; width: 300px; height: 200px;"></div>
+                <div style="float:left; width: 300px; height: 200px;"><p>First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p></div>
+                <div style="float:left; width: 300px; height: 200px;">
+                    <div>
+                        <script id="topMatrix" type="math/asciimath">
+                            [["_v90","_v91"],[0,1/"_v92"]]
+                        </script>
+                    </div>
+                    <div>
+                        <script id="bottomMatrix" type="math/asciimath">
+                            [["_v93","_v94"],[0,1/"_v95"]]
+                        </script>
+                    </div>
+                </div>
+                <div style="float:left; width: 300px; height: 200px;">
+                    <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
+                    <p>Hash Distance: <span id="hashDistOutput">0</span></p>
+                    <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
+                </div>
+            </div>
+            <figure class="text-center" style="width: 1206px; height: 322px;">
                 <div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
@@ -424,25 +428,6 @@
                     The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
             </figure>
-
-
-            <style>
-                #_mydiv {
-                    position: absolute;
-                    z-index: 9;
-                    background-color: #f1f1f1;
-                    text-align: center;
-                    border: 1px solid #d3d3d3;
-                }
-
-                #mydivheader {
-                    padding: 10px;
-                    cursor: move;
-                    z-index: 10;
-                    background-color: #2196F3;
-                    color: #fff;
-                }
-            </style>
             <p>
                 You can see from the above graph that the local minimum of this function is the values which also give
                 us the most square square.
@@ -821,11 +806,10 @@ function get_b(xs, ys, xy) {
         mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat)
 
         drawImageAndShapeWithTransformation(animatedCanvasId, img, shape, mat, img.width, img.height);
+        updateHashValues();
     }
 
     function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform) {
-        debugger;
-
         const width = $("#graph2DDataViz_top").width();
         const height = $("#graph2DDataViz_top").height();
         const pt1 = shapeContainer.pt1;
@@ -1001,7 +985,25 @@ function get_b(xs, ys, xy) {
     window.addEventListener("DOMContentLoaded", function(event) {
         drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, example1.initialTransform1);
         drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, example1.initialTransform2);
+        updateHashValues();
     });
+
+    let updateHashValues = function () {
+        const topId = "transformedImageAndShape_top";
+        const bottomId = "transformedImageAndShape_bottom";
+
+        const topHash = pHash(document.getElementById(topId));
+        const bottomHash = pHash(document.getElementById(bottomId));
+
+        const dist = distance(topHash, bottomHash)
+        const topOutput = document.getElementById("topHashOutput");
+        const bottomOutput = document.getElementById("bottomHashOutput");
+        const hashDistOutput = document.getElementById("hashDistOutput");
+
+        topOutput.innerHTML = binaryToHex(topHash).result;
+        bottomOutput.innerHTML = binaryToHex(bottomHash).result;
+        hashDistOutput.innerHTML = dist;
+    }
 
 </script>
 </body>
