@@ -204,14 +204,16 @@ function getMidMatrix(from, to, percentage) {
 
 const hitsetArr = {};
 
-function setUpSquareDemoVars(prefix, length) {
+function setUpSquareDemoVars(prefix, length, startId) {
+    startId = (startId == undefined)? "#shapeDemo_transformationMatrix-Frame" : startId;
+
     if (!(prefix in hitsetArr))
         hitsetArr[prefix] = new Set();
 
     if (hitsetArr[prefix].size == length)
         return;
 
-    $("#shapeDemo_transformationMatrix-Frame, span").each(function() {
+    $(startId + ", span").each(function() {
         for (let i = 0; i < length; i++) {
             const idStr = "_" + prefix + i + "";
             if ($(this).text() === idStr && $(this).hasClass("mjx-char")) {
