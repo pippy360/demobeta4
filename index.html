@@ -336,14 +336,13 @@
             </div>
             <figure class="text-center" style="width: 1206px; height: 322px;">
                 <figcaption>
-                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
                 <div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
                                 <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" style="cursor: pointer" width="300"></canvas>
                             </div>
                         </div>
                     </div>
@@ -371,17 +370,22 @@
                 </div>
             </figure>
             <div style="width: 1206px; height: 200px">
-                <div style="float:left; width: 300px; height: 200px;"></div>
-                <div style="float:left; width: 300px; height: 200px;"><p>First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p></div>
                 <div style="float:left; width: 300px; height: 200px;">
+                    <p>Click and drag on the image above and below to edit the transformation.</p>
+                </div>
+                <div style="float:left; width: 300px; height: 200px;">
+                    <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
+                </div>
+                <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
                     <div>
                         <script id="topMatrix" type="math/asciimath">
-                            [["_v90","_v91"],[0,1/"_v92"]]
+                            [["_va0","_va1"],[0,1/"_va2"]]
                         </script>
                     </div>
+                    <br>
                     <div>
                         <script id="bottomMatrix" type="math/asciimath">
-                            [["_v93","_v94"],[0,1/"_v95"]]
+                            [["_va3","_va4"],[0,1/"_va5"]]
                         </script>
                     </div>
                 </div>
@@ -397,7 +401,7 @@
                         <div class="linebreak">
                             <div class="canvasWrapper">
                                 <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" style="cursor: pointer" width="300"></canvas>
                             </div>
                         </div>
                     </div>
@@ -425,7 +429,6 @@
                 </div>
 
                 <figcaption>
-                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
             </figure>
             <p>
@@ -516,6 +519,9 @@
             </p>
             <code>
 <pre>
+
+    //FIXME: highlight this code
+
 //Get the 2 parameters of a transformation matrix [[a,b],[0,1/a]] which will spread our input shape out evenly in all directions
 //xs = the sum of the square of all the x values of all our points in our shape
 //xy = the sum of the square of all the y values of all our points in our shape
@@ -534,7 +540,7 @@ function get_b(xs, ys, xy) {
                 We now have an algorithm which works on a set of points. The example above have been using the edge points of the polygons but this doesn't work if the outline/shape changes slightly or if we describe the same shape but with different edges.
             </p>
 
-            <h2>Dealing with Noise</h2>
+            <h2>(so we don't need a noise dealing with demo!!!!)Dealing with Noise / Going from a set of points to a full 2d shape (infinite set of points) (replace all the demos above with just points, there's no need to talk about noise it's too complicated)</h2>
             <p>
                 To make our algorithm work on shapes which are very similar we need to take into account every single point in the shape.
             </p>
@@ -723,7 +729,7 @@ function get_b(xs, ys, xy) {
     {
         const transpt = findCentroid(inShape);
         const fixedShape = applyTransformationMatrixToAllKeypoints(inShape, getTranslateMatrix(-transpt[0], -transpt[1]));
-        let dataArr = [];
+        let dataArr = [];//new Array(axisResY*axisResX);
 
         let min = undefined;
         let max = undefined;
@@ -817,20 +823,29 @@ function get_b(xs, ys, xy) {
         const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, initialTransform)
         const transpt = findCentroid(shape);
         const area = calcPolygonArea(shape);
-
         const img = new Image();
+
+        function drawDraggableOutput() {
+            const offset = $("#" + draggableId).offset();
+            const viz = $("#"+ id +" svg");
+            const svgPos = viz.offset();
+            const percX = (offset.left - svgPos.left)/viz.width();
+            const percY = (offset.top - svgPos.top)/viz.height();
+            const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
+            const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
+            setUpSquareDemoVars("va", 6, "draggableImageMatrix");
+            fillDemoVals("va", [
+                [xval, yval, 1.0/xval],
+                [0, 1.0/xval]
+            ])
+
+            drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, initialTransform, width, height);
+        }
+
         $( function() {
             $("#" + draggableId ).draggable({
                 drag: function () {
-                    const offset = $(this).offset();
-                    const viz = $("#"+ id +" svg");
-                    const svgPos = viz.offset();
-                    const percX = (offset.left - svgPos.left)/viz.width();
-                    const percY = (offset.top - svgPos.top)/viz.height();
-                    const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
-                    const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
-
-                    drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, initialTransform, width, height);
+                    drawDraggableOutput()
                 }
             });
         });
@@ -868,7 +883,8 @@ function get_b(xs, ys, xy) {
             drawImageAndShapeWithTransformation(imageScaledId, img, shapeContainer.shape,
                 translateMat, imgWidth, imgHeight);
 
-            drawMovableImageAndShapeDemo(animatedCanvasId, 1, 0, img, shapeContainer.shape, initialTransform, width, height);
+            drawDraggableOutput();
+            // drawMovableImageAndShapeDemo(animatedCanvasId, 1, 0, img, shapeContainer.shape, initialTransform, width, height);
         };
         img.src = shapeContainer.imgsrc;
 
@@ -887,7 +903,7 @@ function get_b(xs, ys, xy) {
         // });
 
         const path = d3.geoPath()
-        const ret = getDataForSquareDemo(shape, pt1, pt2, width, height, shapeContainer.maxValue);
+        const ret = getDataForSquareDemo(shape, pt1, pt2, width/4, height/4, shapeContainer.maxValue);
         const grid = ret.data;
         const min = ret.min;
         const max = ret.max;
@@ -895,7 +911,7 @@ function get_b(xs, ys, xy) {
         const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (min/2))
 
         const contours = d3.contours()
-            .size([width, height])
+            .size([width/4, height/4])
             .thresholds(thresholds)
             (grid)
 
@@ -907,7 +923,7 @@ function get_b(xs, ys, xy) {
         //find in document instead
         const svg = d3.select("#" + id)
             .append("svg")
-            .attr("viewBox", [0, 0, width, height])
+            .attr("viewBox", [0, 0, width/4, height/4])
             .style("display", "block")
             .style("width", "100%");
 
@@ -926,28 +942,28 @@ function get_b(xs, ys, xy) {
                 .attr("stroke-opacity", 0.25);
         }
 
-        {
-            // draw the axis
-            const x = d3.scaleLinear([pt1[0], pt2[0]], [0, width])
-            const y = d3.scaleLinear([pt1[1], pt2[1]], [0, height])
-            yAxis = g => g
-                .attr("transform", "translate(-1,0)")
-                .call(d3.axisRight(y))
-                .call(g => g.select(".domain").remove())
-                .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove())
-
-            xAxis = g => g
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisTop(x).ticks(width / height * 10))
-                .call(g => g.select(".domain").remove())
-                .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove())
-
-            svg.append("g")
-                .call(xAxis);
-
-            svg.append("g")
-                .call(yAxis);
-        }
+        // {
+        //     // draw the axis
+        //     const x = d3.scaleLinear([pt1[0], pt2[0]], [0, width])
+        //     const y = d3.scaleLinear([pt1[1], pt2[1]], [0, height])
+        //     yAxis = g => g
+        //         .attr("transform", "translate(-1,0)")
+        //         .call(d3.axisRight(y))
+        //         .call(g => g.select(".domain").remove())
+        //         .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove())
+        //
+        //     xAxis = g => g
+        //         .attr("transform", `translate(0,${height})`)
+        //         .call(d3.axisTop(x).ticks(width / height * 10))
+        //         .call(g => g.select(".domain").remove())
+        //         .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove())
+        //
+        //     svg.append("g")
+        //         .call(xAxis);
+        //
+        //     svg.append("g")
+        //         .call(yAxis);
+        // }
     }
 
     const square_shape_wrap_inner = {
@@ -982,9 +998,23 @@ function get_b(xs, ys, xy) {
         ],
     }
 
+    function redrawVizGraphs_bottom() {
+        $("#graph2DDataViz_bottom" +" svg").remove();
+
+        let bottomTrans = matrixMultiply(example1.initialTransform1, g_visualImageDragState.bottomImageTransformationMatrix);
+        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, bottomTrans);
+    }
+
+    function redrawVizGraphs_top() {
+        $("#graph2DDataViz_top" +" svg").remove();
+
+        const topTrans = matrixMultiply(example1.initialTransform1, g_visualImageDragState.topImageTransformationMatrix);
+        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, topTrans);
+    }
+
     window.addEventListener("DOMContentLoaded", function(event) {
-        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, example1.initialTransform1);
-        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, example1.initialTransform2);
+        redrawVizGraphs_top();
+        redrawVizGraphs_bottom();
         updateHashValues();
     });
 
@@ -1002,8 +1032,84 @@ function get_b(xs, ys, xy) {
 
         topOutput.innerHTML = binaryToHex(topHash).result;
         bottomOutput.innerHTML = binaryToHex(bottomHash).result;
-        hashDistOutput.innerHTML = dist;
+        hashDistOutput.innerHTML = ""+dist;
     }
+
+    function updateVisualTransformationMatrix(ain, bin) {
+        const a = ain/100.0;
+        const b = bin/100.0;
+
+        g_visualImageDragState.currentImageTransformationMatrix[0][0] = a;
+        g_visualImageDragState.currentImageTransformationMatrix[0][1] = b;
+        g_visualImageDragState.currentImageTransformationMatrix[1][0] = 0;
+        g_visualImageDragState.currentImageTransformationMatrix[1][1] = 1.0/a;
+    }
+
+    let g_visualImageDragState = {
+        topImageTransformationMatrix: getIdentityMatrix(),
+        bottomImageTransformationMatrix: getIdentityMatrix(),
+        currentImageTransformationMatrix: null,
+        mouseDownPosition: null
+    }
+
+    $(document).mousedown(function (e) {
+        //ignore
+    });
+
+    $(document).mousemove(function (e) {
+        var pageMousePosition = getCurrentPageMousePosition(e);
+        if (g_visualImageDragState.currentImageTransformationMatrix != null
+            && g_visualImageDragState.mouseDownPosition != null) {
+            updateVisualTransformationMatrix(pageMousePosition[0] - g_visualImageDragState.mouseDownPosition[0],
+                                             pageMousePosition[1] - g_visualImageDragState.mouseDownPosition[1]);
+            if (g_visualImageDragState.currentImageTransformationMatrix == g_visualImageDragState.topImageTransformationMatrix) {
+                redrawVizGraphs_top();
+            } else if (g_visualImageDragState.currentImageTransformationMatrix == g_visualImageDragState.bottomImageTransformationMatrix) {
+                redrawVizGraphs_bottom();
+            }
+            updateHashValues()
+        }
+    });
+
+    $(document).bind( "touchmove", function (e) {
+        const pageMousePosition = [
+            e.originalEvent.touches[0].pageX,
+            e.originalEvent.touches[0].pageY
+        ];
+        if (g_transformState != null && g_transformState.isMouseDownAndClickedOnCanvas) {
+            e.preventDefault();
+        }
+        mouseMoveOnDocumentEvent(pageMousePosition);
+    });
+
+    $(document).mouseup(function (e) {
+        if (g_visualImageDragState.currentImageTransformationMatrix != null
+            && g_visualImageDragState.mouseDownPosition != null) {
+            g_visualImageDragState.mouseDownPosition = null;
+        }
+    });
+
+    $(document).bind( "touchend", function (e) {
+        if (g_visualImageDragState.currentImageTransformationMatrix != null
+            && g_visualImageDragState.mouseDownPosition != null) {
+            g_visualImageDragState.mouseDownPosition = null;
+        }
+    });
+
+    $("#" + "imageNoChanges_top_ui").mousedown(function (e) {
+        e.preventDefault();
+        const pageMousePosition = getCurrentPageMousePosition(e);
+        g_visualImageDragState.mouseDownPosition = pageMousePosition;
+        g_visualImageDragState.currentImageTransformationMatrix = g_visualImageDragState.topImageTransformationMatrix;
+    });
+
+    $("#" + "imageNoChanges_bottom_ui").mousedown(function (e) {
+        e.preventDefault();
+        const pageMousePosition = getCurrentPageMousePosition(e);
+        g_visualImageDragState.mouseDownPosition = pageMousePosition;
+        g_visualImageDragState.currentImageTransformationMatrix = g_visualImageDragState.bottomImageTransformationMatrix;
+    });
+
 
 </script>
 </body>
