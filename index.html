@@ -117,86 +117,105 @@
                 We find a common transformation for the shapes (a common output shape for two input shapes that are the
                 same but only have different transformations applied)
             </p>
-            <h2>how do we find a common shape?</h2>
-            <p>
-                We can break this problem into 3 independent problems.
-            </p>
+            <figure class="text-center" style="width: 1206px; height: 322px;">
+                <figcaption>
+                </figcaption>
+                <div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" style="cursor: pointer" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_top_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; position: relative; float: left">
+                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                            <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </figure>
+            <div style="width: 1206px; height: 200px">
+                <div style="float:left; width: 300px; height: 200px;">
+                    <p>Click and drag on the image above and below to edit the transformation.</p>
+                </div>
+                <div style="float:left; width: 300px; height: 200px;">
+                    <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
+                </div>
+                <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
+                    <div>
+                        <script id="topMatrix" type="math/asciimath">
+                            [["_va0","_va1"],[0,1/"_va2"]]
+                        </script>
+                    </div>
+                    <br>
+                    <div>
+                        <script id="bottomMatrix" type="math/asciimath">
+                            [["_va3","_va4"],[0,1/"_va5"]]
+                        </script>
+                    </div>
+                </div>
+                <div style="float:left; width: 300px; height: 200px;">
+                    <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
+                    <p>Hash Distance: <span id="hashDistOutput">0</span></p>
+                    <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
+                </div>
+            </div>
+            <figure class="text-center" style="width: 1206px; height: 322px;">
+                <div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" style="cursor: pointer" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="imageScaled_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="imageScaled_bottom_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="graph2DDataViz_bottom" style="width: 300px; height: 300px; position: relative; float: left">
+                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                            <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                        </div>
+                    </div>
+                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                        <div class="linebreak">
+                            <div class="canvasWrapper">
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
+                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom_ui" width="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <p>
-                -Find a common rotation
-            </p>
-            <div class="basicFullDemoWrapper text-center">
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemo2Side1" style="opacity:0.8;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemo2Side1_ui" width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemo2Side2" style="opacity:0.8;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemo2Side2_ui" width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p>
-                -Find a common scale for the input shapes
-            </p>
-            <div class="basicFullDemoWrapper text-center">
-                <span>area1: 000</span>
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemo3Side1" style="opacity:0.8;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemo3Side1_ui"
-                                    width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemo3Side2" style="opacity:0.9;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemo3Side2_ui"
-                                    width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <span> area2: 000</span>
-            </div>
-            <p>
-                -Find a common transformation for the input shapes
-            </p>
-            <div class="basicFullDemoWrapper text-center">
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemoSide1" style="opacity:0.8;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemoSide1_ui"
-                                    width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="demowrap">
-                    <div class="linebreak">
-                        <div class="canvasWrapper fixedWidth600px">
-                            <canvas class="canvasInline" height="300" id="basicFullDemoSide2" style="opacity:0.8;"
-                                    width="300"></canvas>
-                            <canvas class="canvasInline" height="300" id="basicFullDemoSide2_ui"
-                                    width="300"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <figcaption>
+                </figcaption>
+            </figure>
+
+
             <h2>How do we actually do it?</h2>
             <p>
                 Finding a common scale is easy, we just scale the images until the shapes both have some arbitrarily chosen area (say 1000 pixels).
@@ -334,103 +353,6 @@
                     f(shape,"_v80","_v81") = "_v82"^2*"_v88"+2*"_v83"*"_v84" *"_v810"+"_v85"^2*"_v811"+("_v89"/"_v86"^2)="_v87"
                 </script>
             </div>
-            <figure class="text-center" style="width: 1206px; height: 322px;">
-                <figcaption>
-                </figcaption>
-                <div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" style="cursor: pointer" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageScaled_top_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; position: relative; float: left">
-                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
-                            <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </figure>
-            <div style="width: 1206px; height: 200px">
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>Click and drag on the image above and below to edit the transformation.</p>
-                </div>
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
-                </div>
-                <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
-                    <div>
-                        <script id="topMatrix" type="math/asciimath">
-                            [["_va0","_va1"],[0,1/"_va2"]]
-                        </script>
-                    </div>
-                    <br>
-                    <div>
-                        <script id="bottomMatrix" type="math/asciimath">
-                            [["_va3","_va4"],[0,1/"_va5"]]
-                        </script>
-                    </div>
-                </div>
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
-                    <p>Hash Distance: <span id="hashDistOutput">0</span></p>
-                    <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
-                </div>
-            </div>
-            <figure class="text-center" style="width: 1206px; height: 322px;">
-                <div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" style="cursor: pointer" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageScaled_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageScaled_bottom_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="graph2DDataViz_bottom" style="width: 300px; height: 300px; position: relative; float: left">
-                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
-                            <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <figcaption>
-                </figcaption>
-            </figure>
             <p>
                 You can see from the above graph that the local minimum of this function is the values which also give
                 us the most square square.
@@ -540,7 +462,7 @@ function get_b(xs, ys, xy) {
                 We now have an algorithm which works on a set of points. The example above have been using the edge points of the polygons but this doesn't work if the outline/shape changes slightly or if we describe the same shape but with different edges.
             </p>
 
-            <h2>(so we don't need a noise dealing with demo!!!!)Dealing with Noise / Going from a set of points to a full 2d shape (infinite set of points) (replace all the demos above with just points, there's no need to talk about noise it's too complicated)</h2>
+            <h2>(maybe explain why we can't just use the set of finite points to describe the shape)(so we don't need a noise dealing with demo!!!!)Dealing with Noise / Going from a set of points to a full 2d shape (infinite set of points) (replace all the demos above with just points, there's no need to talk about noise it's too complicated)</h2>
             <p>
                 To make our algorithm work on shapes which are very similar we need to take into account every single point in the shape.
             </p>
@@ -1001,7 +923,7 @@ function get_b(xs, ys, xy) {
     function redrawVizGraphs_bottom() {
         $("#graph2DDataViz_bottom" +" svg").remove();
 
-        let bottomTrans = matrixMultiply(example1.initialTransform1, g_visualImageDragState.bottomImageTransformationMatrix);
+        let bottomTrans = matrixMultiply(example1.initialTransform2, g_visualImageDragState.bottomImageTransformationMatrix);
         drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, bottomTrans);
     }
 
