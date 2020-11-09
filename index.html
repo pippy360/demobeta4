@@ -353,6 +353,28 @@
                     f(shape,"_v80","_v81") = "_v82"^2*"_v88"+2*"_v83"*"_v84" *"_v810"+"_v85"^2*"_v811"+("_v89"/"_v86"^2)="_v87"
                 </script>
             </div>
+            <div>
+                <button onclick="setGplot(square_shape_wrap)">Square</button>
+                <button onclick="setGplot(triangle_shape_wrap)">Triangle</button>
+                <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>
+                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>
+            </div>
+
+            <figure class="text-center">
+                <div id="viz3dplot" style="width: 600px; height: 401px; display: inline-block"></div>
+                <div style="height: 402px; width: 402px; display: inline-block">
+                    <div class="linebreak">
+                        <div class="canvasWrapper">
+                            <canvas class="canvasInline" height="400" id="basicSquareDemo2" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="basicSquareDemo2_ui" width="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <figcaption>
+                    The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
+                </figcaption>
+            </figure>
+
             <p>
                 You can see from the above graph that the local minimum of this function is the values which also give
                 us the most square square.
@@ -647,6 +669,14 @@ function get_b(xs, ys, xy) {
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+    function getDataForShape(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
+    {
+        let arr = getDataForShape_flat(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal);
+        const newArr = [];
+        while(arr.data.length) newArr.push(arr.data.splice(0,axisResX));
+        return newArr;
+    }
+
     function getDataForShape_flat(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
     {
         const transpt = findCentroid(inShape);
@@ -662,6 +692,8 @@ function get_b(xs, ys, xy) {
                 let a = (pointStart[0]) + ((xlen/axisResX)*j);
                 let b = (pointStart[1]) + ((ylen/axisResY)*i);
                 let v = getSumVal(fixedShape, a, b, maxSumVal);
+                if (v > maxSumVal)
+                    v = maxSumVal;
 
                 if (!isFinite(v))
                     debugger;
@@ -680,10 +712,6 @@ function get_b(xs, ys, xy) {
             min: min,
             max: max,
         }
-    }
-
-    function getDataForSquareDemo(shape, pt1, pt2, n, m, maxValue) {
-        return getDataForShape_flat(shape, n, m, pt1, pt2, maxValue);
     }
 
     function getTransformedBoundingBox(width, height, mat) {
@@ -825,7 +853,7 @@ function get_b(xs, ys, xy) {
         // });
 
         const path = d3.geoPath()
-        const ret = getDataForSquareDemo(shape, pt1, pt2, width/4, height/4, shapeContainer.maxValue);
+        const ret = getDataForShape_flat(shape, width/4, height/4, pt1, pt2, shapeContainer.maxValue);
         const grid = ret.data;
         const min = ret.min;
         const max = ret.max;
@@ -957,10 +985,12 @@ function get_b(xs, ys, xy) {
         hashDistOutput.innerHTML = ""+dist;
     }
 
-    function updateVisualTransformationMatrix(ain, bin) {
-        const a = ain/100.0;
-        const b = bin/100.0;
+    function updateVisualTransformationMatrix(startPt, endPt) {
+        const xv = (startPt[0] - endPt[0]);
+        let a = (xv < 0) ? 1.0/(Math.abs(xv/100)+1) : xv/100 + 1;
+        const b = 0;(startPt[1] - endPt[1])*1000;
 
+        console.log(startPt);
         g_visualImageDragState.currentImageTransformationMatrix[0][0] = a;
         g_visualImageDragState.currentImageTransformationMatrix[0][1] = b;
         g_visualImageDragState.currentImageTransformationMatrix[1][0] = 0;
@@ -979,11 +1009,10 @@ function get_b(xs, ys, xy) {
     });
 
     $(document).mousemove(function (e) {
-        var pageMousePosition = getCurrentPageMousePosition(e);
+        const pageMousePosition = getCurrentPageMousePosition(e);
         if (g_visualImageDragState.currentImageTransformationMatrix != null
             && g_visualImageDragState.mouseDownPosition != null) {
-            updateVisualTransformationMatrix(pageMousePosition[0] - g_visualImageDragState.mouseDownPosition[0],
-                                             pageMousePosition[1] - g_visualImageDragState.mouseDownPosition[1]);
+            updateVisualTransformationMatrix(pageMousePosition, g_visualImageDragState.mouseDownPosition);
             if (g_visualImageDragState.currentImageTransformationMatrix == g_visualImageDragState.topImageTransformationMatrix) {
                 redrawVizGraphs_top();
             } else if (g_visualImageDragState.currentImageTransformationMatrix == g_visualImageDragState.bottomImageTransformationMatrix) {
@@ -1032,7 +1061,84 @@ function get_b(xs, ys, xy) {
         g_visualImageDragState.currentImageTransformationMatrix = g_visualImageDragState.bottomImageTransformationMatrix;
     });
 
-
 </script>
+
+
+<style>
+    .ct-chart {
+        width: 600px;
+        height: 400px;
+    }
+    .ct-series-b .ct-point{
+        stroke: blue !important;
+    }
+</style>
+<style>
+    #scene {
+        top: 0px !important;
+        left: 0px !important;
+        width: 600px !important;
+        height: 400px !important;
+    }
+</style>
+<script>
+
+    function setGplot(shapeWrapper) {
+        const transpt = findCentroid(shapeWrapper.shape);
+        let transx = transpt[0];
+        let transy = transpt[1];
+        const inshape = applyTransformationMatrixToAllKeypoints(
+            shapeWrapper.shape, getTranslateMatrix(-transx, -transy));
+
+        const axisResX = 50;
+        const axisResY = 50;
+        const data = getDataForShape(inshape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
+
+        const x_axis = [];
+        const y_axis = [];
+        for (let i = 0; i < axisResY; i++) {
+            let ylen = shapeWrapper.pt2[1] - shapeWrapper.pt1[1];
+            let b = (shapeWrapper.pt1[1]) + ((ylen / axisResY) * i);
+            y_axis.push(b);
+        }
+        for (let j = 0; j < axisResX; j++) {
+            let xlen = shapeWrapper.pt2[0] - shapeWrapper.pt1[0];
+            let a = (shapeWrapper.pt1[0]) + ((xlen / axisResX) * j);
+            x_axis.push(a);
+        }
+
+        debugger
+        g_plot = Plotly.newPlot('viz3dplot',
+            [{
+                x: x_axis,
+                y: y_axis,
+                z: data,
+                type: 'surface',
+                // colorscale: [
+                //     [0, 'rgb(255,255,255)'],
+                //     [1, 'rgb(0,0,0)'],
+                // ]
+            }], {
+            scene: {
+                xaxis: {title: 'a'},
+                yaxis: {title: 'b'},
+                zaxis: {title: 'f(a, b)'},
+            }
+        });
+
+        let demo = addSquareDemo2(inshape, 100);
+        let myPlot = document.getElementById('viz3dplot');
+
+        const img = new Image();
+        img.onload = function () {
+            myPlot.on('plotly_hover', function (data) {
+                demo.draw(data.points[0].x, data.points[0].y, img, transpt);
+            });
+        }
+        img.src = shapeWrapper.imgsrc;
+    }
+    setGplot(example1.common);
+</script>
+
 </body>
 

@@ -1423,49 +1423,6 @@ function getSumVal(shape, a, b) {
     return result;
 }
 
-function getDataForShape(inShape, xAxisMult, xAxisAdd, yAxisMult, yAxisAdd, axisRes, maxSumVal, xAxisAddFinal,
-                         yAxisAddFinal) {
-    let z2 = [];
-    let x2 = [];
-    let y2 = [];
-
-    for (let i = 0; i < axisRes; i++) {
-        x2.push(i * xAxisMult + xAxisAddFinal);
-        y2.push(i * yAxisMult + yAxisAddFinal);
-    }
-
-    for (let i = 0; i < axisRes; i++) {
-        let z2_row = [];
-        for (let j = 0; j < axisRes; j++) {
-            let a = (j + xAxisAdd) * xAxisMult + xAxisAddFinal;
-            let b = (i + yAxisAdd) * yAxisMult + yAxisAddFinal;
-
-            z2_row.push(getSumVal(inShape, a, b, maxSumVal));
-        }
-        z2.push(z2_row);
-    }
-    return {
-        z: z2,
-        y: y2,
-        x: x2,
-        type: 'heatmap',
-    };
-}
-
-function getDataForSquareDemo(fixedShape, inShape) {
-    return getDataForShape(fixedShape,
-        inShape.xAxisMult,
-        inShape.xAxisAdd,
-        inShape.yAxisMult,
-        inShape.yAxisAdd,
-        inShape.axisRes,
-        inShape.maxSumVal,
-        inShape.xAxisAddFinal,
-        inShape.yAxisAddFinal,
-        inShape.xscale,
-        inShape.yscale);
-}
-
 function abtoSelection(a, b, plotlyplot) {
 
     let xidx = (a + 1) * plotlyplot.dataScaleX;
@@ -1478,12 +1435,6 @@ function abtoSelection(a, b, plotlyplot) {
             level: [-1, -1, -1],
         },
     }
-}
-
-let g_plot;
-
-//FIXME: remove this
-function setGplot(inputShape) {
 }
 
 const triangle_shape_wrap = {

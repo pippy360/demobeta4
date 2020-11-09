@@ -382,96 +382,6 @@ let keypoints_basicFull = [
     },
 ];
 
-function addBasicFullDemo() {
-    g_basicFullDemo = new AnimatedCanvas("basicFullDemoSide1");
-    g_basicFullDemo.loaded = false;
-    g_basicFullDemo.draw = function () {
-
-        const animationDifference = Date.now() - g_basicFullDemo.lastTimeStamp;
-        g_basicFullDemo.lastTimeStamp = Date.now();
-        g_basicFullDemo.keypointTimePassed += animationDifference;
-
-        const canvasObj = getCleanCanvas(g_basicFullDemo.canvasIdStub);
-
-        setUpSquareDemoVars("v1", 4);
-        setUpSquareDemoVars("v2", 8);
-        setUpSquareDemoVars("v9", 2);
-
-        if (g_basicFullDemo.keypointTimePassed > keypoints_basicFull[g_basicFullDemo.keypointIndex].time) {
-            //Change keypoint
-            g_basicFullDemo.previousTransformationMatrix1 = keypoints_basicFull[g_basicFullDemo.keypointIndex].matrix1;
-            g_basicFullDemo.previousTransformationMatrix2 = keypoints_basicFull[g_basicFullDemo.keypointIndex].matrix2;
-
-            g_basicFullDemo.keypointTimePassed = 0;
-            g_basicFullDemo.keypointIndex++;
-            if (g_basicFullDemo.keypointIndex >= keypoints_basicFull.length) {
-                g_basicFullDemo.keypointIndex = 0;
-            }
-        }
-
-        g_basicFullDemo.transformationMatrix = getIdentityMatrix();
-        const from1 = g_basicFullDemo.previousTransformationMatrix1;
-        const from2 = g_basicFullDemo.previousTransformationMatrix2;
-        const to1 = keypoints_basicFull[g_basicFullDemo.keypointIndex].matrix1;
-        const to2 = keypoints_basicFull[g_basicFullDemo.keypointIndex].matrix2;
-        const percentage = g_basicFullDemo.keypointTimePassed / keypoints_basicFull[g_basicFullDemo.keypointIndex].time;
-
-        const imgW = 400;
-        const canvasObjLeft = getCleanCanvas(g_basicFullDemo.canvasIdStub);
-        const canvasObjRight = getCleanCanvas("basicFullDemoSide2");
-
-        let imageMatLeft = getIdentityMatrix();
-        let imageMatRight = [[0.0066625929118422356, -0.9095079824023736, 0], [0.9853144161863155, 0.5776539784639698, 0], [0, 0, 1]];
-        let mat2 = getIdentityMatrix();
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(200, 200));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(72));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(.9, 1));
-
-        mat2 = matrixMultiply(mat2, getRotationMatrix(45));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(Math.sqrt(1.8), 1.0 / Math.sqrt(1.8)));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(-45));
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(-200, -200));
-
-        imageMatRight = mat2;
-
-        let fixedLeft = getMidMatrix(from1, to1, percentage);
-        let fixedRight = getMidMatrix(from2, to2, percentage);
-
-        let fixedShapeMatLeft = applyTransformationMatrixToAllKeypoints(shape1, fixedLeft);
-        drawPolyFull(canvasObjLeft.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeMatLeft, getTranslateMatrix(150, 150)));
-
-        let fixedShapeRight = applyTransformationMatrixToAllKeypoints(shape2, fixedRight);
-        drawPolyFull(canvasObjRight.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeRight, getTranslateMatrix(150, 150)));
-
-        let centeredImageMatLeft = matrixMultiply(getTranslateMatrix(-207.60115905215622, -152.41276792418967), imageMatLeft);
-        drawImageWithTransformations(canvasObjLeft.ctx,
-            g_basicFullDemo.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedLeft, centeredImageMatLeft)),
-            [0, 0], imgW, imgW);
-
-        let centeredImageMatRight = matrixMultiply(getTranslateMatrix(-244.29937822060145, -180.14178851188743), imageMatRight);
-        drawImageWithTransformations(canvasObjRight.ctx,
-            g_basicFullDemo.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedRight, centeredImageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(fixedRight, imageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(getIdentityMatrix(), imageMatRight)),
-            [0, 0], imgW, imgW);
-
-        setTimeout(g_basicFullDemo.draw, 0);
-    };
-    g_basicFullDemo.rickAndMortyImg = new Image();
-    g_basicFullDemo.rickAndMortyImg.onload = function () {
-        g_basicFullDemo.draw();
-    };
-    g_basicFullDemo.rickAndMortyImg.src = 'images/image.png';
-    g_basicFullDemo.shape = shape1_shape;
-    g_basicFullDemo.previousTransformationMatrix1 = getIdentityMatrix();
-    g_basicFullDemo.previousTransformationMatrix2 = getIdentityMatrix();
-
-}
-
-addBasicFullDemo();
-
 
 const rot1 = 0;
 const rot2 = -75;
@@ -498,96 +408,6 @@ let keypoints_basicFull2 = [
         time: 1600,
     },
 ];
-
-function addBasicFullDemo2() {
-    g_basicFullDemo2 = new AnimatedCanvas("basicFullDemo2Side1");
-    g_basicFullDemo2.loaded = false;
-    g_basicFullDemo2.draw = function () {
-
-        const animationDifference = Date.now() - g_basicFullDemo2.lastTimeStamp;
-        g_basicFullDemo2.lastTimeStamp = Date.now();
-        g_basicFullDemo2.keypointTimePassed += animationDifference;
-
-        const canvasObj = getCleanCanvas(g_basicFullDemo2.canvasIdStub);
-
-        setUpSquareDemoVars("v1", 4);
-        setUpSquareDemoVars("v2", 8);
-
-        if (g_basicFullDemo2.keypointTimePassed > keypoints_basicFull2[g_basicFullDemo2.keypointIndex].time) {
-            //Change keypoint
-            g_basicFullDemo2.previousTransformationMatrix1 = keypoints_basicFull2[g_basicFullDemo2.keypointIndex].matrix1;
-            g_basicFullDemo2.previousTransformationMatrix2 = keypoints_basicFull2[g_basicFullDemo2.keypointIndex].matrix2;
-
-            g_basicFullDemo2.keypointTimePassed = 0;
-            g_basicFullDemo2.keypointIndex++;
-            if (g_basicFullDemo2.keypointIndex >= keypoints_basicFull2.length) {
-                g_basicFullDemo2.keypointIndex = 0;
-            }
-        }
-
-        g_basicFullDemo2.transformationMatrix = getIdentityMatrix();
-        const from1 = g_basicFullDemo2.previousTransformationMatrix1;
-        const from2 = g_basicFullDemo2.previousTransformationMatrix2;
-        const to1 = keypoints_basicFull2[g_basicFullDemo2.keypointIndex].matrix1;
-        const to2 = keypoints_basicFull2[g_basicFullDemo2.keypointIndex].matrix2;
-        const percentage = g_basicFullDemo2.keypointTimePassed / keypoints_basicFull2[g_basicFullDemo2.keypointIndex].time;
-
-        const imgW = 400;
-        const canvasObjLeft = getCleanCanvas(g_basicFullDemo2.canvasIdStub);
-        const canvasObjRight = getCleanCanvas("basicFullDemo2Side2");
-
-        let imageMatLeft = getIdentityMatrix();
-        let imageMatRight = [[0.0066625929118422356, -0.9095079824023736, 0], [0.9853144161863155, 0.5776539784639698, 0], [0, 0, 1]];
-        let mat2 = getIdentityMatrix();
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(200, 200));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(72));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(.9, 1));
-
-        mat2 = matrixMultiply(mat2, getRotationMatrix(45));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(Math.sqrt(1.8), 1.0 / Math.sqrt(1.8)));
-        // mat2 = matrixMultiply(mat2, getScaleMatrix(.6, .6));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(-45));
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(-200, -200));
-
-        imageMatRight = mat2;
-
-        let fixedLeft = getMidMatrix(from1, to1, percentage);
-        let fixedRight = getMidMatrix(from2, to2, percentage);
-
-        let fixedShapeMatLeft = applyTransformationMatrixToAllKeypoints(shape1, fixedLeft);
-        drawPolyFull(canvasObjLeft.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeMatLeft, getTranslateMatrix(150, 150)));
-
-        let fixedShapeRight = applyTransformationMatrixToAllKeypoints(shape2, fixedRight);
-        drawPolyFull(canvasObjRight.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeRight, getTranslateMatrix(150, 150)));
-
-        let centeredImageMatLeft = matrixMultiply(getTranslateMatrix(-207.60115905215622, -152.41276792418967), imageMatLeft);
-        drawImageWithTransformations(canvasObjLeft.ctx,
-            g_basicFullDemo2.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedLeft, centeredImageMatLeft)),
-            [0, 0], imgW, imgW);
-
-        let centeredImageMatRight = matrixMultiply(getTranslateMatrix(-244.29937822060145, -180.14178851188743), imageMatRight);
-        drawImageWithTransformations(canvasObjRight.ctx,
-            g_basicFullDemo2.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedRight, centeredImageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(fixedRight, imageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(getIdentityMatrix(), imageMatRight)),
-            [0, 0], imgW, imgW);
-
-        setTimeout(g_basicFullDemo2.draw, 0);
-    };
-    g_basicFullDemo2.rickAndMortyImg = new Image();
-    g_basicFullDemo2.rickAndMortyImg.onload = function () {
-        g_basicFullDemo2.draw();
-    };
-    g_basicFullDemo2.rickAndMortyImg.src = 'images/image.png';
-    g_basicFullDemo2.shape = shape1_shape;
-    g_basicFullDemo2.previousTransformationMatrix1 = shape1_fixing;
-    g_basicFullDemo2.previousTransformationMatrix2 = shape2_fixing;
-
-}
-
-addBasicFullDemo2();
 
 const shape1area = calcPolygonArea(shape1);
 const shape2area = calcPolygonArea(shape2);
@@ -616,96 +436,48 @@ let keypoints_basicFull3 = [
     },
 ];
 
+function addSquareDemo2(shape, scale) {
+    g_basicSquareDemo2 = new AnimatedCanvas("basicSquareDemo2");
+    g_basicSquareDemo2.transformationMatrix = getIdentityMatrix();
+    g_basicSquareDemo2.draw = function(a, b, img, transpt) {
+        const canvasObj = getCleanCanvas(g_basicSquareDemo2.canvasIdStub);
+        setUpSquareDemoVars("v8", 12);
 
-function addBasicFullDemo3() {
-    g_basicFullDemo3 = new AnimatedCanvas("basicFullDemo3Side1");
-    g_basicFullDemo3.loaded = false;
-    g_basicFullDemo3.draw = function () {
+        let changedShape = g_basicSquareDemo2.shape;
 
-        const animationDifference = Date.now() - g_basicFullDemo3.lastTimeStamp;
-        g_basicFullDemo3.lastTimeStamp = Date.now();
-        g_basicFullDemo3.keypointTimePassed += animationDifference;
+        const transMat = [
+            [a, b, 0],
+            [0, 1.0 / a, 0],
+            [0, 0, 1],
+        ];
 
-        const canvasObj = getCleanCanvas(g_basicFullDemo3.canvasIdStub);
+        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
+        const valHack = 1;
+        const v3vals = get3SumOfVals(g_basicSquareDemo2.shape, valHack);
+        fillDemoVals("v8", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
-        setUpSquareDemoVars("v1", 4);
-        setUpSquareDemoVars("v2", 8);
+        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(.01, .01));
+        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
 
-        if (g_basicFullDemo3.keypointTimePassed > keypoints_basicFull3[g_basicFullDemo3.keypointIndex].time) {
-            //Change keypoint
-            g_basicFullDemo3.previousTransformationMatrix1 = keypoints_basicFull3[g_basicFullDemo3.keypointIndex].matrix1;
-            g_basicFullDemo3.previousTransformationMatrix2 = keypoints_basicFull3[g_basicFullDemo3.keypointIndex].matrix2;
-
-            g_basicFullDemo3.keypointTimePassed = 0;
-            g_basicFullDemo3.keypointIndex++;
-            if (g_basicFullDemo3.keypointIndex >= keypoints_basicFull3.length) {
-                g_basicFullDemo3.keypointIndex = 0;
-            }
+        if (img != null) {
+            //calc the mat
+            let mat = getIdentityMatrix();
+            mat = matrixMultiply(getTranslateMatrix(-100, -100), mat)
+            mat = matrixMultiply(transMat, mat)
+            mat = matrixMultiply(getTranslateMatrix(100, 100), mat)
+            // mat = matrixMultiply(getTranslateMatrix(2000, 2000), mat)
+            drawImageWithTransformations(canvasObj.ctx, img, mat)
         }
+        drawPolyFull(canvasObj.ctx, changedShape);
 
-
-        g_basicFullDemo3.transformationMatrix = getIdentityMatrix();
-        const from1 = g_basicFullDemo3.previousTransformationMatrix1;
-        const from2 = g_basicFullDemo3.previousTransformationMatrix2;
-        const to1 = keypoints_basicFull3[g_basicFullDemo3.keypointIndex].matrix1;
-        const to2 = keypoints_basicFull3[g_basicFullDemo3.keypointIndex].matrix2;
-        const percentage = g_basicFullDemo3.keypointTimePassed / keypoints_basicFull3[g_basicFullDemo3.keypointIndex].time;
-
-        const imgW = 400;
-        const canvasObjLeft = getCleanCanvas(g_basicFullDemo3.canvasIdStub);
-        const canvasObjRight = getCleanCanvas("basicFullDemo3Side2");
-
-        let imageMatLeft = getIdentityMatrix();
-        let imageMatRight = [[0.0066625929118422356, -0.9095079824023736, 0], [0.9853144161863155, 0.5776539784639698, 0], [0, 0, 1]];
-        let mat2 = getIdentityMatrix();
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(200, 200));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(72));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(.9, 1));
-
-        mat2 = matrixMultiply(mat2, getRotationMatrix(45));
-        mat2 = matrixMultiply(mat2, getScaleMatrix(Math.sqrt(1.8), 1.0 / Math.sqrt(1.8)));
-        mat2 = matrixMultiply(mat2, getRotationMatrix(-45));
-        mat2 = matrixMultiply(mat2, getTranslateMatrix(-200, -200));
-
-        imageMatRight = mat2;
-
-        let fixedLeft = getMidMatrix(from1, to1, percentage);
-        let fixedRight = getMidMatrix(from2, to2, percentage);
-
-        let fixedShapeMatLeft = applyTransformationMatrixToAllKeypoints(shape1, fixedLeft);
-        drawPolyFull(canvasObjLeft.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeMatLeft, getTranslateMatrix(150, 150)));
-
-        let fixedShapeRight = applyTransformationMatrixToAllKeypoints(shape2, fixedRight);
-        drawPolyFull(canvasObjRight.ctx_ui, applyTransformationMatrixToAllKeypoints(fixedShapeRight, getTranslateMatrix(150, 150)));
-
-        let centeredImageMatLeft = matrixMultiply(getTranslateMatrix(-207.60115905215622, -152.41276792418967), imageMatLeft);
-        drawImageWithTransformations(canvasObjLeft.ctx,
-            g_basicFullDemo3.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedLeft, centeredImageMatLeft)),
-            [0, 0], imgW, imgW);
-
-        let centeredImageMatRight = matrixMultiply(getTranslateMatrix(-244.29937822060145, -180.14178851188743), imageMatRight);
-        drawImageWithTransformations(canvasObjRight.ctx,
-            g_basicFullDemo3.rickAndMortyImg,
-            matrixMultiply(getTranslateMatrix(150, 150), matrixMultiply(fixedRight, centeredImageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(fixedRight, imageMatRight)),
-            // matrixMultiply(getTranslateMatrix(0, 0), matrixMultiply(getIdentityMatrix(), imageMatRight)),
-            [0, 0], imgW, imgW);
-
-        setTimeout(g_basicFullDemo3.draw, 0);
+        // setTimeout(g_basicSquareDemo2.draw, 0);
     };
-    g_basicFullDemo3.rickAndMortyImg = new Image();
-    g_basicFullDemo3.rickAndMortyImg.onload = function () {
-        g_basicFullDemo3.draw();
-    };
-    g_basicFullDemo3.rickAndMortyImg.src = 'images/image.png';
-    g_basicFullDemo3.shape = shape1_shape;
-    g_basicFullDemo3.previousTransformationMatrix1 = matrixMultiply(getRotationMatrix(rot1), shape1_fixing);
-    g_basicFullDemo3.previousTransformationMatrix2 = matrixMultiply(getRotationMatrix(rot2), shape2_fixing);
 
+    g_basicSquareDemo2.shape = applyTransformationMatrixToAllKeypoints(shape, getScaleMatrix(scale, scale));
+    g_basicSquareDemo2.draw(1, 0);
+    return g_basicSquareDemo2;
 }
 
-addBasicFullDemo3();
 
 
 let g_basicSquareDemoRis;
