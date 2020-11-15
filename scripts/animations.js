@@ -202,35 +202,12 @@ function getMidMatrix(from, to, percentage) {
     ]
 }
 
-const hitsetArr = {};
-
-function setUpSquareDemoVars(prefix, length, startId) {
-    startId = (startId == undefined)? "#shapeDemo_transformationMatrix-Frame" : startId;
-
-    if (!(prefix in hitsetArr))
-        hitsetArr[prefix] = new Set();
-
-    if (hitsetArr[prefix].size == length)
-        return;
-
-    $(startId + ", span").each(function() {
-        for (let i = 0; i < length; i++) {
-            const idStr = "_" + prefix + i + "";
-            if ($(this).text() === idStr && $(this).hasClass("mjx-char")) {
-                $(this).attr("id", idStr);
-                hitsetArr[prefix].add(idStr);
-            }
-        }
-    });
-}
-
 function fillDemoVals(prefix, matrix, valHack) {
+    valHack = (valHack == undefined)? 1 : valHack;
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[0].length; j++) {
-            const idx = (matrix[0].length * i) + j;
-            const idStr = "_" + prefix + idx + "";
-            valHack = (valHack == undefined) ? 1 : valHack;
-            $("#" + idStr).text((matrix[i][j] * valHack).toFixed(2));
+            const idx = ((matrix.length * j)+i) + 1;//+1 because not zero indexed
+            $("#" + prefix + "" + idx).text((matrix[i][j] * valHack).toFixed(2));
         }
     }
 }
@@ -254,13 +231,7 @@ function addSquareDemo() {
         const animationDifference = Date.now() - g_basicSquareDemo.lastTimeStamp;
         g_basicSquareDemo.lastTimeStamp = Date.now();
         g_basicSquareDemo.keypointTimePassed += animationDifference;
-
         const canvasObj = getCleanCanvas(g_basicSquareDemo.canvasIdStub);
-
-
-        setUpSquareDemoVars("v2", 8);
-        setUpSquareDemoVars("v1", 4);
-
 
         if (g_basicSquareDemo.keypointTimePassed > keypoints_demo1[g_basicSquareDemo.keypointIndex].time) {
             //Change keypoint
@@ -279,14 +250,14 @@ function addSquareDemo() {
         const percentage = g_basicSquareDemo.keypointTimePassed/keypoints_demo1[g_basicSquareDemo.keypointIndex].time;
 
         g_basicSquareDemo.transformationMatrix = getMidMatrix(from, to, percentage);
-
-        fillDemoVals("v1", cutMatrix(g_basicSquareDemo.transformationMatrix, 2, 2));
+        debugger;
+        fillDemoVals("abcdDemoV", cutMatrix(g_basicSquareDemo.transformationMatrix, 2, 2));
 
         // g_basicSquareDemo.transformationMatrix = matrixMultiply(g_basicSquareDemo.transformationMatrix, getTranslateMatrix(200, 200));
         // g_basicSquareDemo.transformationMatrix = matrixMultiply(g_basicSquareDemo.transformationMatrix, getTranslateMatrix(200, 200));
         // g_basicSquareDemo.transformationMatrix = matrixMultiply(g_basicSquareDemo.transformationMatrix, getRotationMatrix(g_inRot));
         let changedShape = applyTransformationMatrixToAllKeypoints(g_basicSquareDemo.shape, g_basicSquareDemo.transformationMatrix);
-        fillDemoVals("v2", changedShape, (1 / 100) * (1 / .4));
+        fillDemoVals("abcdDemoShapeV", changedShape, (1 / 100) * (1 / .4));
 
         //center of canvas element
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
@@ -298,11 +269,10 @@ function addSquareDemo() {
 
         setTimeout(g_basicSquareDemo.draw, 0);
     };
-    g_basicSquareDemo.shape = applyTransformationMatrixToAllKeypoints([[-100, -100], [100, -100], [100, 100], [-100, 100]], getScaleMatrix(.4, .4));
+    g_basicSquareDemo.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
 
     g_basicSquareDemo.previousTransformationMatrix = getIdentityMatrix();
     $( document ).ready(function() {
-        setUpSquareDemoVars();
         g_basicSquareDemo.draw();
     });
 }
@@ -441,8 +411,6 @@ function addSquareDemo2(shape, scale) {
     g_basicSquareDemo2.transformationMatrix = getIdentityMatrix();
     g_basicSquareDemo2.draw = function(a, b, img, transpt) {
         const canvasObj = getCleanCanvas(g_basicSquareDemo2.canvasIdStub);
-        setUpSquareDemoVars("v8", 12);
-
         let changedShape = g_basicSquareDemo2.shape;
 
         const transMat = [
@@ -454,7 +422,7 @@ function addSquareDemo2(shape, scale) {
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
         const valHack = 1;
         const v3vals = get3SumOfVals(g_basicSquareDemo2.shape, valHack);
-        fillDemoVals("v8", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
+        fillDemoVals("rainbowGraphY", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(.01, .01));
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
@@ -491,9 +459,6 @@ function addSquareDemoRis() {
 
         const canvasObj = getCleanCanvas(g_basicSquareDemoRis.canvasIdStub);
 
-        setUpSquareDemoVars("v4", 8);
-        setUpSquareDemoVars("v3", 4);
-
         if (g_basicSquareDemoRis.keypointTimePassed > keypoints_demoRis[g_basicSquareDemoRis.keypointIndex].time) {
             //Change keypoint
             g_basicSquareDemoRis.previousTransformationMatrix = keypoints_demoRis[g_basicSquareDemoRis.keypointIndex].matrix;
@@ -512,11 +477,11 @@ function addSquareDemoRis() {
 
         g_basicSquareDemoRis.transformationMatrix = getMidMatrix(from, to, percentage);
 
-        fillDemoVals("v3", cutMatrix(g_basicSquareDemoRis.transformationMatrix, 2, 2));
+        // fillDemoVals("v3", cutMatrix(g_basicSquareDemoRis.transformationMatrix, 2, 2));
 
         let changedShape = applyTransformationMatrixToAllKeypoints(g_basicSquareDemoRis.shape, g_basicSquareDemoRis.transformationMatrix);
-        fillDemoVals("v4", changedShape, (1 / 100) * (1 / .4));
-        fillDemoVals("v9", cutMatrix(g_basicSquareDemoRis.transformationMatrix, 2, 1));
+        fillDemoVals("abDemoV", cutMatrix(g_basicSquareDemoRis.transformationMatrix, 2, 2));
+        fillDemoVals("abDemoShapeV", changedShape, (1 / 100) * (1 / .4));
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
         drawPolyFull(canvasObj.ctx, changedShape);
@@ -525,10 +490,9 @@ function addSquareDemoRis() {
 
         setTimeout(g_basicSquareDemoRis.draw, 0);
     };
-    g_basicSquareDemoRis.shape = applyTransformationMatrixToAllKeypoints([[-100, -100], [100, -100], [100, 100], [-100, 100]], getScaleMatrix(.4, .4));
+    g_basicSquareDemoRis.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
     g_basicSquareDemoRis.previousTransformationMatrix = getIdentityMatrix();
     $(document).ready(function () {
-        setUpSquareDemoVars();
         g_basicSquareDemoRis.draw();
     });
 }
