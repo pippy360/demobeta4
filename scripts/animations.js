@@ -250,7 +250,6 @@ function addSquareDemo() {
         const percentage = g_basicSquareDemo.keypointTimePassed/keypoints_demo1[g_basicSquareDemo.keypointIndex].time;
 
         g_basicSquareDemo.transformationMatrix = getMidMatrix(from, to, percentage);
-        debugger;
         fillDemoVals("abcdDemoV", cutMatrix(g_basicSquareDemo.transformationMatrix, 2, 2));
 
         // g_basicSquareDemo.transformationMatrix = matrixMultiply(g_basicSquareDemo.transformationMatrix, getTranslateMatrix(200, 200));

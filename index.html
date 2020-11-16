@@ -1239,7 +1239,7 @@ x_{i}y_{i}
         updateHashValues();
     }
 
-    function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform) {
+    function drawGraph(id, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform, matId) {
         const width = $("#graph2DDataViz_top").width();
         const height = $("#graph2DDataViz_top").height();
         const pt1 = shapeContainer.pt1;
@@ -1257,11 +1257,12 @@ x_{i}y_{i}
             const percY = (offset.top - svgPos.top)/viz.height();
             const xval = shapeContainer.pt1[0] + ((shapeContainer.pt2[0] - shapeContainer.pt1[0])*percX);
             const yval = shapeContainer.pt1[1] + ((shapeContainer.pt2[1] - shapeContainer.pt1[1])*percY);
-            // " id=\"topMatV1\" "
-            // fillDemoVals("va", [
-            //     [xval, yval, 1.0/xval],
-            //     [0, 1.0/xval]
-            // ])
+
+            debugger;
+            fillDemoVals(matId, [
+                [xval, yval],
+                [0, 1.0/xval]
+            ])
 
             drawMovableImageAndShapeDemo(animatedCanvasId, xval, yval, img, shapeContainer.shape, initialTransform, width, height);
         }
@@ -1426,14 +1427,14 @@ x_{i}y_{i}
         $("#graph2DDataViz_bottom" +" svg").remove();
 
         let bottomTrans = matrixMultiply(example1.initialTransform2, g_visualImageDragState.bottomImageTransformationMatrix);
-        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, bottomTrans);
+        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "imageNoChanges_bottom", "imageScaled_bottom", example1.common, bottomTrans, "bottomMatV");
     }
 
     function redrawVizGraphs_top() {
         $("#graph2DDataViz_top" +" svg").remove();
 
         const topTrans = matrixMultiply(example1.initialTransform1, g_visualImageDragState.topImageTransformationMatrix);
-        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, topTrans);
+        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "imageNoChanges_top", "imageScaled_top", example1.common, topTrans, "topMatV");
     }
 
     window.addEventListener("DOMContentLoaded", function(event) {
