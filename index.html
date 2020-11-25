@@ -64,11 +64,6 @@
         margin-top: 100px;
     }
 </style>
-
-
-
-<!--<canvas style="display: none" id="imageMods" width="200" height="200"></canvas>-->
-
 <style>
     .ct-chart {
         width: 600px;
@@ -86,7 +81,6 @@
             <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
             <hr>
             <h2>The Problem</h2>
-
             <p>
                 Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images. It returns images of a similar colour before sections of the same image - which is often what the user is looking for but just as often, it’s not. It’s the sort of tool that shows how far computer science has come and also how far it has to go before it compares to the human eye in terms of image-processing. Seeing a problem that puzzled and intrigued me, I set about trying to fix this little quirk.
             </p>
@@ -172,7 +166,8 @@
                             <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
                             <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
                             <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
-                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span></span>
+                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span>
+                        </span>
                     </div>
                     <br>
                     <div>
@@ -572,10 +567,10 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 </span></span></span>
             </div>
             <div>
-                <button onclick="setGplot(sqaureexampleWrapper.common)">Square</button>
-                <button onclick="setGplot(triangle_shape_wrap)">Triangle</button>
-                <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>
-                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>
+                <button onclick="setGplot(sqaureexampleWrapper.common)">Circle</button>
+                <button onclick="setGplot(callofdutyexampleWrapper.common)">Call of Duty</button>
+<!--                <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>-->
+<!--                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>-->
             </div>
 
             <figure class="text-center">
@@ -1406,8 +1401,8 @@ x_{i}y_{i}
         maxSumVal: 500000000000000000,
         img: null,
         scale: .5,
-        pt1: [ .9, -.1],
-        pt2: [ 1.1,  .1]
+        pt1: [ .5, -.5],
+        pt2: [ 1.5,  .5]
     }
 
     const sqaureexampleWrapper = {
@@ -1431,7 +1426,7 @@ x_{i}y_{i}
     const call_of_duty_inner = {
         imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
-        maxSumVal: 50000000000000,
+        maxSumVal: 400000,
         img: null,
         scale: 1,
         pt1: [-0, -3],
@@ -1629,7 +1624,8 @@ x_{i}y_{i}
     function setGplot(shapeWrapper) {
         const axisResX = 50;
         const axisResY = 50;
-        const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
+        // const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
+        const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, shapeWrapper.maxSumVal);
 
         const x_axis = [];
         const y_axis = [];
