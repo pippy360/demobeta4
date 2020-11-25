@@ -424,9 +424,8 @@ function add3dGraphDemo(shape, scale) {
         let mat = getIdentityMatrix();
         mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
         mat = matrixMultiply(transMat, mat)
+        mat = matrixMultiply(getScaleMatrix(g_viz3dGraphDemo.scale, g_viz3dGraphDemo.scale), mat);
         mat = matrixMultiply(getTranslateMatrix(canvasObj.c.width/2, canvasObj.c.height/2), mat)
-
-        // changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(.01, .01));
 
         let changedShape = applyTransformationMatrixToAllKeypoints(g_viz3dGraphDemo.shape, mat);
         drawPolyFull(canvasObj.ctx_ui, changedShape);

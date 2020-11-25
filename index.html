@@ -86,16 +86,16 @@
             <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
             <hr>
             <h2>The Problem</h2>
+
             <p>
-                When using major reverse image search engines, a frequently encountered problem is the inability for the algorithms to match input images if they have been cropped, stretched, rotated or scaled. This means that we have situations where a minor manipulation of the image returns no results in the Google, Bing or Tineye databases.
-            </p>
-            <h2>The Aim</h2>
-            <p>
-                We want to be able to take a cropped, rotated, skewed and/or scaled image and match it to its original, unedited image or to any variation of the image which has had a 2D Affine Transformation [insert link to wikipedia article] applied to it. We only handle 2D Affine Transformations for two reasons: 1) They have special properties which we can exploit and 2) they cover most commonly-used digital transformations which are applied to images.
+                Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images. It returns images of a similar colour before sections of the same image - which is often what the user is looking for but just as often, it’s not. It’s the sort of tool that shows how far computer science has come and also how far it has to go before it compares to the human eye in terms of image-processing. Seeing a problem that puzzled and intrigued me, I set about trying to fix this little quirk.
             </p>
             <p>
-                The algorithm we have designed allows us to quickly find image matches in a large database in either O(1) or log(n) time. Previously, we worked on this project:
-                <br>https://pippy360.github.io/transformationInvariantImageSearch/ which also offered an improvement on aspects of Google, Bing and Tineye’s reverse image search but proved very slow for larger images. This previous iteration relied on finding sets of three key points to create triangles which were cross-referenced against the images in our database. The new algorithm uses a single point to define an arbitrary local feature which is subsequently cross-referenced against the images in our database.
+                Now I can’t claim to have solved this issue, nor did I ever really expect to compete with powerhouses like Google or Microsoft or TinEye. However, what I was able to do was to achieve better results when matching certain types of images using math that even a high school student should be able to understand*. I’m going to walk you through, step-by-step, how I found a real-world application for the subject that everyone seemed to hate.
+            </p>
+            <p>
+                In order to make the problem more manageable, I focused my efforts on matching images that had 2D affine transformations applied to them.
+            </p>
             </p>
             <h2>The Solution</h2>
             <p>
@@ -572,7 +572,7 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 </span></span></span>
             </div>
             <div>
-                <button onclick="setGplot(square_shape_wrap)">Square</button>
+                <button onclick="setGplot(sqaureexampleWrapper.common)">Square</button>
                 <button onclick="setGplot(triangle_shape_wrap)">Triangle</button>
                 <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>
                 <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>
@@ -1400,13 +1400,32 @@ x_{i}y_{i}
         // }
     }
 
-    const square_shape_wrap_inner = {
-        imgsrc: "images/IMG_20191024_130833.jpg",
-        shape: square_shape_small,
-        maxSumVal: 500000000000,
+    const circle_shape_wrap_inner = {
+        imgsrc: "images/basicshapes.png",
+        shape: [[482, 309],[481, 269],[480, 262],[478, 252],[475, 240],[470, 225],[468, 220],[464, 211],[460, 203],[455, 194],[445, 179],[442, 175],[438, 170],[432, 163],[419, 150],[412, 144],[406, 139],[402, 136],[387, 126],[380, 122],[366, 115],[357, 111],[339, 105],[327, 102],[322, 101],[308, 99],[295, 98],[278, 98],[265, 99],[251, 101],[246, 102],[234, 105],[216, 111],[207, 115],[193, 122],[186, 126],[178, 131],[171, 136],[167, 139],[161, 144],[154, 150],[141, 163],[135, 170],[131, 175],[128, 179],[118, 194],[114, 201],[109, 211],[105, 220],[103, 225],[98, 240],[96, 247],[94, 256],[93, 262],[92, 269],[91, 278],[91, 309],[92, 319],[93, 326],[94, 332],[98, 348],[103, 363],[105, 368],[109, 377],[113, 385],[118, 394],[128, 409],[131, 413],[135, 418],[142, 426],[151, 435],[161, 444],[166, 448],[174, 454],[186, 462],[193, 466],[207, 473],[214, 476],[219, 478],[231, 482],[238, 484],[247, 486],[252, 487],[258, 488],[265, 489],[278, 490],[295, 490],[307, 489],[315, 488],[321, 487],[326, 486],[335, 484],[342, 482],[354, 478],[359, 476],[366, 473],[380, 466],[387, 462],[399, 454],[407, 448],[412, 444],[422, 435],[430, 427],[438, 418],[442, 413],[445, 409],[453, 397],[456, 392],[460, 385],[464, 377],[468, 368],[470, 363],[475, 348],[478, 336],[480, 326],[481, 319],[482, 309]],
+        maxSumVal: 500000000000000000,
         img: null,
-        pt1: [ 0.1, -1],
-        pt2: [ 2,  2]
+        scale: .5,
+        pt1: [ .9, -.1],
+        pt2: [ 1.1,  .1]
+    }
+
+    const sqaureexampleWrapper = {
+        common: circle_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [1,-2,0],
+                [0,1,0],
+                [0,0,1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1]
+            ]
+        }
     }
 
     const call_of_duty_inner = {
@@ -1414,12 +1433,12 @@ x_{i}y_{i}
         shape: call_of_duty_shape,
         maxSumVal: 50000000000000,
         img: null,
+        scale: 1,
         pt1: [-0, -3],
         pt2: [ 2,  3]
     }
 
-
-    const example1 = {
+    const callofdutyexampleWrapper = {
         common: call_of_duty_inner,
         top: {
             initialTransform: [
@@ -1436,6 +1455,8 @@ x_{i}y_{i}
             ]
         }
     }
+
+
 
     //FIXME: draw a red box to show the transformation from image 1 to 2
     const g_vizDemo2dState = {
@@ -1485,7 +1506,7 @@ x_{i}y_{i}
 
     let g_loadedImage;
     window.addEventListener("DOMContentLoaded", function(event) {
-        loadVizDemo(example1);
+        loadVizDemo(callofdutyexampleWrapper);
     });
 
     let updateHashValues = function () {
@@ -1641,7 +1662,7 @@ x_{i}y_{i}
             }
         });
 
-        let demo = add3dGraphDemo(shapeWrapper.shape, 100);
+        let demo = add3dGraphDemo(shapeWrapper.shape, shapeWrapper.scale);
         let myPlot = document.getElementById('viz3dplot');
 
         const img = new Image();
@@ -1651,10 +1672,9 @@ x_{i}y_{i}
             });
             demo.draw(1, 0, img);
         }
-        debugger;
         img.src = shapeWrapper.imgsrc;
     }
-    setGplot(example1.common);
+    setGplot(callofdutyexampleWrapper.common);
 </script>
 
 </body>
