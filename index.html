@@ -583,8 +583,8 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 <div style="height: 402px; width: 402px; display: inline-block">
                     <div class="linebreak">
                         <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="basicSquareDemo2" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="basicSquareDemo2_ui" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="viz3dGraphDemo" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="viz3dGraphDemo_ui" width="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1606,15 +1606,9 @@ x_{i}y_{i}
 <script>
 
     function setGplot(shapeWrapper) {
-        const transpt = findCentroid(shapeWrapper.shape);
-        let transx = transpt[0];
-        let transy = transpt[1];
-        const inshape = applyTransformationMatrixToAllKeypoints(
-            shapeWrapper.shape, getTranslateMatrix(-transx, -transy));
-
         const axisResX = 50;
         const axisResY = 50;
-        const data = getDataForShape(inshape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
+        const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
 
         const x_axis = [];
         const y_axis = [];
@@ -1635,10 +1629,10 @@ x_{i}y_{i}
                 y: y_axis,
                 z: data,
                 type: 'surface',
-                // colorscale: [
-                //     [0, 'rgb(255,255,255)'],
-                //     [1, 'rgb(0,0,0)'],
-                // ]
+                colorscale: [
+                    [0, 'rgb(255,255,255)'],
+                    [1, 'rgb(0,0,0)'],
+                ]
             }], {
             scene: {
                 xaxis: {title: 'a'},
@@ -1647,15 +1641,17 @@ x_{i}y_{i}
             }
         });
 
-        let demo = addSquareDemo2(inshape, 100);
+        let demo = add3dGraphDemo(shapeWrapper.shape, 100);
         let myPlot = document.getElementById('viz3dplot');
 
         const img = new Image();
         img.onload = function () {
             myPlot.on('plotly_hover', function (data) {
-                demo.draw(data.points[0].x, data.points[0].y, img, transpt);
+                demo.draw(data.points[0].x, data.points[0].y, img);
             });
+            demo.draw(1, 0, img);
         }
+        debugger;
         img.src = shapeWrapper.imgsrc;
     }
     setGplot(example1.common);

@@ -405,12 +405,12 @@ let keypoints_basicFull3 = [
     },
 ];
 
-function addSquareDemo2(shape, scale) {
-    g_basicSquareDemo2 = new AnimatedCanvas("basicSquareDemo2");
-    g_basicSquareDemo2.transformationMatrix = getIdentityMatrix();
-    g_basicSquareDemo2.draw = function(a, b, img, transpt) {
-        const canvasObj = getCleanCanvas(g_basicSquareDemo2.canvasIdStub);
-        let changedShape = g_basicSquareDemo2.shape;
+function add3dGraphDemo(shape, scale) {
+    g_viz3dGraphDemo = new AnimatedCanvas("viz3dGraphDemo");
+    g_viz3dGraphDemo.transformationMatrix = getIdentityMatrix();
+    g_viz3dGraphDemo.draw = function(a, b, img) {
+        const canvasObj = getCleanCanvas(g_viz3dGraphDemo.canvasIdStub);
+        let transPt = findCentroid(g_viz3dGraphDemo.shape);
 
         const transMat = [
             [a, b, 0],
@@ -418,31 +418,32 @@ function addSquareDemo2(shape, scale) {
             [0, 0, 1],
         ];
 
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, transMat);
         const valHack = 1;
-        const v3vals = get3SumOfVals(g_basicSquareDemo2.shape, valHack);
+        const v3vals = get3SumOfVals(g_viz3dGraphDemo.shape, valHack);
+
+        let mat = getIdentityMatrix();
+        mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
+        mat = matrixMultiply(transMat, mat)
+        mat = matrixMultiply(getTranslateMatrix(canvasObj.c.width/2, canvasObj.c.height/2), mat)
+
+        // changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(.01, .01));
+
+        let changedShape = applyTransformationMatrixToAllKeypoints(g_viz3dGraphDemo.shape, mat);
+        drawPolyFull(canvasObj.ctx_ui, changedShape);
+
         fillDemoVals("rainbowGraphY", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getScaleMatrix(.01, .01));
-        changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
-
+        //FIXME: make the drag image togglable
         if (img != null) {
-            //calc the mat
-            let mat = getIdentityMatrix();
-            mat = matrixMultiply(getTranslateMatrix(-100, -100), mat)
-            mat = matrixMultiply(transMat, mat)
-            mat = matrixMultiply(getTranslateMatrix(100, 100), mat)
-            // mat = matrixMultiply(getTranslateMatrix(2000, 2000), mat)
-            drawImageWithTransformations(canvasObj.ctx, img, mat)
+            drawImageWithTransformations(canvasObj.ctx, img, mat, img.width, img.height)
         }
-        drawPolyFull(canvasObj.ctx, changedShape);
-
-        // setTimeout(g_basicSquareDemo2.draw, 0);
+        // setTimeout(g_viz3dGraphDemo.draw, 0);
     };
 
-    g_basicSquareDemo2.shape = applyTransformationMatrixToAllKeypoints(shape, getScaleMatrix(scale, scale));
-    g_basicSquareDemo2.draw(1, 0);
-    return g_basicSquareDemo2;
+    g_viz3dGraphDemo.shape = shape;
+    g_viz3dGraphDemo.scale = scale;
+    g_viz3dGraphDemo.draw(1, 0);
+    return g_viz3dGraphDemo;
 }
 
 
@@ -484,7 +485,6 @@ function addSquareDemoRis() {
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
         drawPolyFull(canvasObj.ctx, changedShape);
-
         g_inRot += 1;
 
         setTimeout(g_basicSquareDemoRis.draw, 0);
