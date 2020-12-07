@@ -1357,6 +1357,10 @@ x_{i}y_{i}
         if (g_transformState.currentExample == undefined || inimg.src == undefined)
             return
 
+        //Draw the shape on the useable canvas
+        let canvasObj = getCleanUICanvas(noChangesId);
+        drawPolyFull(canvasObj.ctx_ui, applyTransformationMatrixToAllKeypoints(shapeContainer.shape, initialTransform));
+
         const degrees = -Math.atan(-initialTransform[1][0]/initialTransform[1][1]) * 180.0/Math.PI;
         initialTransform = matrixMultiply(getRotationMatrix(-degrees), initialTransform);
 
