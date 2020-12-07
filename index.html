@@ -1286,7 +1286,7 @@ x_{i}y_{i}
 
     async function initGraph(example) {
 
-        g_transformState = await init_loadTransformStateAndImages();
+        g_transformState = await init_loadTransformStateAndImages(example.common.imgsrc);
         const d3VizId_top = "graph2DDataViz_top", draggableId_top = "draggableButton_top",
             animatedCanvasId_top = "transformedImageAndShape_top", noChangesId_top = "imageNoChanges_top",
             imageScaledId_top = "imageScaled_top", matId_top = "topMatV";
@@ -1480,39 +1480,6 @@ x_{i}y_{i}
         }
     }
 
-
-
-    //FIXME: draw a red box to show the transformation from image 1 to 2
-    const g_vizDemo2dState = {
-        currentExample : null,
-    };
-
-
-    //FIXME:
-    function redrawVizGraphs_top(example, img) {
-        $("#graph2DDataViz_top" +" svg").remove();
-
-        const topTrans = matrixMultiply(example.top.initialTransform, g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat);
-        drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top",
-            "imageNoChanges_top", "imageScaled_top", example.common, topTrans, "topMatV", img);
-        drawDraggableOutput("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "topMatV",
-            example, topTrans, img);
-
-        trasformOperationDraw(g_transformState);
-    }
-
-    //FIXME:
-    function redrawVizGraphs_bottom(example, img) {
-        $("#graph2DDataViz_bottom" +" svg").remove();
-
-        let bottomTrans = matrixMultiply(example.bottom.initialTransform, g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat);
-        drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom",
-            "imageNoChanges_bottom", "imageScaled_bottom", example.common, bottomTrans, "bottomMatV", img);
-        drawDraggableOutput("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "bottomMatV",
-            example, bottomTrans, img);
-
-        trasformOperationDraw(g_transformState);
-    }
 
     function loadVizDemo(example) {
         initGraph(example);
