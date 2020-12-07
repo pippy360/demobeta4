@@ -94,6 +94,9 @@ function drawPolyFull(ctx, shape, stroke, fill) {
 }
 
 function drawImageWithTransformations(ctx, img, mat, width, height) {
+    width = (width == undefined)? img.width : width;
+    height = (height == undefined)? img.height : height;
+
     ctx.save();
     canvasTransform(ctx, mat);
     ctx.drawImage(img, 0, 0, width, height);

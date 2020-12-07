@@ -108,6 +108,31 @@ function getTranslateMatrix_point(point, direction) {
     ];
 }
 
+function getAngleForOnePoint_matrix(point) {
+
+    if(point[0] === 0 && point[1] >= 0) {
+        return 270;
+    } else if(point[0] === 0 && point[1] < 0) {
+        return 90;
+    }
+
+    const atanVal = Math.atan(point[1]/point[0]);
+    let degs = Math.abs(atanVal * 180.0/Math.PI);
+
+    if (point[1] >= 0 && point[0] >= 0) {
+        degs = 360 - degs;
+    } else if (point[1] >= 0 && point[0] < 0) {
+        degs += 180;
+    } else if (point[1] < 0 && point[0] < 0) {
+        degs = 180 - degs;
+    }
+
+    return degs
+}
+
+function getAngleBetweenTwoPoints_matrix(point1, point2) {
+    return Math.abs(getAngleForOnePoint_matrix(point1) - getAngleForOnePoint_matrix(point2))
+}
 
 function addTwoPoints(point1, point2) {
     return [

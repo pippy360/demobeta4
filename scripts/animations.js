@@ -410,7 +410,6 @@ function add3dGraphDemo(shape, scale) {
     g_viz3dGraphDemo.transformationMatrix = getIdentityMatrix();
     g_viz3dGraphDemo.draw = function(a, b, img) {
         const canvasObj = getCleanCanvas(g_viz3dGraphDemo.canvasIdStub);
-        let transPt = findCentroid(g_viz3dGraphDemo.shape);
 
         const transMat = [
             [a, b, 0],
@@ -418,9 +417,7 @@ function add3dGraphDemo(shape, scale) {
             [0, 0, 1],
         ];
 
-        const valHack = 1;
-        const v3vals = get3SumOfVals(g_viz3dGraphDemo.shape, valHack);
-
+        let transPt = findCentroid(g_viz3dGraphDemo.shape);
         let mat = getIdentityMatrix();
         mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
         mat = matrixMultiply(transMat, mat)
@@ -430,7 +427,9 @@ function add3dGraphDemo(shape, scale) {
         let changedShape = applyTransformationMatrixToAllKeypoints(g_viz3dGraphDemo.shape, mat);
         drawPolyFull(canvasObj.ctx_ui, changedShape);
 
-        fillDemoVals("rainbowGraphY", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
+        const valHack = 1;
+        // const v3vals = get3SumOfVals(g_viz3dGraphDemo.shape, valHack);
+        // fillDemoVals("rainbowGraphY", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
 
         //FIXME: make the drag image togglable
         if (img != null) {

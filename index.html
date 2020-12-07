@@ -103,19 +103,28 @@
                 Second, we scale the image so that the key shape takes up x% of the width of 100 units.
                 Finally, we compare our image against the 360 rotations in
             </p>
-            <div class="text-center">
-                <img src="images/pasted%20image%200.png" width="400px">
-                <img src="images/pasted%20image%201.png" width="400px">
-            </div>
+<!--            <div class="text-center">-->
+<!--                <img src="images/pasted%20image%200.png" width="400px">-->
+<!--                <img src="images/pasted%20image%201.png" width="400px">-->
+<!--            </div>-->
             <p>
                 We find a common transformation for the shapes (a common output shape for two input shapes that are the
                 same but only have different transformations applied)
             </p>
-            <figure class="text-center" style="width: 1206px; height: 322px;">
+            <div>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">TRANSLATE</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">UNIFORM_SCALE</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">NON_UNIFORM_SCALE</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">ROTATE</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">CROP</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_X)">SKEW_X</button>
+                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_Y)">SKEW_Y</button>
+            </div>
+            <figure class="text-center" style="width: 1406px; height: 322px;">
                 <figcaption>
                 </figcaption>
                 <div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                    <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
                                 <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
@@ -123,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                    <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
                             <div class="canvasWrapper">
                                 <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
@@ -131,8 +140,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="graph2DDataViz_top" style="width: 300px; height: 300px; position: relative; float: left">
-                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                    <div id="graph2DDataViz_top" style="margin-right: 10px; width: 300px; height: 300px; position: relative; float: left; border: 1px solid black">
+                        <div style="margin-right: 10px; width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
                             <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
                         </div>
                     </div>
@@ -393,6 +402,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             <p>
                 And then dropping the rotation and uniform scale parts of the equation (because we’re going to handle rotation and uniform scale in later steps). Now we have a matrix which represents all transformations minus uniform scale and rotation.
             </p>
+            //FIXME: make this more obvious that it's limited
             <div>
                 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.40511em; vertical-align: -0.952554em;"></span><span class="mopen">[</span><span class="mord text"><span class="mord textrm">Input&nbsp;Shape</span></span><span class="mclose">]</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45255em;"><span class="" style="top: -3.61255em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathnormal">a</span></span></span><span class="" style="top: -2.40745em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.952554em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45255em;"><span class="" style="top: -3.61255em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathnormal">b</span></span></span><span class="" style="top: -2.40745em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.845108em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.952554em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 6.27325em; vertical-align: -3.62025em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.653em;"><span class="" style="top: -1.16886em;"><span class="pstrut" style="height: 4.653em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord textrm mtight">Input&nbsp;x,&nbsp;y&nbsp;coordinates</span></span></span></span></span><span class="" style="top: -4.653em;"><span class="pstrut" style="height: 4.653em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.653em;"><span class="svg-align" style="top: -1.85497em;"><span class="pstrut" style="height: 4.653em;"></span><span class="stretchy" style="height: 0.548em; min-width: 1.6em;"><span class="brace-left" style="height: 0.548em;"><svg width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice">\
                     <path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
@@ -567,9 +577,12 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 </span></span></span>
             </div>
             <div>
-                <button onclick="setGplot(sqaureexampleWrapper.common)">Circle</button>
                 <button onclick="setGplot(callofdutyexampleWrapper.common)">Call of Duty</button>
-<!--                <button onclick="setGplot(circle_shape_small_wrapper)">Circle</button>-->
+                <button onclick="setGplot(sqaureexampleWrapper.common)">Circle</button>
+                <button onclick="setGplot(square_shape_wrap_inner)">Square</button>
+                //FIXME: image load causes race condition
+                //FIXME: the square one is broken, not the real local minimum
+
 <!--                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>-->
             </div>
 
@@ -1138,10 +1151,13 @@ x_{i}y_{i}
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
 <script>
     function getDataForShape(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
     {
         let arr = getDataForShape_flat(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal);
+        console.log("arr:");
+        console.log(arr);
         const newArr = [];
         while(arr.data.length) newArr.push(arr.data.splice(0,axisResX));
         return newArr;
@@ -1155,6 +1171,7 @@ x_{i}y_{i}
 
         let min = undefined;
         let max = undefined;
+        let minx = []
         for (let i = 0; i < axisResY; i++) {
             for (let j = 0; j < axisResX; j++) {
                 let xlen = pointEnd[0] - pointStart[0];
@@ -1168,8 +1185,10 @@ x_{i}y_{i}
                 if (!isFinite(v))
                     debugger;
 
-                if (min == undefined || v < min)
+                if (min == undefined || v < min) {
                     min = v;
+                    minx = [a, b, v]
+                }
 
                 if (isFinite(v) && (max == undefined || v > max))
                     max = v;
@@ -1181,6 +1200,7 @@ x_{i}y_{i}
             data: dataArr,
             min: min,
             max: max,
+            minx: minx
         }
     }
 
@@ -1216,8 +1236,6 @@ x_{i}y_{i}
     }
 
     function drawDraggableOutput(d3VizId, draggableId, animatedCanvasId, matId, example, initialTransform, img) {
-        const width = $("#graph2DDataViz_top").width();
-        const height = $("#graph2DDataViz_top").height();
         const common = example.common;
         const offset = $("#" + draggableId).offset();
         const viz = $("#"+ d3VizId);
@@ -1226,128 +1244,151 @@ x_{i}y_{i}
         const percY = (offset.top - svgPos.top)/viz.height();
         const xval = common.pt1[0] + ((common.pt2[0] - common.pt1[0])*percX);
         const yval = common.pt1[1] + ((common.pt2[1] - common.pt1[1])*percY);
-        const imgWidth = img.width;
-        const imgHeight = img.height;
-
 
         fillDemoVals(matId, [
             [xval, yval],
             [0, 1.0/xval]
         ])
-        const transMat = [
+
+        const width = $("#graph2DDataViz_top").width();
+        const height = $("#graph2DDataViz_top").height();
+        let mat = getIdentityMatrix();
+        mat = matrixMultiply(initialTransform, mat);
+
+        //fix the rotation
+        {
+            const translateMat = getTranslateMatrix(-mat[0][2], -mat[1][2]);
+            let degreeMat = matrixMultiply(translateMat, mat);
+            const pt = applyTransformationMatrixToAllKeypoints([[1, 0]], degreeMat)[0];
+            const degrees = 360-getAngleForOnePoint_matrix(pt);
+
+            mat = matrixMultiply(getRotationMatrix(-degrees), mat);
+        }
+
+        //normalise the shape
+        const computedMat = [
             [xval, yval, 0],
             [0, 1.0 / xval, 0],
             [0, 0, 1],
         ];
+        mat = matrixMultiply(computedMat, mat);
 
-        let mat = getIdentityMatrix();
-        mat = matrixMultiply(getTranslateMatrix(-imgWidth/2, -imgHeight/2), mat);
-        mat = matrixMultiply(initialTransform, mat);
-
-        const transpt = findCentroid(applyTransformationMatrixToAllKeypoints(common.shape, mat));
+        const shape = applyTransformationMatrixToAllKeypoints(common.shape, mat);
+        const transpt = findCentroid(shape);
         mat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), mat);
-        mat = matrixMultiply(transMat, mat);
         mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat);
+
+
 
         drawImageAndShapeWithTransformation(animatedCanvasId, img, common.shape, mat, img.width, img.height);
         updateHashValues();
     }
 
-    function initGraph(d3VizId, draggableId, animatedCanvasId, noChangesId, imageScaledId, example, initialTransform, matId, dragMatContainer) {
-        const img = new Image();
-        img.onload = function () {
-            g_vizDemo2dState.loadedImage = img;
-            $("#" + draggableId ).draggable({
-                drag: function () {
-                    const topTrans = matrixMultiply(initialTransform, dragMatContainer.transform);
-                    drawDraggableOutput(d3VizId, draggableId, animatedCanvasId, matId, example, topTrans, img);
-                }
-            });
-            g_vizDemo2dState.currentExample = example;
-            drawGraph(d3VizId, draggableId, animatedCanvasId, noChangesId, imageScaledId, example.common, initialTransform, matId, img);
-            drawDraggableOutput(d3VizId, draggableId, animatedCanvasId, matId, example, initialTransform, img);
-        };
-        img.src = example.common.imgsrc;
+    async function initGraph(example) {
+
+        g_transformState = await init_loadTransformStateAndImages();
+        const d3VizId_top = "graph2DDataViz_top", draggableId_top = "draggableButton_top",
+            animatedCanvasId_top = "transformedImageAndShape_top", noChangesId_top = "imageNoChanges_top",
+            imageScaledId_top = "imageScaled_top", matId_top = "topMatV";
+
+        const d3VizId_bottom = "graph2DDataViz_bottom", draggableId_bottom = "draggableButton_bottom",
+            animatedCanvasId_bottom = "transformedImageAndShape_bottom", noChangesId_bottom = "imageNoChanges_bottom",
+            imageScaledId_bottom = "imageScaled_bottom", matId_bottom = "bottomMatV";
+
+
+        $("#" + draggableId_top ).draggable({
+            drag: function () {
+                const layerImage = g_transformState.activeCanvas.activeLayer.image;
+                const topTrans = g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat;
+                drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
+                    topTrans, layerImage);
+            }
+        });
+        $("#" + draggableId_bottom ).draggable({
+            drag: function () {
+                const layerImage = g_transformState.activeCanvas.activeLayer.image;
+                const bottomTrans = g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat;
+                drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
+                    bottomTrans, layerImage);
+            }
+        });
+
+        g_transformState.currentExample = example;
+        trasformOperationDraw(g_transformState);
+
+        g_transformState.interactiveCanvasState.draw = function () {
+            if (g_transformState == undefined)
+                return;
+
+            $("#graph2DDataViz_top" +" svg").remove();
+            const layerImage = g_transformState.activeCanvas.activeLayer.image;
+            drawGraph(d3VizId_top, draggableId_top, animatedCanvasId_top, noChangesId_top, imageScaledId_top, example.common,
+                g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat, matId_top, layerImage);
+            drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
+                g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat, layerImage);
+        }
+
+        g_transformState.databaseCanvasState.draw = function () {
+            if (g_transformState == undefined)
+                return;
+
+            $("#graph2DDataViz_bottom" +" svg").remove();
+            const layerImage = g_transformState.activeCanvas.activeLayer.image;
+            drawGraph(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, noChangesId_bottom, imageScaledId_bottom,
+                example.common, g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat, matId_bottom, layerImage);
+            drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
+                g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat, layerImage);
+        }
+
+        g_transformState.interactiveCanvasState.draw();
+        g_transformState.databaseCanvasState.draw();
     }
 
-    function drawGraph(d3VizId, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform, matId, img) {
-        if (g_vizDemo2dState.currentExample == null || img.src == undefined)
+    function getRotationFixHack(inMat) {
+        const translateMat = getTranslateMatrix(-inMat[0][2], -inMat[1][2]);
+        let degreeMat = matrixMultiply(translateMat, inMat);
+        const pt = applyTransformationMatrixToAllKeypoints([[1, 0]], degreeMat)[0];
+        const degrees = 360-getAngleForOnePoint_matrix(pt);
+
+        return getRotationMatrix(-degrees);
+    }
+
+    function drawGraph(d3VizId, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform, matId, inimg) {
+        if (g_transformState.currentExample == undefined || inimg.src == undefined)
             return
 
-        const width = $("#graph2DDataViz_top").width();
-        const height = $("#graph2DDataViz_top").height();
-        const pt1 = shapeContainer.pt1;
-        const pt2 = shapeContainer.pt2;
-        // const area = calcPolygonArea(shape);
+        const degrees = -Math.atan(-initialTransform[1][0]/initialTransform[1][1]) * 180.0/Math.PI;
+        initialTransform = matrixMultiply(getRotationMatrix(-degrees), initialTransform);
 
-        const imgWidth = img.width;
-        const imgHeight = img.height;
+        const width = $("#graph2DDataViz_top").width();
+        const height = $("#graph2DDataViz_top").height()
+        const imgWidth = inimg.width;
+        const imgHeight = inimg.height;
+
         let transmat = getIdentityMatrix();
         transmat = matrixMultiply(getTranslateMatrix(-imgWidth/2, -imgHeight/2), transmat);
         transmat = matrixMultiply(initialTransform, transmat);
+        transmat = matrixMultiply(getRotationFixHack(transmat), transmat);
+
         const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, transmat)
         const transpt = findCentroid(shape);
+        transmat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), transmat);
+        transmat = matrixMultiply(getTranslateMatrix(width/2, height/2), transmat);
 
-        //scale it to the canvas size
-        let scale;
-        let offset = [0, 0];
-        const imgBounds = getTransformedBoundingBox(img.width, img.height, initialTransform);
-        const transformedWidth = imgBounds.maxX - imgBounds.minX;
-        const transformedHeight = imgBounds.maxY - imgBounds.minY;
-        if (transformedWidth > transformedHeight) {
-            scale = $("#"+noChangesId).width()/transformedWidth;
-        } else {
-            scale = $("#"+noChangesId).height()/transformedHeight;
-        }
+        drawImageAndShapeWithTransformation(imageScaledId, inimg, shapeContainer.shape, transmat, imgWidth, imgHeight);
 
-        let scaleMat = getIdentityMatrix();
-        scaleMat = matrixMultiply(getTranslateMatrix(-imgWidth/2, -imgHeight/2), scaleMat);
-        scaleMat = matrixMultiply(initialTransform, scaleMat);
-        scaleMat = matrixMultiply(getScaleMatrix(scale, scale), scaleMat);
-        scaleMat = matrixMultiply(getTranslateMatrix(150, 150), scaleMat);
-        drawImageAndShapeWithTransformation(noChangesId, img, shapeContainer.shape, scaleMat, imgWidth, imgHeight);
+        const ret = getDataForShape_flat(shape, width/4, height/4, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxValue);
 
-        //Scale the image to a constant size and center it
-
-        let translateMat = transmat;
-        translateMat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), translateMat);
-        // translateMat = matrixMultiply(getScaleMatrix(400/area, 400/area), translateMat);
-        translateMat = matrixMultiply(getTranslateMatrix(width/2, height/2), translateMat);
-        // translateMat = matrixMultiply(translateMat, initialTransform);
-        drawImageAndShapeWithTransformation(imageScaledId, img, shapeContainer.shape,
-            translateMat, imgWidth, imgHeight);
-
-        const spanx = shapeContainer.pt2[0] - shapeContainer.pt1[0];
-        const pixelPerValuex = math.abs(400/spanx);
-        const stepsx = 1 - shapeContainer.pt1[0];
-        const left = stepsx * pixelPerValuex;
-
-        const spany = shapeContainer.pt2[1] - shapeContainer.pt1[1];
-        const pixelPerValuey = math.abs(400/spany);
-        const stepsy = 0 - shapeContainer.pt1[1];
-        const top = stepsy * pixelPerValuey;
-        // $("#" + draggableId).css({
-        //     top:  top,
-        //     left: left,
-        // });
-
-        const path = d3.geoPath()
-        const ret = getDataForShape_flat(shape, width/4, height/4, pt1, pt2, shapeContainer.maxValue);
         const grid = ret.data;
-        const min = ret.min;
         const max = ret.max;
-
-        const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (min/2))
+        const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (ret.min/2))
 
         const contours = d3.contours()
             .size([width/4, height/4])
             .thresholds(thresholds)
             (grid)
 
-        const color = d3.scaleSequentialLog(
-            d3.extent(thresholds),
-            d3.interpolateMagma
-        )
+        const color = d3.scaleSequentialLog(d3.extent(thresholds), d3.interpolateMagma);
 
         //find in document instead
         const svg = d3.select("#" + d3VizId)
@@ -1358,8 +1399,9 @@ x_{i}y_{i}
 
         const g = svg.append("g");
 
-        g.attr("fill", "none").selectAll("path")
+        g.attr("fill", "none").selectAll("path");
 
+        const path = d3.geoPath()
         for (let i = 0; i < thresholds.length; i++) {
             //thresholds
             const _contour = contours[i];
@@ -1370,29 +1412,16 @@ x_{i}y_{i}
                 .attr("stroke", "#fff")
                 .attr("stroke-opacity", 0.25);
         }
+    }
 
-        // {
-        //     // draw the axis
-        //     const x = d3.scaleLinear([pt1[0], pt2[0]], [0, width])
-        //     const y = d3.scaleLinear([pt1[1], pt2[1]], [0, height])
-        //     yAxis = g => g
-        //         .attr("transform", "translate(-1,0)")
-        //         .call(d3.axisRight(y))
-        //         .call(g => g.select(".domain").remove())
-        //         .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove())
-        //
-        //     xAxis = g => g
-        //         .attr("transform", `translate(0,${height})`)
-        //         .call(d3.axisTop(x).ticks(width / height * 10))
-        //         .call(g => g.select(".domain").remove())
-        //         .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove())
-        //
-        //     svg.append("g")
-        //         .call(xAxis);
-        //
-        //     svg.append("g")
-        //         .call(yAxis);
-        // }
+    const square_shape_wrap_inner = {
+        imgsrc: "images/basicshapes.png",
+        shape: [[1042, 853], [1040, 557], [624, 557], [622, 559], [622, 853], [623, 854], [1041, 854], [1042, 853]],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -.5],
+        pt2: [ 1.5,  .5]
     }
 
     const circle_shape_wrap_inner = {
@@ -1456,50 +1485,39 @@ x_{i}y_{i}
     //FIXME: draw a red box to show the transformation from image 1 to 2
     const g_vizDemo2dState = {
         currentExample : null,
-        loadedImage: null,
-        visualImageDragState: {
-            currentTransform: null,
-            mouseDownPosition: null,
-            top: {
-                transform: getIdentityMatrix()
-            },
-            bottom: {
-                transform: getIdentityMatrix()
-            }
-        }
     };
 
+
+    //FIXME:
     function redrawVizGraphs_top(example, img) {
         $("#graph2DDataViz_top" +" svg").remove();
 
-        const topTrans = matrixMultiply(example.top.initialTransform, g_vizDemo2dState.visualImageDragState.top.transform);
+        const topTrans = matrixMultiply(example.top.initialTransform, g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat);
         drawGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top",
             "imageNoChanges_top", "imageScaled_top", example.common, topTrans, "topMatV", img);
         drawDraggableOutput("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top", "topMatV",
             example, topTrans, img);
+
+        trasformOperationDraw(g_transformState);
     }
 
+    //FIXME:
     function redrawVizGraphs_bottom(example, img) {
         $("#graph2DDataViz_bottom" +" svg").remove();
 
-        let bottomTrans = matrixMultiply(example.bottom.initialTransform, g_vizDemo2dState.visualImageDragState.bottom.transform);
+        let bottomTrans = matrixMultiply(example.bottom.initialTransform, g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat);
         drawGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom",
             "imageNoChanges_bottom", "imageScaled_bottom", example.common, bottomTrans, "bottomMatV", img);
         drawDraggableOutput("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom", "bottomMatV",
             example, bottomTrans, img);
+
+        trasformOperationDraw(g_transformState);
     }
 
     function loadVizDemo(example) {
-            //FIXME:
-        initGraph("graph2DDataViz_top", "draggableButton_top", "transformedImageAndShape_top",
-            "imageNoChanges_top", "imageScaled_top", example, example.top.initialTransform, "topMatV",
-            g_vizDemo2dState.visualImageDragState.top);
-        initGraph("graph2DDataViz_bottom", "draggableButton_bottom", "transformedImageAndShape_bottom",
-            "imageNoChanges_bottom", "imageScaled_bottom", example, example.bottom.initialTransform, "bottomMatV",
-            g_vizDemo2dState.visualImageDragState.bottom);
+        initGraph(example);
     }
 
-    let g_loadedImage;
     window.addEventListener("DOMContentLoaded", function(event) {
         loadVizDemo(callofdutyexampleWrapper);
     });
@@ -1525,80 +1543,6 @@ x_{i}y_{i}
         //ignore
     });
 
-    $(document).mousemove(function (e) {
-        const pageMousePosition = getCurrentPageMousePosition(e);
-        if (g_vizDemo2dState.visualImageDragState.currentTransform != null
-            && g_vizDemo2dState.visualImageDragState.mouseDownPosition != null) {
-
-            const startPt = g_vizDemo2dState.visualImageDragState.mouseDownPosition;
-            const endPt = pageMousePosition;
-            const xv = (startPt[1] - endPt[1]);
-            const a = (xv < 0) ? 1.0/(Math.abs(xv/100)+1) : xv/100 + 1;
-            const b = (startPt[0] - endPt[0])/100;
-
-            //FIXME: error when mouse goes off screen
-            // console.log(xv)
-            if (a < 0.001 && a > -0.001)
-                debugger;
-
-            if (g_vizDemo2dState.visualImageDragState.currentTransform == g_vizDemo2dState.visualImageDragState.top) {
-                g_vizDemo2dState.visualImageDragState.top.transform = [
-                    [a, b,      0],
-                    [0, 1.0/a,  0],
-                    [0, 0,      1]
-                ];
-                redrawVizGraphs_top(g_vizDemo2dState.currentExample, g_vizDemo2dState.loadedImage);
-            } else if (g_vizDemo2dState.visualImageDragState.currentTransform == g_vizDemo2dState.visualImageDragState.bottom) {
-                g_vizDemo2dState.visualImageDragState.bottom.transform = [
-                    [a, b,      0],
-                    [0, 1.0/a,  0],
-                    [0, 0,      1]
-                ];
-                redrawVizGraphs_bottom(g_vizDemo2dState.currentExample, g_vizDemo2dState.loadedImage);
-            }
-            updateHashValues()
-        }
-    });
-
-    $(document).bind( "touchmove", function (e) {
-        const pageMousePosition = [
-            e.originalEvent.touches[0].pageX,
-            e.originalEvent.touches[0].pageY
-        ];
-        if (g_transformState != null && g_transformState.isMouseDownAndClickedOnCanvas) {
-            e.preventDefault();
-        }
-        //FIXME: todo
-    });
-
-    $(document).mouseup(function (e) {
-        if (g_vizDemo2dState.visualImageDragState.currentTransform != null
-            && g_vizDemo2dState.visualImageDragState.mouseDownPosition != null) {
-            g_vizDemo2dState.visualImageDragState.mouseDownPosition = null;
-        }
-    });
-
-    $(document).bind( "touchend", function (e) {
-        if (g_vizDemo2dState.visualImageDragState.currentTransform != null
-            && g_vizDemo2dState.visualImageDragState.mouseDownPosition != null) {
-            g_vizDemo2dState.visualImageDragState.mouseDownPosition = null;
-        }
-    });
-
-    $("#" + "imageNoChanges_top_ui").mousedown(function (e) {
-        e.preventDefault();
-        const pageMousePosition = getCurrentPageMousePosition(e);
-        g_vizDemo2dState.visualImageDragState.mouseDownPosition = pageMousePosition;
-        g_vizDemo2dState.visualImageDragState.currentTransform = g_vizDemo2dState.visualImageDragState.top;
-    });
-
-    $("#" + "imageNoChanges_bottom_ui").mousedown(function (e) {
-        e.preventDefault();
-        const pageMousePosition = getCurrentPageMousePosition(e);
-        g_vizDemo2dState.visualImageDragState.mouseDownPosition = pageMousePosition;
-        g_vizDemo2dState.visualImageDragState.currentTransform = g_vizDemo2dState.visualImageDragState.bottom;
-    });
-
 </script>
 
 
@@ -1622,55 +1566,57 @@ x_{i}y_{i}
 <script>
 
     function setGplot(shapeWrapper) {
-        const axisResX = 50;
-        const axisResY = 50;
-        // const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
-        const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, shapeWrapper.maxSumVal);
+        const inimg = new Image();
+        inimg.onload = function () {
+            const axisResX = 50;
+            const axisResY = 50;
+            // const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
+            const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, shapeWrapper.maxSumVal);
+            console.log(data);
 
-        const x_axis = [];
-        const y_axis = [];
-        for (let i = 0; i < axisResY; i++) {
-            let ylen = shapeWrapper.pt2[1] - shapeWrapper.pt1[1];
-            let b = (shapeWrapper.pt1[1]) + ((ylen / axisResY) * i);
-            y_axis.push(b);
-        }
-        for (let j = 0; j < axisResX; j++) {
-            let xlen = shapeWrapper.pt2[0] - shapeWrapper.pt1[0];
-            let a = (shapeWrapper.pt1[0]) + ((xlen / axisResX) * j);
-            x_axis.push(a);
-        }
-
-        g_plot = Plotly.newPlot('viz3dplot',
-            [{
-                x: x_axis,
-                y: y_axis,
-                z: data,
-                type: 'surface',
-                colorscale: [
-                    [0, 'rgb(255,255,255)'],
-                    [1, 'rgb(0,0,0)'],
-                ]
-            }], {
-            scene: {
-                xaxis: {title: 'a'},
-                yaxis: {title: 'b'},
-                zaxis: {title: 'f(a, b)'},
+            const x_axis = [];
+            const y_axis = [];
+            for (let i = 0; i < axisResY; i++) {
+                let ylen = shapeWrapper.pt2[1] - shapeWrapper.pt1[1];
+                let b = (shapeWrapper.pt1[1]) + ((ylen / axisResY) * i);
+                y_axis.push(b);
             }
-        });
+            for (let j = 0; j < axisResX; j++) {
+                let xlen = shapeWrapper.pt2[0] - shapeWrapper.pt1[0];
+                let a = (shapeWrapper.pt1[0]) + ((xlen / axisResX) * j);
+                x_axis.push(a);
+            }
 
-        let demo = add3dGraphDemo(shapeWrapper.shape, shapeWrapper.scale);
-        let myPlot = document.getElementById('viz3dplot');
-
-        const img = new Image();
-        img.onload = function () {
-            myPlot.on('plotly_hover', function (data) {
-                demo.draw(data.points[0].x, data.points[0].y, img);
+            g_plot = Plotly.newPlot('viz3dplot',
+                [{
+                    x: x_axis,
+                    y: y_axis,
+                    z: data,
+                    type: 'surface',
+                    colorscale: [
+                        [0, 'rgb(255,255,255)'],
+                        [1, 'rgb(0,0,0)'],
+                    ]
+                }], {
+                scene: {
+                    xaxis: {title: 'a'},
+                    yaxis: {title: 'b'},
+                    zaxis: {title: 'f(a, b)'},
+                }
             });
-            demo.draw(1, 0, img);
+
+            let demo = add3dGraphDemo(shapeWrapper.shape, shapeWrapper.scale);
+            let myPlot = document.getElementById('viz3dplot');
+
+            myPlot.on('plotly_hover', function (data) {
+                demo.draw(data.points[0].x, data.points[0].y, inimg);
+            });
+            demo.draw(1, 0, inimg);
         }
-        img.src = shapeWrapper.imgsrc;
+        inimg.src = shapeWrapper.imgsrc;
     }
     setGplot(callofdutyexampleWrapper.common);
+    init_loadTransformStateAndImages();
 </script>
 
 </body>

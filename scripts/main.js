@@ -77,34 +77,6 @@ function applyTransformToAllPoints(tetha, normX, normY, points) {
     return ret
 }
 
-function getAngleForOnePoint_matrix(point) {
-
-    if(point[0] === 0 && point[1] >= 0) {
-        return 270;
-    } else if(point[0] === 0 && point[1] < 0) {
-        return 90;
-    }
-
-    const atanVal = Math.atan(point[1]/point[0]);
-    let degs = Math.abs(atanVal * 180.0/Math.PI);
-
-    if (point[1] >= 0 && point[0] >= 0) {
-        degs = 360 - degs;
-    } else if (point[1] < 0 && point[0] >= 0) {
-        //degs = degs;
-    } else if (point[1] >= 0 && point[0] < 0) {
-        degs += 180;
-    } else if (point[1] < 0 && point[0] < 0) {
-        degs = 180 - degs;
-    }
-
-    return degs
-}
-
-function getAngleBetweenTwoPoints_matrix(point1, point2) {
-    return Math.abs(getAngleForOnePoint_matrix(point1) - getAngleForOnePoint_matrix(point2))
-}
-
 function getPixels(image, width, height, rot, scale, scaleRot) {
     var canvas = document.getElementById('imageMods');
     var ctx = canvas.getContext('2d');
@@ -1294,107 +1266,7 @@ function drawPointOfRotation(ctx, shape, rotation) {
 
 }
 
-function draw(pageMousePosition) {
-    g_img = new Image();
-    g_img.onload = function () {
-    };
-    g_img.src = g_src;
-}
-
-var counter = 0;
-
-
-// Assign onload handler to each image in array
-for ( var i = 0; i < images.length; i++ ){
-
-    var img    = new Image();
-    img.onload = function(value){
-        counter++;
-        if (counter == images.length) {
-            var url_string = window.location.href
-            var url = new URL(url_string);
-            var point = url.searchParams.get("point");
-            var image = url.searchParams.get("image");
-            var shapeIndex = url.searchParams.get("shapeIndex");
-            var appliedTrans = url.searchParams.get("appliedTransformationsMat");
-            console.log(point);
-            console.log(image);
-            try {
-                if (point != undefined) {
-                    var array = JSON.parse("[" + point + "]");
-                    g_globalState.canvasClickLocation.x = array[0];
-                    g_globalState.canvasClickLocation.y = array[1];
-                }
-            } catch(err) {
-                g_globalState.canvasClickLocation.x = .5;
-                g_globalState.canvasClickLocation.y = .5;
-            }
-
-            if (image != undefined && image != null && images.includes(image))
-                changeImgSrc(image);
-            else
-                changeImgSrc(images[0]);
-
-            if (shapeIndex != undefined && shapeIndex != null) {
-                setShape(shapeIndex);
-            }
-
-            if (appliedTrans != undefined && appliedTrans != null) {
-                g_transformState.appliedTransformationsMat = JSON.parse( appliedTrans );
-            }
-        }
-    };
-
-    // IMPORTANT - Assign src last for IE
-    img.src = images[i];
-}
-
-
-
-// #     #                         ###
-// #     #  ####  ###### #####      #  #    # #####  #    # #####
-// #     # #      #      #    #     #  ##   # #    # #    #   #
-// #     #  ####  #####  #    #     #  # #  # #    # #    #   #
-// #     #      # #      #####      #  #  # # #####  #    #   #
-// #     # #    # #      #   #      #  #   ## #      #    #   #
-//  #####   ####  ###### #    #    ### #    # #       ####    #
-//user input
-
-
-
-
-$(document).mousedown(function (e) {
-    //ignore
-});
-
-$(document).mousemove(function (e) {
-    var pageMousePosition = getCurrentPageMousePosition(e);
-    mouseMoveOnDocumentEvent(pageMousePosition);
-    draw(pageMousePosition);
-});
-
-$(document).bind( "touchmove", function (e) {
-    const pageMousePosition = [
-        e.originalEvent.touches[0].pageX, 
-        e.originalEvent.touches[0].pageY
-    ];
-    if (g_transformState != null && g_transformState.isMouseDownAndClickedOnCanvas) {
-        e.preventDefault();
-    }
-    mouseMoveOnDocumentEvent(pageMousePosition);
-});
-
-$(document).mouseup(function (e) {
-    mouseUpEvent();
-    draw();
-});
-
-$(document).bind( "touchend", function (e) {
-    mouseUpEvent()
-});
-
-
-var yaw = 0.5, pitch = 0.5, width = 700, height = 400, drag = false;
+const yaw = 0.5, pitch = 0.5, width = 700, height = 400, drag = false;
 
 function dataFromFormular(func) {
     var output = [];
