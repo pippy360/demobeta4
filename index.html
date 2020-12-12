@@ -1156,8 +1156,6 @@ x_{i}y_{i}
     function getDataForShape(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal)
     {
         let arr = getDataForShape_flat(inShape, axisResX, axisResY, pointStart, pointEnd, maxSumVal);
-        console.log("arr:");
-        console.log(arr);
         const newArr = [];
         while(arr.data.length) newArr.push(arr.data.splice(0,axisResX));
         return newArr;
@@ -1274,11 +1272,13 @@ x_{i}y_{i}
         mat = matrixMultiply(computedMat, mat);
 
         const shape = applyTransformationMatrixToAllKeypoints(common.shape, mat);
+
         const transpt = findCentroid(shape);
         mat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), mat);
-        mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat);
 
-
+        const areaScale = Math.sqrt(4000/calcPolygonArea(shape));
+        mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
+        mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat)
 
         drawImageAndShapeWithTransformation(animatedCanvasId, img, common.shape, mat, img.width, img.height);
         updateHashValues();
@@ -1374,9 +1374,15 @@ x_{i}y_{i}
         transmat = matrixMultiply(initialTransform, transmat);
         transmat = matrixMultiply(getRotationFixHack(transmat), transmat);
 
-        const shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, transmat)
+        let shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, transmat)
         const transpt = findCentroid(shape);
         transmat = matrixMultiply(getTranslateMatrix(-transpt[0], -transpt[1]), transmat);
+
+        const areaScale = Math.sqrt(4000/calcPolygonArea(shape));
+        transmat = matrixMultiply(getScaleMatrix(areaScale, areaScale), transmat);
+
+        shape = applyTransformationMatrixToAllKeypoints(shapeContainer.shape, transmat)
+
         transmat = matrixMultiply(getTranslateMatrix(width/2, height/2), transmat);
 
         drawImageAndShapeWithTransformation(imageScaledId, inimg, shapeContainer.shape, transmat, imgWidth, imgHeight);
@@ -1543,7 +1549,6 @@ x_{i}y_{i}
             const axisResY = 50;
             // const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
             const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, shapeWrapper.maxSumVal);
-            console.log(data);
 
             const x_axis = [];
             const y_axis = [];
