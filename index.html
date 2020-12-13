@@ -129,141 +129,152 @@
 </style>
 <div class="demoWrapper" style="text-align: center">
     <div class="vizDemo2dContainer clearfix" style="width: 1520px; margin: auto">
-            <div>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">TRANSLATE</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">UNIFORM_SCALE</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">NON_UNIFORM_SCALE</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">ROTATE</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">CROP</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_X)">SKEW_X</button>
-                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_Y)">SKEW_Y</button>
+<!--            <div>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">TRANSLATE</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">UNIFORM_SCALE</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">NON_UNIFORM_SCALE</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">ROTATE</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">CROP</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_X)">SKEW_X</button>-->
+<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_Y)">SKEW_Y</button>-->
+<!--            </div>-->
+        <div>
+            <div class="clearfix" style="width: 1300px">
+                <img style="float: right" src="images/basicshapes.png" width="100" height="100">
             </div>
-        <ul class="list-group" style="width: 100px; float: left; display: inline-block">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-        <div style="float: left">
-            <figure class="text-center" style="width: 1406px; height: 322px;">
-                <div>
-                    <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" style="cursor: pointer" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageScaled_top_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="graph2DDataViz_top" style="margin-right: 10px; width: 300px; height: 300px; position: relative; float: left; border: 1px solid black">
-                        <div style="margin-right: 10px; width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
-                            <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_top_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </figure>
-            <div style="width: 1206px; height: 200px">
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>Click and drag on the images above and below to edit the transformation</p>
-                </div>
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
-                </div>
-                <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
-                    <div>
-                        <span class="katex">
-<!--                            <span class="katex-mathml">-->
-<!--                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix}-->
-<!--Y &amp; Y\\-->
-<!--Y &amp; Y-->
-<!--\end{bmatrix}</annotation></semantics></math>-->
-<!--                        </span>-->
-                        <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
-                            <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
-                            <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
-                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
-                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span>
-                        </span>
-                    </div>
-                    <br>
-                    <div>
-                        <span class="katex">
-<!--                            <span class="katex-mathml">-->
-<!--                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix}-->
-                            <!--Y &amp; Y\\-->
-                            <!--Y &amp; Y-->
-                            <!--\end{bmatrix}</annotation></semantics></math>-->
-<!--                        </span>-->
-                        <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
-                            <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
-                            <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
-                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
-                            <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span></span>
-                    </div>
-                </div>
-                <div style="float:left; width: 300px; height: 200px;">
-                    <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
-                    <p>Hash Distance: <span id="hashDistOutput">0</span></p>
-                    <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
-                </div>
-            </div>
-
-            <figure class="text-center" style="width: 1206px; height: 322px;">
-                <div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" style="cursor: pointer" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="imageScaled_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="imageScaled_bottom_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="graph2DDataViz_bottom" style="width: 300px; height: 300px; position: relative; float: left">
-                        <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
-                            <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
-                        </div>
-                    </div>
-                    <div style="height: 302px; width: 302px; display: inline-block; float: left">
-                        <div class="linebreak">
-                            <div class="canvasWrapper">
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
-                                <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom_ui" width="300"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <figcaption>
-                </figcaption>
-            </figure>
         </div>
+        <div>
+            <ul class="list-group" style="width: 100px; float: left; display: inline-block">
+                <li class="list-group-item">Translate</li>
+                <li class="list-group-item">Scale</li>
+                <li class="list-group-item">Directional stretch</li>
+                <li class="list-group-item">Rotate</li>
+                <li class="list-group-item">Crop</li>
+                <li class="list-group-item">Skew X</li>
+                <li class="list-group-item">Skew Y</li>
+            </ul>
+            <div style="float: left">
+                <figure class="text-center" style="width: 1406px; height: 322px;">
+                    <div>
+                        <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="imageNoChanges_top_ui" style="cursor: pointer" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="imageScaled_top" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="imageScaled_top_ui" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="graph2DDataViz_top" style="margin-right: 10px; width: 300px; height: 300px; position: relative; float: left; border: 1px solid black">
+                            <div style="margin-right: 10px; width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                                <div id="draggableButton_top" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                            </div>
+                        </div>
+                        <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="transformedImageAndShape_top_ui" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </figure>
+                <div style="width: 1206px; height: 200px">
+                    <div style="float:left; width: 300px; height: 200px;">
+                        <p>Click and drag on the images above and below to edit the transformation</p>
+                    </div>
+                    <div style="float:left; width: 300px; height: 200px;">
+                        <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
+                    </div>
+                    <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
+                        <div>
+                            <span class="katex">
+    <!--                            <span class="katex-mathml">-->
+    <!--                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix}-->
+    <!--Y &amp; Y\\-->
+    <!--Y &amp; Y-->
+    <!--\end{bmatrix}</annotation></semantics></math>-->
+    <!--                        </span>-->
+                            <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
+                                <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
+                                <span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
+                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
+                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="topMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span>
+                            </span>
+                        </div>
+                        <br>
+                        <div>
+                            <span class="katex">
+    <!--                            <span class="katex-mathml">-->
+    <!--                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>Y</mi></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><annotation encoding="application/x-tex">\begin{bmatrix}-->
+                                <!--Y &amp; Y\\-->
+                                <!--Y &amp; Y-->
+                                <!--\end{bmatrix}</annotation></semantics></math>-->
+    <!--                        </span>-->
+                            <span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
+                                <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
+                                <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
+                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
+                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span></span>
+                        </div>
+                    </div>
+                    <div style="float:left; width: 300px; height: 200px;">
+                        <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
+                        <p>Hash Distance: <span id="hashDistOutput">0</span></p>
+                        <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
+                    </div>
+                </div>
+
+                <figure class="text-center" style="width: 1206px; height: 322px;">
+                    <div>
+                        <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="imageNoChanges_bottom_ui" style="cursor: pointer" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="imageScaled_bottom" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="imageScaled_bottom_ui" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="graph2DDataViz_bottom" style="width: 300px; height: 300px; position: relative; float: left">
+                            <div style="width: 0px; height: 0px; position: relative; top: 145px; left: 145px">
+                                <div id="draggableButton_bottom" style="width: 20px; height: 20px; background-color: #5bb2f5; border: 1px solid #fff; border-radius: 20px; cursor: pointer"></div>
+                            </div>
+                        </div>
+                        <div style="height: 302px; width: 302px; display: inline-block; float: left">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
+                                    <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom_ui" width="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <figcaption>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+
     </div>
 </div>
+<hr>
 
 <div style="font-size: 1em" class="container clearfix">
     <div class="clearfix linebreak">
