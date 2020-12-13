@@ -77,7 +77,6 @@
 <div style="font-size: 1em" class="container clearfix">
     <div class="clearfix linebreak">
         <div class="p-5">
-
             <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
             <hr>
             <h2>The Problem</h2>
@@ -111,6 +110,25 @@
                 We find a common transformation for the shapes (a common output shape for two input shapes that are the
                 same but only have different transformations applied)
             </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<style>
+
+.demoWrapper {
+
+}
+
+.vizDemo2dContainer {
+
+}
+
+</style>
+<div class="demoWrapper" style="text-align: center">
+    <div class="vizDemo2dContainer clearfix" style="width: 1520px; margin: auto">
             <div>
                 <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">TRANSLATE</button>
                 <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">UNIFORM_SCALE</button>
@@ -120,9 +138,15 @@
                 <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_X)">SKEW_X</button>
                 <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_Y)">SKEW_Y</button>
             </div>
+        <ul class="list-group" style="width: 100px; float: left; display: inline-block">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+        <div style="float: left">
             <figure class="text-center" style="width: 1406px; height: 322px;">
-                <figcaption>
-                </figcaption>
                 <div>
                     <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
                         <div class="linebreak">
@@ -200,6 +224,7 @@
                     <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
                 </div>
             </div>
+
             <figure class="text-center" style="width: 1206px; height: 322px;">
                 <div>
                     <div style="height: 302px; width: 302px; display: inline-block; float: left">
@@ -236,8 +261,13 @@
                 <figcaption>
                 </figcaption>
             </figure>
+        </div>
+    </div>
+</div>
 
-
+<div style="font-size: 1em" class="container clearfix">
+    <div class="clearfix linebreak">
+        <div class="p-5">
             <h2>How do we actually do it?</h2>
             <p>
                 Finding a common scale is easy, we just scale the images until the shapes both have some arbitrarily chosen area (say 1000 pixels).
