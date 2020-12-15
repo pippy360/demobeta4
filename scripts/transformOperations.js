@@ -113,7 +113,10 @@ function newCanvasState() {
     }
 }
 
-async function newTransformState(imgSrc) {
+async function newTransformState(imgSrc, interactiveTransform, databaseTransform) {
+
+    interactiveTransform = (interactiveTransform == undefined)? getIdentityMatrix() : interactiveTransform;
+    databaseTransform = (databaseTransform == undefined)? getIdentityMatrix() : databaseTransform;
 
     // Add the default layer
     let interactiveCanvasState = newCanvasState();
@@ -124,6 +127,10 @@ async function newTransformState(imgSrc) {
     let p1 = addLayer(interactiveCanvasState, imgSrc);
     let p2 = addLayer(databaseCanvasState, imgSrc);
     await Promise.all([p1, p2]);
+
+    interactiveCanvasState.layers[0].appliedTransformationsMat = interactiveTransform;
+    databaseCanvasState.layers[0].appliedTransformationsMat = databaseTransform;
+
     interactiveCanvasState.activeLayer = interactiveCanvasState.layers[0];
     databaseCanvasState.activeLayer = databaseCanvasState.layers[0];
     return {
@@ -184,12 +191,12 @@ function setCurrnetOperation(globalState, newState) {
     applyTransformationEffects(newState);
 }
 
-async function init_loadTransformStateAndImages(imgSrc) {
+async function init_loadTransformStateAndImages(imgSrc, interactiveTransform, databaseTransform) {
     //check if we can load from the url
     let urlData = (new URLSearchParams(location.search)).get('transfromState');
     let transformState;
     if (true || urlData == null) {//FIXME:
-        transformState = await newTransformState(imgSrc);
+        transformState = await newTransformState(imgSrc, interactiveTransform, databaseTransform);
     } else {
         transformState = await loadTransformationStateFromUrlData(urlData);
     }

@@ -117,44 +117,98 @@
 <hr>
 
 <style>
-
-.demoWrapper {
-
-}
-
-.vizDemo2dContainer {
-
-}
-
 </style>
 <div class="demoWrapper" style="text-align: center">
-    <div class="vizDemo2dContainer clearfix" style="width: 1520px; margin: auto">
-<!--            <div>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">TRANSLATE</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">UNIFORM_SCALE</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">NON_UNIFORM_SCALE</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">ROTATE</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">CROP</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_X)">SKEW_X</button>-->
-<!--                <button onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.SKEW_Y)">SKEW_Y</button>-->
-<!--            </div>-->
+    <div class="vizDemo2dContainer clearfix" style="width: 1230px; margin: auto">
         <div>
-            <div class="clearfix" style="width: 1300px">
-                <img style="float: right" src="images/basicshapes.png" width="100" height="100">
+            <style>
+                .thumbWrap {
+                    /*border: 1px solid black;*/
+                    float: right;
+                    width: 100px;
+                    height: 100px;
+                    /*margin: 5px;*/
+                    cursor: pointer;
+                    padding: 0px;
+                    border: 0px;
+                }
+            </style>
+            <div style="float: left; position: relative; top: 90px;" data-toggle="buttons">
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <input type="radio" name="options" autocomplete="off" checked >Pan
+                    </label>
+                    <label class="btn btn-secondary" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">
+                        <input type="radio" name="options" autocomplete="off" >Zoom
+                    </label>
+                    <label class="btn btn-secondary" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">
+                        <input type="radio" name="options" autocomplete="off" >Direction Stretch
+                    </label>
+                    <label class="btn btn-secondary" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">
+                        <input type="radio" name="options" autocomplete="off" >Rotate
+                    </label>
+                    <label class="btn btn-secondary" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">
+                        <input type="radio" name="options" autocomplete="off" >Crop //FIXME:
+                    </label>
+                </div>
+            </div>
+            <div style="width: 1230px">
+
+                <style>
+                    .img2dVizButtons label{
+                        opacity: .2;
+                    }
+                    .img2dVizButtons label.active{
+                        opacity: 1;
+                        border-bottom: 3px solid pink;
+                        padding-bottom: 5px;
+                        height: 120px;
+                        border-radius: 0px;
+                    }
+                    .img2dVizButtons label:hover{
+                        opacity: 1;
+                        border-bottom: 3px solid pink;
+                        padding-bottom: 5px;
+                        height: 120px;
+                        border-radius: 0px;
+                    }
+                    .img2dVizButtons label{
+                        margin: 5px;
+                    }
+
+                </style>
+                <div class="clearfix img2dVizButtons btn-group-toggle" style="height: 130px;" data-toggle="buttons">
+                    <label class="btn thumbWrap active">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" checked onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/boo.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="loadVizDemo(sqaureexampleWrapper)" src="images/basicshapes.png">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/image.png">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/IMG_20191024_130833.jpg">
+                    </label>
+                </div>
             </div>
         </div>
         <div>
-            <ul class="list-group" style="width: 100px; float: left; display: inline-block">
-                <li class="list-group-item">Translate</li>
-                <li class="list-group-item">Scale</li>
-                <li class="list-group-item">Directional stretch</li>
-                <li class="list-group-item">Rotate</li>
-                <li class="list-group-item">Crop</li>
-                <li class="list-group-item">Skew X</li>
-                <li class="list-group-item">Skew Y</li>
-            </ul>
+<!--            <ul class="list-group" style="width: 100px; float: left; display: inline-block">-->
+<!--                <li class="list-group-item">Translate</li>-->
+<!--                <li class="list-group-item">Scale</li>-->
+<!--                <li class="list-group-item">Directional stretch</li>-->
+<!--                <li class="list-group-item">Rotate</li>-->
+<!--                <li class="list-group-item">Crop</li>-->
+<!--                <li class="list-group-item">Skew X</li>-->
+<!--                <li class="list-group-item">Skew Y</li>-->
+<!--            </ul>-->
             <div style="float: left">
-                <figure class="text-center" style="width: 1406px; height: 322px;">
+                <figure class="text-center" style="width: 1256px; height: 322px;">
                     <div>
                         <div style="margin-right: 10px; height: 302px; width: 302px; display: inline-block; float: left">
                             <div class="linebreak">
@@ -187,14 +241,14 @@
                         </div>
                     </div>
                 </figure>
-                <div style="width: 1206px; height: 200px">
-                    <div style="float:left; width: 300px; height: 200px;">
+                <div style="width: 1206px; height: 150px">
+                    <div style="float:left; width: 300px; height: 150px;">
                         <p>Click and drag on the images above and below to edit the transformation</p>
                     </div>
-                    <div style="float:left; width: 300px; height: 200px;">
+                    <div style="float:left; width: 300px; height: 150px;">
                         <p>(Animate this transformation) First we scale the shape up (to make it scale invariant) and center it...we also handle the rotation seperately (just talk about 360 times)</p>
                     </div>
-                    <div id="draggableImageMatrix" style="float:left; width: 300px; height: 200px;">
+                    <div id="draggableImageMatrix" style="float:left; width: 300px; height: 150px;">
                         <div>
                             <span class="katex">
     <!--                            <span class="katex-mathml">-->
@@ -223,10 +277,12 @@
                                 <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV1" >1</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
                                 <span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV2" >0</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span>
                                 <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV3" >0</span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span>
-                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span></span></span>
+                                <span class="mord"><span class="mord mathnormal" style="margin-right: 0.22222em;" id="bottomMatV4" >1</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size3">]</span></span></span></span>
+                            </span>
+                            </span>
                         </div>
                     </div>
-                    <div style="float:left; width: 300px; height: 200px;">
+                    <div style="float:left; width: 300px; height: 150px;">
                         <p>Perceptual Hash: <span id="topHashOutput">b8c385461bb9f9d733d3af832cf60b27</span></p>
                         <p>Hash Distance: <span id="hashDistOutput">0</span></p>
                         <p>Perceptual Hash: <span id="bottomHashOutput">288496df99b33f8f75a7ce4837d1b480</span></p>
@@ -613,18 +669,25 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                     <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY8" >Y</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span>
                     <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY9" >Y</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 2.04633em; vertical-align: -0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
                     <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY10" >Y</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord">
-                    <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY11" >Y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span>
+                    <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY11" >Y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class= "vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span>
                     <span style="margin-right: 0.22222em;" class="mord mathnormal" id="rainbowGraphY12" >Y</span>
                 </span></span></span>
             </div>
             <div>
-                <button onclick="setGplot(callofdutyexampleWrapper.common)">Call of Duty</button>
-                <button onclick="setGplot(sqaureexampleWrapper.common)">Circle</button>
-                <button onclick="setGplot(square_shape_wrap_inner)">Square</button>
-                //FIXME: image load causes race condition
-                //FIXME: the square one is broken, not the real local minimum
-
-<!--                <button onclick="setGplot(shape1_shape_wrapper)">Rick</button>-->
+                <div class="clearfix img2dVizButtons btn-group-toggle" style="height: 130px;" data-toggle="buttons">
+                    <label class="btn thumbWrap active">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" checked onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="setGplot(callofdutyexampleWrapper.common)" src="images/boo.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="setGplot(sqaureexampleWrapper.common)" src="images/basicshapes.png">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <img class="thumbWrap" onclick="setGplot(square_shape_wrap_inner)" src="images/image.png">
+                    </label>
+                </div>
             </div>
 
             <figure class="text-center">
@@ -1326,8 +1389,8 @@ x_{i}y_{i}
     }
 
     async function initGraph(example) {
-
-        g_transformState = await init_loadTransformStateAndImages(example.common.imgsrc);
+        g_transformState = await init_loadTransformStateAndImages(example.common.imgsrc, example.top.initialTransform,
+                                                                  example.bottom.initialTransform);
         const d3VizId_top = "graph2DDataViz_top", draggableId_top = "draggableButton_top",
             animatedCanvasId_top = "transformedImageAndShape_top", noChangesId_top = "imageNoChanges_top",
             imageScaledId_top = "imageScaled_top", matId_top = "topMatV";
@@ -1428,11 +1491,12 @@ x_{i}y_{i}
 
         drawImageAndShapeWithTransformation(imageScaledId, inimg, shapeContainer.shape, transmat, imgWidth, imgHeight);
 
-        const ret = getDataForShape_flat(shape, width/4, height/4, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxValue);
+        const ret = getDataForShape_flat(shape, width/4, height/4, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxSumVal2d);
 
         const grid = ret.data;
         const max = ret.max;
-        const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (ret.min/2))
+        // const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (ret.min/2))
+        const thresholds = d3.range(1, Math.log(max), Math.log(max)/1.5).map(i => Math.pow(2, i))
 
         const contours = d3.contours()
             .size([width/4, height/4])
@@ -1478,7 +1542,8 @@ x_{i}y_{i}
     const circle_shape_wrap_inner = {
         imgsrc: "images/basicshapes.png",
         shape: [[482, 309],[481, 269],[480, 262],[478, 252],[475, 240],[470, 225],[468, 220],[464, 211],[460, 203],[455, 194],[445, 179],[442, 175],[438, 170],[432, 163],[419, 150],[412, 144],[406, 139],[402, 136],[387, 126],[380, 122],[366, 115],[357, 111],[339, 105],[327, 102],[322, 101],[308, 99],[295, 98],[278, 98],[265, 99],[251, 101],[246, 102],[234, 105],[216, 111],[207, 115],[193, 122],[186, 126],[178, 131],[171, 136],[167, 139],[161, 144],[154, 150],[141, 163],[135, 170],[131, 175],[128, 179],[118, 194],[114, 201],[109, 211],[105, 220],[103, 225],[98, 240],[96, 247],[94, 256],[93, 262],[92, 269],[91, 278],[91, 309],[92, 319],[93, 326],[94, 332],[98, 348],[103, 363],[105, 368],[109, 377],[113, 385],[118, 394],[128, 409],[131, 413],[135, 418],[142, 426],[151, 435],[161, 444],[166, 448],[174, 454],[186, 462],[193, 466],[207, 473],[214, 476],[219, 478],[231, 482],[238, 484],[247, 486],[252, 487],[258, 488],[265, 489],[278, 490],[295, 490],[307, 489],[315, 488],[321, 487],[326, 486],[335, 484],[342, 482],[354, 478],[359, 476],[366, 473],[380, 466],[387, 462],[399, 454],[407, 448],[412, 444],[422, 435],[430, 427],[438, 418],[442, 413],[445, 409],[453, 397],[456, 392],[460, 385],[464, 377],[468, 368],[470, 363],[475, 348],[478, 336],[480, 326],[481, 319],[482, 309]],
-        maxSumVal: 500000000000000000,
+        maxSumVal: 5000000000000,
+        maxSumVal2d: 10000000,
         img: null,
         scale: .5,
         pt1: [ .5, -.5],
@@ -1507,6 +1572,7 @@ x_{i}y_{i}
         imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
         maxSumVal: 400000,
+        maxSumVal2d: 100000000,
         img: null,
         scale: 1,
         pt1: [-0, -3],
