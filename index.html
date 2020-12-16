@@ -1444,6 +1444,15 @@ x_{i}y_{i}
                 g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat, layerImage);
         }
 
+        g_drawWithNewStartAndEnd = function(top, bottom) {
+            example.common.top2dVizBound = top;
+            example.common.bottom2dVizBound = bottom;
+
+            g_transformState.interactiveCanvasState.draw();
+            g_transformState.databaseCanvasState.draw();
+        }
+
+
         g_transformState.interactiveCanvasState.draw();
         g_transformState.databaseCanvasState.draw();
     }
@@ -1456,6 +1465,8 @@ x_{i}y_{i}
 
         return getRotationMatrix(-degrees);
     }
+
+    let g_drawWithNewStartAndEnd;
 
     function drawGraph(d3VizId, draggableId, animatedCanvasId, noChangesId, imageScaledId, shapeContainer, initialTransform, matId, inimg) {
         if (g_transformState.currentExample == undefined || inimg.src == undefined)
@@ -1491,24 +1502,22 @@ x_{i}y_{i}
 
         drawImageAndShapeWithTransformation(imageScaledId, inimg, shapeContainer.shape, transmat, imgWidth, imgHeight);
 
-        const ret = getDataForShape_flat(shape, width/4, height/4, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxSumVal2d);
-
-        const grid = ret.data;
-        const max = ret.max;
-        // const thresholds = d3.range(1, Math.log(max), Math.log(max)/30.0).map(i => Math.pow(2, i) + (ret.min/2))
-        const thresholds = d3.range(1, Math.log(max), Math.log(max)/1.5).map(i => Math.pow(2, i))
-
+        const resolutionX = width/2;
+        const resolutionY = height/2;
+        const ret = getDataForShape_flat(shape, resolutionX, resolutionY, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxSumVal2d);
+        const step = (Math.log2(Math.log2(ret.max))-Math.log2(Math.log2(ret.min)))/20.0;
+        const thresholds = d3.range(Math.log2(Math.log2(ret.min)), Math.log2(Math.log2(ret.max)), step).map(i => Math.pow(2, Math.pow(2, i)))
         const contours = d3.contours()
-            .size([width/4, height/4])
+            .size([resolutionX, resolutionY])
             .thresholds(thresholds)
-            (grid)
+            (ret.data)
 
         const color = d3.scaleSequentialLog(d3.extent(thresholds), d3.interpolateMagma);
 
         //find in document instead
         const svg = d3.select("#" + d3VizId)
             .append("svg")
-            .attr("viewBox", [0, 0, width/4, height/4])
+            .attr("viewBox", [0, 0, resolutionX, resolutionY])
             .style("display", "block")
             .style("width", "100%");
 
@@ -1530,6 +1539,8 @@ x_{i}y_{i}
     }
 
     const square_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
         imgsrc: "images/basicshapes.png",
         shape: [[1042, 853], [1040, 557], [624, 557], [622, 559], [622, 853], [623, 854], [1041, 854], [1042, 853]],
         maxSumVal: 500000000000000000,
@@ -1540,6 +1551,8 @@ x_{i}y_{i}
     }
 
     const circle_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
         imgsrc: "images/basicshapes.png",
         shape: [[482, 309],[481, 269],[480, 262],[478, 252],[475, 240],[470, 225],[468, 220],[464, 211],[460, 203],[455, 194],[445, 179],[442, 175],[438, 170],[432, 163],[419, 150],[412, 144],[406, 139],[402, 136],[387, 126],[380, 122],[366, 115],[357, 111],[339, 105],[327, 102],[322, 101],[308, 99],[295, 98],[278, 98],[265, 99],[251, 101],[246, 102],[234, 105],[216, 111],[207, 115],[193, 122],[186, 126],[178, 131],[171, 136],[167, 139],[161, 144],[154, 150],[141, 163],[135, 170],[131, 175],[128, 179],[118, 194],[114, 201],[109, 211],[105, 220],[103, 225],[98, 240],[96, 247],[94, 256],[93, 262],[92, 269],[91, 278],[91, 309],[92, 319],[93, 326],[94, 332],[98, 348],[103, 363],[105, 368],[109, 377],[113, 385],[118, 394],[128, 409],[131, 413],[135, 418],[142, 426],[151, 435],[161, 444],[166, 448],[174, 454],[186, 462],[193, 466],[207, 473],[214, 476],[219, 478],[231, 482],[238, 484],[247, 486],[252, 487],[258, 488],[265, 489],[278, 490],[295, 490],[307, 489],[315, 488],[321, 487],[326, 486],[335, 484],[342, 482],[354, 478],[359, 476],[366, 473],[380, 466],[387, 462],[399, 454],[407, 448],[412, 444],[422, 435],[430, 427],[438, 418],[442, 413],[445, 409],[453, 397],[456, 392],[460, 385],[464, 377],[468, 368],[470, 363],[475, 348],[478, 336],[480, 326],[481, 319],[482, 309]],
         maxSumVal: 5000000000000,
@@ -1569,10 +1582,12 @@ x_{i}y_{i}
     }
 
     const call_of_duty_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
         imgsrc: "images/IMG_20191024_130833.jpg",
         shape: call_of_duty_shape,
         maxSumVal: 400000,
-        maxSumVal2d: 100000000,
+        maxSumVal2d: 1000000,
         img: null,
         scale: 1,
         pt1: [-0, -3],
