@@ -118,7 +118,6 @@
 
 <style>
 </style>
-//FIXME: maybe remove the edits
 //FIXME: maybe try pixelate
 //FIXME: maybe add green/red borders with box drawing
 <style>
@@ -169,7 +168,7 @@
     <div class="vizDemo2dContainer clearfix" style="width: 1230px; margin: auto">
         <div style="text-align: left">
             <span data-toggle="buttons">
-                <div style="top: 18px;" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <div style="top: 40px;" class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary transformOp active" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
                         <input type="radio" name="options" autocomplete="off" checked >Pan
                     </label>
@@ -182,12 +181,12 @@
                     <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">
                         <input type="radio" name="options" autocomplete="off" >Rotate
                     </label>
-                    <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">
-                        <input type="radio" name="options" autocomplete="off" >Crop
-                    </label>
+<!--                    <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">-->
+<!--                        <input type="radio" name="options" autocomplete="off" >Crop-->
+<!--                    </label>-->
                 </div>
             </span>
-            <span style="position: relative; left: 674px;">
+            <span style="float: right;">
                 <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px; " data-toggle="buttons">
                     <label class="btn thumbWrap active">
                         <input type="radio" name="img2dVizButtons" autocomplete="off" checked onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">

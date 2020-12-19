@@ -380,8 +380,7 @@ function handleMouseUp(globalState) {
         case enum_TransformationOperation.SKEW_Y:
             break;
         case enum_TransformationOperation.CROP:
-            var activeLayer = globalState.activeCanvas.activeLayer;
-            handleMouseUpCrop(activeLayer);
+            handleMouseUpCrop(globalState.activeCanvas.activeLayer);
             break;
         default:
             console.log("ERROR: Invalid state.");
