@@ -273,6 +273,10 @@ function addSquareDemo() {
     g_basicSquareDemo.draw = function() {
         const animationDifference = Date.now() - g_basicSquareDemo.lastTimeStamp;
         g_basicSquareDemo.lastTimeStamp = Date.now();
+        if (g_basicSquareDemo.paused) {
+            setTimeout(g_basicSquareDemo.draw, 0);
+            return;
+        }
         g_basicSquareDemo.keypointTimePassed += animationDifference;
         const canvasObj = getCleanCanvas(g_basicSquareDemo.canvasIdStub);
 
@@ -312,7 +316,7 @@ function addSquareDemo() {
         setTimeout(g_basicSquareDemo.draw, 0);
     };
     g_basicSquareDemo.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
-
+    g_basicSquareDemo.paused = false;
     g_basicSquareDemo.previousTransformationMatrix = getIdentityMatrix();
     $( document ).ready(function() {
         g_basicSquareDemo.draw();
@@ -496,6 +500,10 @@ function addSquareDemoRis() {
     g_basicSquareDemoRis.draw = function () {
         const animationDifference = Date.now() - g_basicSquareDemoRis.lastTimeStamp;
         g_basicSquareDemoRis.lastTimeStamp = Date.now();
+        if (g_basicSquareDemoRis.paused) {
+            setTimeout(g_basicSquareDemoRis.draw, 0);
+            return;
+        }
         g_basicSquareDemoRis.keypointTimePassed += animationDifference;
 
         const canvasObj = getCleanCanvas(g_basicSquareDemoRis.canvasIdStub);
@@ -532,6 +540,7 @@ function addSquareDemoRis() {
     };
     g_basicSquareDemoRis.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
     g_basicSquareDemoRis.previousTransformationMatrix = getIdentityMatrix();
+    g_basicSquareDemoRis.paused = false;
     $(document).ready(function () {
         g_basicSquareDemoRis.draw();
     });

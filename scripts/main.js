@@ -256,21 +256,21 @@ function getLowestInRange(shape) {
     //update the point to 0,0 we can remove this line
     cPoint = findCentroid(shape);
 
-    let solution = nelderMead(getAreaDiff, [30]);
+    const solution = nelderMead(getAreaDiff, [30]);
     shape = applyTransformationMatrixToAllKeypoints(shape, getRotationMatrix(solution.x[0]));
-    var topHalfBottomHalf = splitShapeHorz_m(shape, cPoint);
-    var topHalf = topHalfBottomHalf[0];
-    var bottomHalf = topHalfBottomHalf[1];
-    var rightLeftHalf = splitShapeVert_m(shape, cPoint);
-    var right = rightLeftHalf[0];
-    var left = rightLeftHalf[1];
-    var rightC = findCentroid(right);
-    var leftC = findCentroid(left);
-    var topC = findCentroid(topHalf);
-    var bottomC = findCentroid(bottomHalf);
-    var leftAvg = (Math.abs(topC[1]) + Math.abs(bottomC[1]))
-    var topAvg = (Math.abs(leftC[0]) + Math.abs(rightC[0]))
-    var scaleAvg = (leftAvg/topAvg);
+    const topHalfBottomHalf = splitShapeHorz_m(shape, cPoint);
+    const topHalf = topHalfBottomHalf[0];
+    const bottomHalf = topHalfBottomHalf[1];
+    const rightLeftHalf = splitShapeVert_m(shape, cPoint);
+    const right = rightLeftHalf[0];
+    const left = rightLeftHalf[1];
+    const rightC = findCentroid(right);
+    const leftC = findCentroid(left);
+    const topC = findCentroid(topHalf);
+    const bottomC = findCentroid(bottomHalf);
+    const leftAvg = (Math.abs(topC[1]) + Math.abs(bottomC[1]))
+    const topAvg = (Math.abs(leftC[0]) + Math.abs(rightC[0]))
+    const scaleAvg = (leftAvg/topAvg);
     console.log(scaleAvg);
     return [solution.x[0], scaleAvg, (leftAvg+topAvg)/2];
 }
