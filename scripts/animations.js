@@ -267,6 +267,35 @@ function cutMatrix(matrix, cutWidth, cutHeight) {
     return result;
 }
 
+function drawGrid(w, h, ctx) {
+    ctx.canvas.width  = w;
+    ctx.canvas.height = h;
+
+    const data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
+        <defs> \
+            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse"> \
+                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="0.5" /> \
+            </pattern> \
+            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"> \
+                <rect width="80" height="80" fill="url(#smallGrid)" /> \
+                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="1" /> \
+            </pattern> \
+        </defs> \
+        <rect width="100%" height="100%" fill="url(#grid)" /> \
+    </svg>';
+
+    const DOMURL = window.URL || window.webkitURL || window;
+
+    const img = new Image();
+    const svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    const url = DOMURL.createObjectURL(svg);
+
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+        DOMURL.revokeObjectURL(url);
+    }
+    img.src = url;
+}
 
 function addSquareDemo() {
     g_basicSquareDemo = new AnimatedCanvas("basicSquareDemo");
@@ -278,7 +307,7 @@ function addSquareDemo() {
             return;
         }
         g_basicSquareDemo.keypointTimePassed += animationDifference;
-        const canvasObj = getCleanCanvas(g_basicSquareDemo.canvasIdStub);
+        const canvasObj = getCleanUICanvas(g_basicSquareDemo.canvasIdStub);
 
         if (g_basicSquareDemo.keypointTimePassed > keypoints_demo1[g_basicSquareDemo.keypointIndex].time) {
             //Change keypoint
@@ -307,7 +336,7 @@ function addSquareDemo() {
 
         //center of canvas element
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
-        drawPolyFull(canvasObj.ctx, changedShape);
+        drawPolyFull(canvasObj.ctx_ui, changedShape);
 
         // $("#shapeDemo_transformationMatrix").html(matrixToString(g_basicSquareDemo.transformationMatrix));
         // $("#shapeDemo_outputShape").html(matrixToString(changedShape));
@@ -318,6 +347,9 @@ function addSquareDemo() {
     g_basicSquareDemo.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
     g_basicSquareDemo.paused = false;
     g_basicSquareDemo.previousTransformationMatrix = getIdentityMatrix();
+
+    const basicSquareDemo = getCleanCanvas("basicSquareDemo");
+    drawGrid(401, 401, basicSquareDemo.ctx)
     $( document ).ready(function() {
         g_basicSquareDemo.draw();
     });
@@ -506,7 +538,7 @@ function addSquareDemoRis() {
         }
         g_basicSquareDemoRis.keypointTimePassed += animationDifference;
 
-        const canvasObj = getCleanCanvas(g_basicSquareDemoRis.canvasIdStub);
+        const canvasObj = getCleanUICanvas(g_basicSquareDemoRis.canvasIdStub);
 
         if (g_basicSquareDemoRis.keypointTimePassed > keypoints_demoRis[g_basicSquareDemoRis.keypointIndex].time) {
             //Change keypoint
@@ -533,7 +565,7 @@ function addSquareDemoRis() {
         fillDemoVals("abDemoShapeV", changedShape, (1 / 100) * (1 / .4));
 
         changedShape = applyTransformationMatrixToAllKeypoints(changedShape, getTranslateMatrix(200, 200));
-        drawPolyFull(canvasObj.ctx, changedShape);
+        drawPolyFull(canvasObj.ctx_ui, changedShape);
         g_inRot += 1;
 
         setTimeout(g_basicSquareDemoRis.draw, 0);
@@ -541,6 +573,9 @@ function addSquareDemoRis() {
     g_basicSquareDemoRis.shape = applyTransformationMatrixToAllKeypoints([[100, 100], [-100, 100], [-100, -100], [100, -100]], getScaleMatrix(.4, .4));
     g_basicSquareDemoRis.previousTransformationMatrix = getIdentityMatrix();
     g_basicSquareDemoRis.paused = false;
+
+    const basicSquareDemo = getCleanCanvas("basicSquareDemoRis");
+    drawGrid(401, 401, basicSquareDemo.ctx)
     $(document).ready(function () {
         g_basicSquareDemoRis.draw();
     });
