@@ -118,6 +118,8 @@
 
 <style>
 </style>
+//FIXME: no minimum when minus
+//FIXME: use thumbnails
 //FIXME: maybe try pixelate
 //FIXME: maybe add green/red borders with box drawing
 <style>
@@ -189,21 +191,47 @@
             <span style="float: right;">
                 <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px; " data-toggle="buttons">
                     <label class="btn thumbWrap active">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off" checked onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                        <img onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/boo.jpg">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off" checked>
+                        <img onclick="loadVizDemo(rickexampleWrapper)" src="images/font.jpg">
                     </label>
                     <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
                         <img onclick="loadVizDemo(sqaureexampleWrapper)" src="images/basicshapes.png">
                     </label>
+
                     <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                        <img onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/image.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
                         <img onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/IMG_20191024_130833.jpg">
                     </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited01exampleWrapper)" src="images/spirited01.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited02xampleWrapper)" src="images/spirited04.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited03xampleWrapper)" src="images/spirited07.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited04xampleWrapper)" src="images/spirited07.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/spirited05.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(soupexampleWrapper)" src="images/soup.jpg">
+                    </label>
+                    <label class="btn thumbWrap">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/spirited05.jpg">
+                    </label>
+
                 </span>
             </span>
         </div>
@@ -756,16 +784,44 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 <span class="" style="float: right">
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
-                            <input type="radio" name="img2dVizButtons" autocomplete="off" checked onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                            <img class="" onclick="setGplot(callofdutyexampleWrapper.common)" src="images/boo.jpg">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot.common(rickexampleWrapper.common)" src="images/font.jpg">
                         </label>
                         <label class="btn thumbWrap">
-                            <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                            <img class="" onclick="setGplot(sqaureexampleWrapper.common)" src="images/basicshapes.png">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(sqaureexampleWrapper.common)" src="images/basicshapes.png">
                         </label>
                         <label class="btn thumbWrap">
-                            <input type="radio" name="img2dVizButtons" autocomplete="off" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                            <img class="" onclick="setGplot(square_shape_wrap_inner)" src="images/image.png">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(callofdutyexampleWrapper.common)" src="images/IMG_20191024_130833.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited01exampleWrapper.common)" src="images/spirited01.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited02xampleWrapper.common)" src="images/spirited04.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited03xampleWrapper.common)" src="images/spirited07.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited04xampleWrapper.common)" src="images/spirited07.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited05exampleWrapper.common)" src="images/spirited05.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(soupexampleWrapper.common)" src="images/soup.jpg">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(spirited05exampleWrapper.common)" src="images/spirited05.jpg">
                         </label>
                     </span>
                 </span>
@@ -1651,6 +1707,229 @@ x_{i}y_{i}
             .attr("transform", "translate("+ (aPos-5) +", "+ (bPos-4) +")");
     }
 
+    const spirited05_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/spirited05.jpg",
+        shape:
+            [
+                [397.565, 353.21], [393.345, 334.21999999999997], [389.125, 327.89], [376.46500000000003, 315.22999999999996], [372.245, 313.11999999999995], [365.915, 311.01], [349.035, 311.01], [342.70500000000004, 313.11999999999995], [334.265, 317.34], [327.93500000000006, 321.55999999999995], [323.71500000000003, 325.78], [319.495, 332.10999999999996], [317.385, 338.43999999999994], [317.385, 342.65999999999997], [319.495, 351.09999999999997], [325.82500000000005, 359.53999999999996], [332.15500000000003, 365.86999999999995], [338.485, 370.09], [349.035, 374.30999999999995], [368.025, 374.30999999999995], [380.685, 370.09], [387.015, 365.86999999999995], [393.345, 359.53999999999996], [397.565, 353.21]
+            ],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    };
+
+    const spirited05exampleWrapper = {
+        common: spirited05_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    };
+
+    const spirited01_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/spirited01.jpg",
+        // shape: [[446, 350], [444, 340], [443, 338], [441, 336], [439, 335], [435, 335], [431, 336], [429, 337], [422, 342], [421, 343], [417, 365], [417, 368], [418, 369], [420, 370], [423, 370], [433, 367], [438, 362], [446, 350]],
+        shape:
+        [
+            [487, 446], [485, 430], [482, 427], [479, 428], [475, 430], [473, 432], [467, 442], [466, 444], [466, 448], [467, 450], [469, 453], [471, 455], [473, 456], [480, 456], [483, 454], [485, 452], [486, 450], [487, 446]
+        ],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    };
+
+    const spirited01exampleWrapper = {
+        common: spirited01_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    };
+
+    const spirited02_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/spirited01.jpg",
+        shape: [
+            [268.248302617219, 245.5956987035264], [259.77636797186113, 235.5345693750273], [255.4668791869728, 232.30528053490755], [249.78310460847837, 228.74231736629912], [245.1399414951013, 226.8873143197855], [239.12249258811812, 224.69863694478317], [225.37963465205695, 221.36189365989588], [210.96942805901836, 220.77372196222083], [166.73778529443626, 223.13206425001403], [154.67460999500474, 239.8497136570086], [139.94204006766353, 267.56164941285215], [169.197926529904, 332.8769853402474], [170.23853799502143, 334.58494546234226], [183.68731008224506, 345.1267920437489], [197.95047375086494, 349.31751538968354], [225.43618962298723, 355.9910019594581], [231.78731285845913, 356.8053935408543], [236.7641503003249, 357.28611079376185], [243.96925359684423, 357.5801966425994], [252.02833695441097, 357.35397675887816], [254.25660280906447, 357.1673453548082], [260.42109464046644, 355.7534710815509], [264.3573206172148, 354.52622821236355], [265.2113006782622, 354.0059224798049], [269.2945695794294, 349.17612796235784], [275.37988445152894, 336.1006186832741], [277.04825609397255, 329.22918971524354], [278.89194814630014, 297.660204941954], [280.2549229457202, 271.06805761053033], [268.248302617219, 245.5956987035264]
+        ],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    };
+
+    const spirited02xampleWrapper = {
+        common: spirited02_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    };
+
+    const spirited03_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/spirited07.jpg",
+        shape: [[509, 372], [505, 356], [503, 351], [502, 349], [500, 347], [478, 328], [467, 321], [463, 321], [454, 322], [444, 331], [442, 333], [402, 374], [395, 384], [393, 387], [392, 389], [390, 394], [390, 398], [449, 442], [453, 444], [454, 444], [463, 441], [466, 439], [473, 432], [509, 372]],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    }
+
+    const spirited03xampleWrapper = {
+        common: spirited03_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    }
+
+    const spirited04_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/spirited07.jpg",
+        shape: [[287, 373], [286, 368], [283, 364], [282, 363], [278, 362], [277, 362], [273, 363], [271, 364], [269, 366], [268, 369], [268, 375], [270, 378], [274, 380], [280, 380], [283, 379], [286, 376], [287, 373]],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    }
+
+    const spirited04xampleWrapper = {
+        common: spirited04_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    }
+
+    const soup_e = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/soup.jpg",
+        // shape: [[446, 350], [444, 340], [443, 338], [441, 336], [439, 335], [435, 335], [431, 336], [429, 337], [422, 342], [421, 343], [417, 365], [417, 368], [418, 369], [420, 370], [423, 370], [433, 367], [438, 362], [446, 350]],
+        shape: [[435, 370], [434, 365], [431, 362], [425, 362], [415, 372], [412, 376], [410, 379], [405, 387], [398, 401], [396, 407], [395, 411], [395, 417], [398, 420], [401, 420], [403, 419], [407, 416], [413, 410], [418, 404], [424, 396], [429, 388], [431, 384], [432, 381], [434, 374], [435, 370]],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    }
+
+
+    const soupexampleWrapper = {
+        common: soup_e,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    }
+
+    const rick_shape_wrap_inner = {
+        top2dVizBound    : 10000000,
+        bottom2dVizBound : 0,
+        imgsrc: "images/font.jpg",
+        // shape: [[446, 350], [444, 340], [443, 338], [441, 336], [439, 335], [435, 335], [431, 336], [429, 337], [422, 342], [421, 343], [417, 365], [417, 368], [418, 369], [420, 370], [423, 370], [433, 367], [438, 362], [446, 350]],
+        shape: [[1149, 702], [1148, 681], [1145, 672], [1142, 667], [1139, 663], [1133, 657], [1070, 609], [1010, 609], [1009, 610], [1009, 634], [1028, 736], [1029, 738], [1031, 739], [1104, 739], [1111, 738], [1116, 737], [1123, 735], [1131, 731], [1134, 729], [1141, 722], [1143, 719], [1146, 713], [1148, 707], [1149, 702]],
+        maxSumVal: 500000000000000000,
+        img: null,
+        scale: .5,
+        pt1: [ .5, -2],
+        pt2: [ 1.5,  2]
+    }
+
+    const rickexampleWrapper = {
+        common: rick_shape_wrap_inner,
+        top: {
+            initialTransform: [
+                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
+                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0, 0, 1]
+            ]
+        },
+        bottom: {
+            initialTransform: [
+                [.3, 0, 0],
+                [0, .3, 0],
+                [0, 0, 1]
+            ]
+        }
+    }
+
+
     const square_shape_wrap_inner = {
         top2dVizBound    : 10000000,
         bottom2dVizBound : 0,
@@ -1731,7 +2010,7 @@ x_{i}y_{i}
     }
 
     window.addEventListener("DOMContentLoaded", function(event) {
-        loadVizDemo(callofdutyexampleWrapper);
+        loadVizDemo(rickexampleWrapper);
     });
 
     let updateHashValues = function () {
@@ -1826,7 +2105,7 @@ x_{i}y_{i}
         }
         inimg.src = shapeWrapper.imgsrc;
     }
-    const e = callofdutyexampleWrapper;
+    const e = rickexampleWrapper;
     setGplot(e.common);
     init_loadTransformStateAndImages(e.common.imgsrc, e.top.initialTransform, e.bottom.initialTransform);
 </script>
