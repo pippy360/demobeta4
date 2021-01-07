@@ -1418,9 +1418,6 @@ x_{i}y_{i}
         const fixedShape = applyTransformationMatrixToAllKeypoints(inShape, getTranslateMatrix(-transpt[0], -transpt[1]));
         let dataArr = [];//new Array(axisResY*axisResX);
 
-        let min = undefined;
-        let max = undefined;
-        let globalMin = {}
         for (let i = 0; i < axisResY; i++) {
             for (let j = 0; j < axisResX; j++) {
                 let xlen = pointEnd[0] - pointStart[0];
@@ -1428,32 +1425,21 @@ x_{i}y_{i}
                 let a = (pointStart[0]) + ((xlen/axisResX)*j);
                 let b = (pointStart[1]) + ((ylen/axisResY)*i);
                 let v = getSumVal(fixedShape, a, b, maxSumVal);
+
+                //FIXME: do this with a map!
                 if (v > maxSumVal)
                     v = maxSumVal;
 
-                if (!isFinite(v))
+                if (!isFinite(v)) {
+                    console.log("Not finite for " + a + " : " + b);
                     debugger;
-
-                if (min == undefined || v < min) {
-                    min = v;
-                    globalMin = {
-                        a: a,
-                        b: b,
-                        value: v
-                    }
                 }
-
-                if (max == undefined || v > max)
-                    max = v;
 
                 dataArr.push(v);
             }
         }
         return {
             data: dataArr,
-            min: min,
-            max: max,
-            globalMin: globalMin
         }
     }
 
@@ -1656,8 +1642,12 @@ x_{i}y_{i}
         const resolutionX = width/5;
         const resolutionY = height/5;
         const ret = getDataForShape_flat(shape, resolutionX, resolutionY, shapeContainer.pt1, shapeContainer.pt2, shapeContainer.maxSumVal2d);
-        const step = (Math.log2(Math.log2(ret.max))-Math.log2(Math.log2(ret.min)))/10.0;
-        const thresholds = d3.range(Math.log2(Math.log2(ret.min)), Math.log2(Math.log2(ret.max)), step).map(i => Math.pow(2, Math.pow(2, i)))
+        const min = Math.min(...ret.data);
+        const max = Math.max(...ret.data);
+        ret.data.forEach(x => {return Math.min(shapeContainer.maxSumVal2d, x)});
+
+        const step = (Math.log2(Math.log2(max))-Math.log2(Math.log2(min)))/10.0;
+        const thresholds = d3.range(Math.log2(Math.log2(min)), Math.log2(Math.log2(max)), step).map(i => Math.pow(2, Math.pow(2, i)))
         const contours = d3.contours()
             .size([resolutionX, resolutionY])
             .thresholds(thresholds)
@@ -1692,8 +1682,14 @@ x_{i}y_{i}
             // .attr("stroke-opacity", 0.9);
         }
 
-        const aPerc = (ret.globalMin.a - shapeContainer.pt1[0])/(shapeContainer.pt2[0]-shapeContainer.pt1[0]);
-        const bPerc = (ret.globalMin.b - shapeContainer.pt1[1])/(shapeContainer.pt2[1]-shapeContainer.pt1[1]);
+        //FIXME: are we doing this twice?
+        const transpt2 = findCentroid(shape);
+        shape = applyTransformationMatrixToAllKeypoints(shape, getTranslateMatrix(-transpt2[0], -transpt2[1]));
+        const k2 = get_b(shape);
+        const k1 = get_a(shape);
+        const aPerc = (k1 - shapeContainer.pt1[0])/(shapeContainer.pt2[0]-shapeContainer.pt1[0]);
+        const bPerc = (k2 - shapeContainer.pt1[1])/(shapeContainer.pt2[1]-shapeContainer.pt1[1]);
+
         const aPos = (width*aPerc)/5.0;
         const bPos = (height*bPerc)/5.0;
 

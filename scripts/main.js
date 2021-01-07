@@ -239,17 +239,17 @@ function getAreaDiff(X) {
     //transform the shape, calc the diff
     let shape = applyTransformationMatrixToAllKeypoints(g_shape, getRotationMatrix(angle));
 
-    var cPoint = findCentroid(shape);
-    var topHalfBottomHalf = splitShapeHorz_m(shape, cPoint);
-    var topHalf = topHalfBottomHalf[0];
-    var rightHalfLeftHalf = splitShapeVert_m(topHalf, cPoint);
-    var topRight = rightHalfLeftHalf[0];
-    var topLeft = rightHalfLeftHalf[1];
+    const cPoint = findCentroid(shape);
+    const topHalfBottomHalf = splitShapeHorz_m(shape, cPoint);
+    const topHalf = topHalfBottomHalf[0];
+    const rightHalfLeftHalf = splitShapeVert_m(topHalf, cPoint);
+    const topRight = rightHalfLeftHalf[0];
+    const topLeft = rightHalfLeftHalf[1];
     return Math.abs(calcPolygonArea(topRight) - calcPolygonArea(topLeft));
 }
 
 function getLowestInRange(shape) {
-    var cPoint = findCentroid(shape);
+    let cPoint = findCentroid(shape);
     shape = applyTransformationMatrixToAllKeypoints(shape, getTranslateMatrix(-cPoint[0], -cPoint[1]));
     g_shape = shape;
 
@@ -311,11 +311,6 @@ function __showk1val(inshape) {
     }
 }
 
-
-function getScaleVal() {
-
-}
-
 function getk2val(inshape) {
     return getk2val_shape(inshape);
     // var ys_sum = 0;
@@ -352,6 +347,34 @@ function getShapeFixingTransformationMatrix(shape) {
         nonScaledFixedMat: withoutScaleFixMat,
         globalRadius: globalRadius,
     }
+}
+
+function get_a(inshape) {
+    let xs_sum = 0;
+    let ys_sum = 0;
+    let yss_sum = 0;
+    let xy_mult_sum = 0;
+    for (let i = 0; i < inshape.length; i++) {
+        xs_sum += Math.pow( inshape[i][0], 2 );
+        ys_sum += Math.pow( inshape[i][1], 2 );
+        yss_sum += Math.pow( inshape[i][1], 4 );
+        xy_mult_sum += inshape[i][0] * inshape[i][1];
+    }
+    let val = Math.pow(ys_sum, 2)/( (xs_sum*ys_sum) - Math.pow(xy_mult_sum, 2) );
+    return Math.sqrt( Math.sqrt( val ) );
+}
+
+function get_b(inshape) {
+    let xs_sum = 0;
+    let ys_sum = 0;
+    let yss_sum = 0;
+    let xy_mult_sum = 0;
+    for (let i = 0; i < inshape.length; i++) {
+        xs_sum += Math.pow( inshape[i][0], 2 );
+        ys_sum += Math.pow( inshape[i][1], 2 );
+        xy_mult_sum += inshape[i][0] * inshape[i][1];
+    }
+    return (-1 * get_a(inshape) * xy_mult_sum) / ys_sum
 }
 
 function applyFixToShape(imghitpoints, mat) {
