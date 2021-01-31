@@ -485,40 +485,58 @@ let keypoints_basicFull3 = [
 ];
 
 function add3dGraphDemo(shape, scale) {
-    g_viz3dGraphDemo = new AnimatedCanvas("viz3dGraphDemo");
-    g_viz3dGraphDemo.transformationMatrix = getIdentityMatrix();
+    let transPt = findCentroid(shape);
+
+    g_viz3dGraphDemo = new AnimatedCanvas();
     g_viz3dGraphDemo.draw = function(a, b, img) {
-        const canvasObj = getCleanCanvas(g_viz3dGraphDemo.canvasIdStub);
 
-        const transMat = [
-            [a, b, 0],
-            [0, 1.0 / a, 0],
-            [0, 0, 1],
-        ];
+        const areaScale = Math.sqrt(20000 / calcPolygonArea(shape));
+        {
+            const canvasObj = getCleanCanvas("viz3dGraphDemo");
+            const transMat = [
+                [a, b, 0],
+                [0, 1.0 / a, 0],
+                [0, 0, 1],
+            ];
+            let mat = getIdentityMatrix();
+            mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
+            mat = matrixMultiply(transMat, mat)
+            mat = matrixMultiply(getScaleMatrix(scale, scale), mat);
+            mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
+            mat = matrixMultiply(getTranslateMatrix(canvasObj.c.width / 2, canvasObj.c.height / 2), mat)
 
-        let transPt = findCentroid(g_viz3dGraphDemo.shape);
-        let mat = getIdentityMatrix();
-        mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
-        mat = matrixMultiply(transMat, mat)
-        mat = matrixMultiply(getScaleMatrix(g_viz3dGraphDemo.scale, g_viz3dGraphDemo.scale), mat);
-        mat = matrixMultiply(getTranslateMatrix(canvasObj.c.width/2, canvasObj.c.height/2), mat)
+            let changedShape = applyTransformationMatrixToAllKeypoints(shape, mat);
+            drawPolyFull(canvasObj.ctx_ui, changedShape);
 
-        let changedShape = applyTransformationMatrixToAllKeypoints(g_viz3dGraphDemo.shape, mat);
-        drawPolyFull(canvasObj.ctx_ui, changedShape);
-
-        const valHack = 1;
-        // const v3vals = get3SumOfVals(g_viz3dGraphDemo.shape, valHack);
-        // fillDemoVals("rainbowGraphY", [[a, b, a, a, b, b, a, sumupshape(changedShape, valHack), v3vals[0], v3vals[1], v3vals[2], v3vals[1]]]);
-
-        //FIXME: make the drag image togglable
-        if (img != null) {
-            drawImageWithTransformations(canvasObj.ctx, img, mat, img.width, img.height)
+            if (img != null) {
+                drawImageWithTransformations(canvasObj.ctx, img, mat, img.width, img.height)
+            }
         }
-        // setTimeout(g_viz3dGraphDemo.draw, 0);
-    };
+        {
+            const canvasObjImg2 = getCleanCanvas("viz3dGraphDemoImg2");
+            const c_shape = applyTransformationMatrixToAllKeypoints(shape, getTranslateMatrix(-transPt[0], -transPt[1]));
+            const k1 = get_a(c_shape);
+            const k2 = get_b(c_shape);
+            const transMat = [
+                [k1, k2, 0],
+                [0, 1.0 / k1, 0],
+                [0, 0, 1],
+            ];
+            let mat = getIdentityMatrix();
+            mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
+            mat = matrixMultiply(transMat, mat)
+            mat = matrixMultiply(getScaleMatrix(scale, scale), mat);
+            mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
+            mat = matrixMultiply(getTranslateMatrix(canvasObjImg2.c.width / 2, canvasObjImg2.c.height / 2), mat)
 
-    g_viz3dGraphDemo.shape = shape;
-    g_viz3dGraphDemo.scale = scale;
+            let changedShape = applyTransformationMatrixToAllKeypoints(shape, mat);
+            drawPolyFull(canvasObjImg2.ctx_ui, changedShape);
+
+            if (img != null) {
+                drawImageWithTransformations(canvasObjImg2.ctx, img, mat, img.width, img.height)
+            }
+        }
+    };
     g_viz3dGraphDemo.draw(1, 0);
     return g_viz3dGraphDemo;
 }

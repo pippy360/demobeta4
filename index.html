@@ -79,6 +79,7 @@
         <div class="p-5">
             <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
             <hr>
+            //FIXME: it's not clear how the shapes are found
             <h2>The Problem</h2>
             <p>
                 Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images.
@@ -790,12 +791,13 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
             <p>
                 If we plot this function for our square it looks like this:
             </p>
+            //FIXME: Try to have the second image be the full image and show green box
             <div class="clearfix">
                 <span class="" style="float: right">
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot.common(rickexampleWrapper.common)" src="images/font.jpg">
+                          <img class="" onclick="setGplot(rickexampleWrapper.common)" src="images/font.jpg">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -843,6 +845,14 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                         <div class="canvasWrapper">
                             <canvas class="canvasInline" height="400" id="viz3dGraphDemo" width="400"></canvas>
                             <canvas class="canvasInline" height="400" id="viz3dGraphDemo_ui" width="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 402px; width: 402px; display: inline-block">
+                    <div class="linebreak">
+                        <div class="canvasWrapper">
+                            <canvas class="canvasInline" height="400" id="viz3dGraphDemoImg2" width="400"></canvas>
+                            <canvas class="canvasInline" height="400" id="viz3dGraphDemoImg2_ui" width="400"></canvas>
                         </div>
                     </div>
                 </div>
