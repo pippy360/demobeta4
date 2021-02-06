@@ -792,7 +792,9 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 If we plot this function for our square it looks like this:
             </p>
             //FIXME: Try to have the second image be the full image and show green box
-            <div class="clearfix">
+
+            <figure class="text-center" style="width: 790px; margin: auto; margin-bottom: 10px;">
+                <div class="clearfix">
                 <span class="" style="float: right">
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
@@ -837,22 +839,27 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                         </label>
                     </span>
                 </span>
-            </div>
-            <figure class="text-center">
-                <div id="viz3dplot" style="width: 600px; height: 401px; display: inline-block"></div>
-                <div style="height: 402px; width: 402px; display: inline-block">
-                    <div class="linebreak">
-                        <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="viz3dGraphDemo" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="viz3dGraphDemo_ui" width="400"></canvas>
-                        </div>
-                    </div>
                 </div>
-                <div style="height: 402px; width: 402px; display: inline-block">
-                    <div class="linebreak">
-                        <div class="canvasWrapper">
-                            <canvas class="canvasInline" height="400" id="viz3dGraphDemoImg2" width="400"></canvas>
-                            <canvas class="canvasInline" height="400" id="viz3dGraphDemoImg2_ui" width="400"></canvas>
+                <div class="clearfix">
+                    <div id="viz3dplot" style="float: left; width: 600px; height: 401px; display: inline-block"></div>
+                    <div style="float: left; width: 172px; display: inline-block; margin-top: 2px; margin-left: 15px;">
+                        <b>Query Image:</b>
+                        <div style="height: 172px; width: 172px; display: inline-block">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="170" id="viz3dGraphDemo" width="170"></canvas>
+                                    <canvas class="canvasInline" height="170" id="viz3dGraphDemo_ui" width="170"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <b>Database Image:</b>
+                        <div style="height: 172px; width: 172px; display: inline-block">
+                            <div class="linebreak">
+                                <div class="canvasWrapper">
+                                    <canvas class="canvasInline" height="170" id="viz3dGraphDemoImg2" width="170"></canvas>
+                                    <canvas class="canvasInline" height="170" id="viz3dGraphDemoImg2_ui" width="170"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

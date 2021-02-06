@@ -490,18 +490,19 @@ function add3dGraphDemo(shape, scale) {
     g_viz3dGraphDemo = new AnimatedCanvas();
     g_viz3dGraphDemo.draw = function(a, b, img) {
 
-        const areaScale = Math.sqrt(20000 / calcPolygonArea(shape));
+        const abTransMat = [
+            [a, b, 0],
+            [0, 1.0 / a, 0],
+            [0, 0, 1],
+        ];
+        const areaScale = Math.sqrt( 4000/(calcPolygonArea(shape)) );
+
         {
             const canvasObj = getCleanCanvas("viz3dGraphDemo");
-            const transMat = [
-                [a, b, 0],
-                [0, 1.0 / a, 0],
-                [0, 0, 1],
-            ];
+
             let mat = getIdentityMatrix();
             mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
-            mat = matrixMultiply(transMat, mat)
-            mat = matrixMultiply(getScaleMatrix(scale, scale), mat);
+            mat = matrixMultiply(abTransMat, mat)
             mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
             mat = matrixMultiply(getTranslateMatrix(canvasObj.c.width / 2, canvasObj.c.height / 2), mat)
 
@@ -525,7 +526,6 @@ function add3dGraphDemo(shape, scale) {
             let mat = getIdentityMatrix();
             mat = matrixMultiply(getTranslateMatrix(-transPt[0], -transPt[1]), mat)
             mat = matrixMultiply(transMat, mat)
-            mat = matrixMultiply(getScaleMatrix(scale, scale), mat);
             mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
             mat = matrixMultiply(getTranslateMatrix(canvasObjImg2.c.width / 2, canvasObjImg2.c.height / 2), mat)
 
