@@ -96,6 +96,44 @@
             <p>
                 In order to find commonalities between two images, we need to be able to identify “shapes” within the image. This is achieved in four steps: firstly, we use canny edge detection [link here], which gives us a series of points that show the “edges” of the image (Figure 1a). Next, we have used OpenCV [link?] to find the contours in the image. In simple terms, this turns our points into continuous lines (Figure 1b). Now we need to turn these continuous lines into shapes - some of these lines form clear shapes already; circles, squares, rectangles, etc. However, some of the contours may not form closed loops so we create shapes out of their end points (Figure 1c). Finally, we remove shapes below a certain area threshold because as the number of pixels gets very low, the likelihood that we return a false positive match increases. We refer to the remaining shapes as “valid shapes” (Figure 1d).
             </p>
+            <style>
+                .edgeImages {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    grid-gap: 20px;
+                    justify-items: center;
+                }
+                .edgeImages img {
+                    width: 100%;
+                }
+                .edgeImages p {
+                    color: rgba(0, 0, 0, 0.67);
+                    text-align: center;
+                    margin: 10px;
+                }
+            </style>
+            <div>
+                <div class="edgeImages">
+                    <figure>
+                        <img src="images/justimage.png">
+                        <p>
+                            We want to find shapes within our image
+                        </p>
+                    </figure>
+                    <figure>
+                        <img src="images/contours.png">
+                        <p>
+                            First we take the edge image using canny edge detection and then we find the contours using opencv's findContours()
+                        </p>
+                    </figure>
+                    <figure>
+                        <img src="images/validshapes.png">
+                        <p>
+                            We then take the convex hull of each contour
+                        </p>
+                    </figure>
+                </div>
+            </div>
             <p>
                 Once we have identified all of the shapes within the image, matching an image in our database to the same, unedited input image is simple. The real question is: how do we find matches for images that have been altered? In order to make the problem more manageable, I focused my efforts on matching images that have had 2D affine transformations applied to them. This means images which have been scaled, skewed, rotated, cropped or subjected to any combination of these transformations.
             </p>
