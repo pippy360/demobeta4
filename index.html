@@ -1118,10 +1118,13 @@ y_{i}^2
 
     //FIXME: highlight this code
 
-//Get the 2 parameters of a transformation matrix [[a,b],[0,1/a]] which will spread our input shape out evenly in all directions
-//xs = the sum of the square of all the x values of all our points in our shape
-//xy = the sum of the square of all the y values of all our points in our shape
-//xy = the sum of the product of all the y*x values of all our points in our shape
+/**
+ * Get the 2 parameters of a transformation matrix [[a,b],[0,1/a]] which will spread
+ * our input shape out evenly in all directions
+ * @param xs = the sum of the square of all the x values of all our points in our shape
+ * @param xy = the sum of the square of all the y values of all our points in our shape
+ * @param xy = the sum of the product (y*x) of all the x and y values of all our points in our shape
+ **/
 
 function get_a(xs, ys, xy) {
     return sqrt(sqrt( pow(ys ,2)/(xs*ys - pow(xy, 2)) ))
