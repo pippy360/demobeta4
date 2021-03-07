@@ -271,14 +271,14 @@ function drawGrid(w, h, ctx) {
     ctx.canvas.width  = w;
     ctx.canvas.height = h;
 
-    const data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
+    const data = '<svg width="500px" height="500px" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
-            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse"> \
-                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="0.5" /> \
+            <pattern id="smallGrid" width="4" height="4" patternUnits="userSpaceOnUse"> \
+                <path d="M 4 0 L 0 0 0 4" fill="none" stroke="rgba(0,0,0,.05)" stroke-width="1" /> \
             </pattern> \
-            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"> \
-                <rect width="80" height="80" fill="url(#smallGrid)" /> \
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="1" /> \
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"> \
+                <rect width="40" height="40" fill="url(#smallGrid)" /> \
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1" /> \
             </pattern> \
         </defs> \
         <rect width="100%" height="100%" fill="url(#grid)" /> \
