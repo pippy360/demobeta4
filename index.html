@@ -1116,28 +1116,38 @@ y_{i}^2
                 The cool thing about solving something analytically is that after we do all that maths we're left with a really small simple function.
                 For example our answer in pseudo code is:
             </p>
-            <code>
-<pre>
-
-    //FIXME: highlight this code
-
-/**
- * Get the 2 parameters of a transformation matrix [[a,b],[0,1/a]] which will spread
- * our input shape out evenly in all directions
- * @param xs = the sum of the square of all the x values of all our points in our shape
- * @param xy = the sum of the square of all the y values of all our points in our shape
- * @param xy = the sum of the product (y*x) of all the x and y values of all our points in our shape
- **/
-
-function get_a(xs, ys, xy) {
-    return sqrt(sqrt( pow(ys ,2)/(xs*ys - pow(xy, 2)) ))
-}
-
-function get_b(xs, ys, xy) {
-    return get_a(xs, ys, xy) * (-xy/ys)
-}
-</pre>
-            </code>
+<style>
+   .codewrapper {
+       font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+       font-size: 11px;
+       background-color: rgba(0,0,0,.05);
+       padding: 11px;
+   }
+   .indent {
+       position: relative;
+       left: 30px;
+   }
+   .indentsmall {
+       position: relative;
+       left: 12px;
+   }
+</style>
+<div class="codewrapper">
+<div>/**</div>
+<div class="indentsmall">  * Get the 2 parameters (a, b) of a transformation matrix [[a,b],[0,1/a]] which will spread</div>
+<div class="indentsmall">  * our input shape out evenly in all directions</div>
+<div class="indentsmall">  * @param xs = the sum of the square of all the x values of all our points in our shape</div>
+<div class="indentsmall">  * @param xy = the sum of the square of all the y values of all our points in our shape</div>
+<div class="indentsmall">  * @param xy = the sum of the product (y*x) of all the x and y values of all our points in our shape</div>
+<div class="indentsmall">  **/</div>
+<div><span style="font-weight: 700">function</span> <span style="font-weight: 700; color: #800">get_a</span>(xs, ys, xy) {</div>
+<div class="indent"><span style="font-weight: 700">return</span> sqrt(sqrt( pow(ys ,2)/(xs*ys - pow(xy, 2)) ))</div>
+<div>}</div>
+<br>
+<div><span style="font-weight: 700">function</span> <span style="font-weight: 700; color: #800">get_b</span>(xs, ys, xy) {</div>
+<div class="indent">    <span style="left: 30px; font-weight: 700">return</span> get_a(xs, ys, xy) * (-xy/ys)</div>
+<div>}</div>
+</div>
             <p>
                 We now have an algorithm which works on a set of points. The example above have been using the edge points of the polygons but this doesn't work if the outline/shape changes slightly or if we describe the same shape but with different edges.
             </p>
