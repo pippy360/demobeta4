@@ -285,11 +285,11 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                 <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px;" data-toggle="buttons">
                     <label class="btn thumbWrap active">
                         <input type="radio" name="img2dVizButtons" autocomplete="off" checked>
-                        <img onclick="loadVizDemo(rickexampleWrapper)" src="images/font.jpg">
+                        <img onclick="loadVizDemo(fontImageWrapper)" src="images/font.jpg">
                     </label>
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(sqaureexampleWrapper)" src="images/basicshapes.png">
+                        <img onclick="loadVizDemo(circleExampleWrapper)" src="images/basicshapes.png">
                     </label>
 
                     <label class="btn thumbWrap">
@@ -302,15 +302,15 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                     </label>
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited02xampleWrapper)" src="images/spirited04.jpg">
+                        <img onclick="loadVizDemo(spirited02exampleWrapper)" src="images/spirited01.jpg">
                     </label>
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited03xampleWrapper)" src="images/spirited07.jpg">
+                        <img onclick="loadVizDemo(spirited03exampleWrapper)" src="images/spirited07.jpg">
                     </label>
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited04xampleWrapper)" src="images/spirited07.jpg">
+                        <img onclick="loadVizDemo(spirited04exampleWrapper)" src="images/spirited07.jpg">
                     </label>
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -320,11 +320,6 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
                         <img onclick="loadVizDemo(soupexampleWrapper)" src="images/soup.jpg">
                     </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/spirited05.jpg">
-                    </label>
-
                 </span>
             </span>
         </div>
@@ -783,11 +778,11 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(rickexampleWrapper.common)" src="images/font.jpg">
+                          <img class="" onclick="setGplot(fontImageWrapper.common)" src="images/font.jpg">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(sqaureexampleWrapper.common)" src="images/basicshapes.png">
+                          <img class="" onclick="setGplot(circleExampleWrapper.common)" src="images/basicshapes.png">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -799,15 +794,15 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(spirited02xampleWrapper.common)" src="images/spirited04.jpg">
+                          <img class="" onclick="setGplot(spirited02exampleWrapper.common)" src="images/spirited04.jpg">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(spirited03xampleWrapper.common)" src="images/spirited07.jpg">
+                          <img class="" onclick="setGplot(spirited03exampleWrapper.common)" src="images/spirited07.jpg">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(spirited04xampleWrapper.common)" src="images/spirited07.jpg">
+                          <img class="" onclick="setGplot(spirited04exampleWrapper.common)" src="images/spirited07.jpg">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -1746,15 +1741,15 @@ x_{i}y_{i}
         common: spirited05_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [ 0.8312902887697305, 0.3060914847098115, -306.7234721186111 ],
+                [ -1.1738035208450872, 1.2952668063590556, 141.23853998078266],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [ 0.3, 0, -33 ],
+                [ 0, 0.3, 43 ],
                 [0, 0, 1]
             ]
         }
@@ -1780,15 +1775,15 @@ x_{i}y_{i}
         common: spirited01_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [ 0.8312902887697305, 0.3060914847098115, -306.7234721186111 ],
+                [ -1.1738035208450872, 1.2952668063590556, 141.23853998078266 ],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.40188679245283015, 0, -49.88409481408459],
+                [0, 0.40188679245283015, 47.24327922317218],
                 [0, 0, 1]
             ]
         }
@@ -1808,19 +1803,19 @@ x_{i}y_{i}
         pt2: [ 1.5,  2]
     };
 
-    const spirited02xampleWrapper = {
+    const spirited02exampleWrapper = {
         common: spirited02_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [-0.46921105499074256, -0.5664051792314311, 488.3474366153255],
+                [0.04422850810106058, -0.4914884807142779, 283.99669667301845],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.40188679245283015, 0, -49.88409481408459],
+                [0, 0.40188679245283015, 47.24327922317218],
                 [0, 0, 1]
             ]
         }
@@ -1838,19 +1833,19 @@ x_{i}y_{i}
         pt2: [ 1.5,  2]
     }
 
-    const spirited03xampleWrapper = {
+    const spirited03exampleWrapper = {
         common: spirited03_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [ 0.42734775524029367, -0.36105040311936343, 126.7601063263246 ],
+                [ 0.4936451073612238, 0.2011634530524589, -117.9592775937198 ],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [ 0.36, 0, 34.886669921875004 ],
+                [ 0, 0.36, -0.12000122070311647 ],
                 [0, 0, 1]
             ]
         }
@@ -1868,19 +1863,19 @@ x_{i}y_{i}
         pt2: [ 1.5,  2]
     }
 
-    const spirited04xampleWrapper = {
+    const spirited04exampleWrapper = {
         common: spirited04_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [ 0.8530412611054635, -0.7207031917750389, 173.7116521100151 ],
+                [ 0.985379330435888, 0.40154820886729536, -279.92453488539144 ],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.576, 0, -23.761318359374968 ],
+                [0, 0.576, -84.08799438476561],
                 [0, 0, 1]
             ]
         }
@@ -1904,21 +1899,21 @@ x_{i}y_{i}
         common: soup_e,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0.31650272501326293, -0.0269011996537603, 29.169518983087016 ],
+                [-0.022469631968761103, 0.1990442099967108, 50.2688709982792 ],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.4142014727158753, 0, -20.591978666721896],
+                [0, 0.32873132755228196, -1.631973868323188],
                 [0, 0, 1]
             ]
         }
     }
 
-    const rick_shape_wrap_inner = {
+    const font_wrap_inner = {
         top2dVizBound    : 10000000,
         bottom2dVizBound : 0,
         imgsrc: "images/font.jpg",
@@ -1931,19 +1926,19 @@ x_{i}y_{i}
         pt2: [ 1.5,  2]
     }
 
-    const rickexampleWrapper = {
-        common: rick_shape_wrap_inner,
+    const fontImageWrapper = {
+        common: font_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0.11902841730170197, 0.21010441775692265, -127.84798440924405],
+                [-0.11719579812102442, 0.01954896495813436, 227.61805097971387],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.1535211267605634, 0, 19.97585482888377],
+                [0, 0.1535211267605634, -13.259561601379133],
                 [0, 0, 1]
             ]
         }
@@ -1975,19 +1970,19 @@ x_{i}y_{i}
         pt2: [ 1.5,  .5]
     }
 
-    const sqaureexampleWrapper = {
+    const circleExampleWrapper = {
         common: circle_shape_wrap_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0.08194226790696515, -0.19021100421053733, 195.82989735468934],
+                [0.13572836752161654, 0.1600432025371229, 8.775701960557186],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [-0.01792971240495661, 0.21147532771353125, 5.90739029333916],
+                [-0.21147532771353125, -0.01792971240495661, 285.30631114150816],
                 [0, 0, 1]
             ]
         }
@@ -2010,15 +2005,15 @@ x_{i}y_{i}
         common: call_of_duty_inner,
         top: {
             initialTransform: [
-                [0.1378541145936431, -0.1164678719739882, 159.72582972472165],
-                [0.159240357213298, 0.06489143646853512, 3.9615192222249647],
+                [0.5026551720735997, -0.42467487024743916, 104.88833944275008],
+                [0.5806354738997599, 0.23661256873139938, -97.97404014190421],
                 [0, 0, 1]
             ]
         },
         bottom: {
             initialTransform: [
-                [.3, 0, 0],
-                [0, .3, 0],
+                [0.1948051948051948, 0, 23.58812386648996],
+                [0, 0.1948051948051948, -24.44876296798904],
                 [0, 0, 1]
             ]
         }
@@ -2030,7 +2025,7 @@ x_{i}y_{i}
     }
 
     window.addEventListener("DOMContentLoaded", function(event) {
-        loadVizDemo(rickexampleWrapper);
+        loadVizDemo(fontImageWrapper);
     });
 
     let updateHashValues = function () {
@@ -2125,7 +2120,7 @@ x_{i}y_{i}
         }
         inimg.src = shapeWrapper.imgsrc;
     }
-    const e = rickexampleWrapper;
+    const e = fontImageWrapper;
     setGplot(e.common);
     init_loadTransformStateAndImages(e.common.imgsrc, e.top.initialTransform, e.bottom.initialTransform);
 </script>
