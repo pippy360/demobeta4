@@ -82,7 +82,6 @@
         <div class="p-5">
             <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
             <hr>
-            //FIXME: it's not clear how the shapes are found
             <h2>The Problem</h2>
             <p>
                 Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images.
@@ -272,6 +271,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
     .transformOp {
         font-size: 13px;
         padding-top: 4px;
+        padding-bottom: 4px;
         padding-bottom: 4px;
         background-color: #f9f9f9;
         border: 1px solid #666;
@@ -1528,13 +1528,56 @@ x_{i}y_{i}
 
         const areaScale = Math.sqrt(20000/calcPolygonArea(shape));
         mat = matrixMultiply(getScaleMatrix(areaScale, areaScale), mat);
-        mat = matrixMultiply(getTranslateMatrix(width/2, height/2), mat)
 
-        drawImageAndShapeWithTransformation(animatedCanvasId, img, common.shape, mat, img.width, img.height);
+        const mat_trans = matrixMultiply(getTranslateMatrix(width/2, height/2), mat)
+        drawImageAndShapeWithTransformation(animatedCanvasId, img, common.shape, mat_trans, img.width, img.height);
+
         updateHashValues();
+
+        return mat;
+    }
+
+    function drawVizBoxes(noChangesId_top, noChangesId_bottom, topTransform, bottomTransform,
+                          draggableMat_top, draggableMat_bottom, shape)
+    {
+        let topCanvas    = getCleanUICanvas(noChangesId_top);
+        let bottomCanvas = getCleanUICanvas(noChangesId_bottom);
+
+        let shapeTop = square_shape_small;
+        shapeTop = applyTransformationMatrixToAllKeypoints(shapeTop, getScaleMatrix(150, 150));
+        shapeTop = applyTransformationMatrixToAllKeypoints(shapeTop, math.inv(draggableMat_top));
+        shapeTop = applyTransformationMatrixToAllKeypoints(shapeTop, topTransform);
+
+        let shapeBottom = square_shape_small;
+        shapeBottom = applyTransformationMatrixToAllKeypoints(shapeBottom, getScaleMatrix(150, 150));
+        shapeBottom = applyTransformationMatrixToAllKeypoints(shapeBottom, math.inv(draggableMat_bottom));
+        shapeBottom = applyTransformationMatrixToAllKeypoints(shapeBottom, bottomTransform);
+
+        let shapeBottom_top = square_shape_small;
+        shapeBottom_top = applyTransformationMatrixToAllKeypoints(shapeBottom_top, getScaleMatrix(150, 150));
+        shapeBottom_top = applyTransformationMatrixToAllKeypoints(shapeBottom_top, math.inv(draggableMat_top));
+        shapeBottom_top = applyTransformationMatrixToAllKeypoints(shapeBottom_top, bottomTransform);
+
+        let shapeTop_bottom = square_shape_small;
+        shapeTop_bottom = applyTransformationMatrixToAllKeypoints(shapeTop_bottom, getScaleMatrix(150, 150));
+        shapeTop_bottom = applyTransformationMatrixToAllKeypoints(shapeTop_bottom, math.inv(draggableMat_bottom));
+        shapeTop_bottom = applyTransformationMatrixToAllKeypoints(shapeTop_bottom, topTransform);
+
+        let fragShapeTop = applyTransformationMatrixToAllKeypoints(shape, topTransform);
+        drawPolyFullNoFill(topCanvas.ctx_ui, shapeTop, 'rgb(251, 188, 4)')
+        drawPolyFullNoFill(topCanvas.ctx_ui, shapeTop_bottom, 'rgb(52, 168, 83)')
+        drawPolyFull(topCanvas.ctx_ui, fragShapeTop);
+
+        let fragShapeBottom = applyTransformationMatrixToAllKeypoints(shape, bottomTransform);
+        drawPolyFullNoFill(bottomCanvas.ctx_ui, shapeBottom_top, 'rgb(251, 188, 4)')
+        drawPolyFullNoFill(bottomCanvas.ctx_ui, shapeBottom, 'rgb(52, 168, 83)')
+        drawPolyFull(bottomCanvas.ctx_ui, fragShapeBottom);
     }
 
     async function initGraph(example) {
+        let g_draggableMat_top      = getIdentityMatrix();
+        let g_draggableMat_bottom   = getIdentityMatrix();
+
         g_transformState = await init_loadTransformStateAndImages(example.common.imgsrc, example.top.initialTransform,
                                                                   example.bottom.initialTransform);
         const d3VizId_top = "graph2DDataViz_top", draggableId_top = "draggableButton_top",
@@ -1545,21 +1588,38 @@ x_{i}y_{i}
             animatedCanvasId_bottom = "transformedImageAndShape_bottom", noChangesId_bottom = "imageNoChanges_bottom",
             imageScaledId_bottom = "imageScaled_bottom", matId_bottom = "bottomMatV";
 
-
         $("#" + draggableId_top ).draggable({
             drag: function () {
                 const layerImage = g_transformState.activeCanvas.activeLayer.image;
                 const topTrans = g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat;
-                drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
+                g_draggableMat_top = drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
                     topTrans, layerImage);
+                drawVizBoxes(
+                    noChangesId_top,
+                    noChangesId_bottom,
+                    g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat,
+                    g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat,
+                    g_draggableMat_top,
+                    g_draggableMat_bottom,
+                    example.common.shape
+                );
             }
         });
         $("#" + draggableId_bottom ).draggable({
             drag: function () {
                 const layerImage = g_transformState.activeCanvas.activeLayer.image;
                 const bottomTrans = g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat;
-                drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
+                g_draggableMat_bottom = drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
                     bottomTrans, layerImage);
+                drawVizBoxes(
+                    noChangesId_top,
+                    noChangesId_bottom,
+                    g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat,
+                    g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat,
+                    g_draggableMat_top,
+                    g_draggableMat_bottom,
+                    example.common.shape
+                );
             }
         });
 
@@ -1574,8 +1634,17 @@ x_{i}y_{i}
             const layerImage = g_transformState.activeCanvas.activeLayer.image;
             drawGraph(d3VizId_top, draggableId_top, animatedCanvasId_top, noChangesId_top, imageScaledId_top, example.common,
                 g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat, matId_top, layerImage);
-            drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
+            g_draggableMat_top = drawDraggableOutput(d3VizId_top, draggableId_top, animatedCanvasId_top, matId_top, example,
                 g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat, layerImage);
+            drawVizBoxes(
+                noChangesId_top,
+                noChangesId_bottom,
+                g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat,
+                g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat,
+                g_draggableMat_top,
+                g_draggableMat_bottom,
+                example.common.shape
+            );
         }
 
         g_transformState.databaseCanvasState.draw = function () {
@@ -1586,8 +1655,17 @@ x_{i}y_{i}
             const layerImage = g_transformState.activeCanvas.activeLayer.image;
             drawGraph(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, noChangesId_bottom, imageScaledId_bottom,
                 example.common, g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat, matId_bottom, layerImage);
-            drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
+            g_draggableMat_bottom = drawDraggableOutput(d3VizId_bottom, draggableId_bottom, animatedCanvasId_bottom, matId_bottom, example,
                 g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat, layerImage);
+            drawVizBoxes(
+                noChangesId_top,
+                noChangesId_bottom,
+                g_transformState.interactiveCanvasState.layers[0].appliedTransformationsMat,
+                g_transformState.databaseCanvasState.layers[0].appliedTransformationsMat,
+                g_draggableMat_top,
+                g_draggableMat_bottom,
+                example.common.shape
+            );
         }
 
         g_drawWithNewStartAndEnd = function(top, bottom) {

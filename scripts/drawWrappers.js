@@ -71,14 +71,12 @@ function drawPolygonPath(ctx, inPoints) {
     ctx.stroke();
 }
 
-function drawPolyFullNoFill(ctx, shape) {
+function drawPolyFullNoFill(ctx, shape, stroke) {
     ctx.beginPath();
     drawPolygonPath(ctx, shape);
     //ctx.globalCompositeOperation = 'source-over';
-    ctx.strokeStyle = (stroke)? stroke : 'rgb(45, 0, 255)';
+    ctx.strokeStyle = stroke;
     ctx.strokeWidth = 1;
-    ctx.fillStyle = (fill)? fill: 'green';
-    ctx.fill('evenodd');
     ctx.stroke();
 }
 
