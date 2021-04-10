@@ -17,7 +17,7 @@
 </head>
 
 <style>
-    .infolayer {
+    .colorbar {
         display: none;
     }
     .canvasInline {
@@ -804,7 +804,6 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
             <p>
                 If we plot this function for our square it looks like this:
             </p>
-            //FIXME: Try to have the second image be the full image and show green box
 
             <figure class="text-center" style="width: 790px; margin: auto; margin-bottom: 10px;">
                 <div class="clearfix">
@@ -1484,6 +1483,13 @@ x_{i}y_{i}
                 x_axis.push(a);
             }
 
+            const transpt = findCentroid(shapeWrapper.shape);
+            const cShape = applyTransformationMatrixToAllKeypoints(shapeWrapper.shape, getTranslateMatrix(-transpt[0], -transpt[1]));
+            const k1 = get_a(cShape);
+            const k2 = get_b(cShape);
+            const k3 = getSumVal(cShape, k1, k2, shapeWrapper.maxSumVal);
+
+            console.log("here: k1: " + k1 + " k2: " + k2);
             g_plot = Plotly.newPlot('viz3dplot',
                 [{
                     x: x_axis,
@@ -1493,13 +1499,45 @@ x_{i}y_{i}
                     colorscale: [
                         [0, 'rgb(255,255,255)'],
                         [1, 'rgb(0,0,0)'],
-                    ]
+                    ],
+                    hoverinfo: "none"
+                },
+                {
+                    x: [k1],
+                    y: [k2],
+                    z: [k3],
+                    type: 'scatter3d',
+                    mode: 'markers',
+                    marker: {
+                        size: 6,
+                        line: {
+                            color: 'rgba(217, 217, 217, 0.14)',
+                            width: 0.2},
+                        opacity: 0.8
+                    },
+                    colorscale: [
+                        [0, 'rgb(255,255,255)'],
+                        [1, 'rgb(0,0,0)'],
+                    ],
+                    hoverinfo: "none"
                 }], {
                 scene: {
                     xaxis: {title: 'a'},
                     yaxis: {title: 'b'},
                     zaxis: {title: 'f(a, b)'},
-                }
+                    annotations: [{
+                        showarrow: false,
+                        x: k1,
+                        y: k2,
+                        z: k3,
+                        text: "Optimum",
+                        font: {
+                            color: "black",
+                            size: 12
+                        },
+                        opacity: 0.7
+                    }]
+                },
             });
 
             let demo = add3dGraphDemo(shapeWrapper.shape, shapeWrapper.scale);
