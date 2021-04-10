@@ -556,8 +556,8 @@ const soup_e = {
     maxSumVal: 500000000000000000,
     img: null,
     scale: .5,
-    pt1: [ .5, -2],
-    pt2: [ 1.5,  2]
+    pt1: [ .6, -.1],
+    pt2: [ 3,  3]
 }
 
 
@@ -565,8 +565,8 @@ const soupexampleWrapper = {
     common: soup_e,
     top: {
         initialTransform: [
-            [0.31650272501326293, -0.0269011996537603, 29.169518983087016 ],
-            [-0.022469631968761103, 0.1990442099967108, 50.2688709982792 ],
+            [0.5886950685246691, -0.05003623135599416, -44.644694691458156],
+            [-0.04179351546189566, 0.3702222305938821, 23.0607250567993],
             [0, 0, 1]
         ]
     },
@@ -691,7 +691,7 @@ function loadVizDemo(example) {
 }
 
 window.addEventListener("DOMContentLoaded", function(event) {
-    loadVizDemo(fontImageWrapper);
+    loadVizDemo(soupexampleWrapper);
 });
 
 let updateHashValues = function () {

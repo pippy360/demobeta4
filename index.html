@@ -315,6 +315,10 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             <span style="float: right; margin-right: 15px;">
                 <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px;" data-toggle="buttons">
                     <label class="btn thumbWrap active">
+                        <input type="radio" name="img2dVizButtons" autocomplete="off">
+                        <img onclick="loadVizDemo(soupexampleWrapper)" src="images/tumb7.png">
+                    </label>
+                    <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off" checked>
                         <img onclick="loadVizDemo(fontImageWrapper)" src="images/tumb0.png">
                     </label>
@@ -345,10 +349,6 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                     <label class="btn thumbWrap">
                         <input type="radio" name="img2dVizButtons" autocomplete="off">
                         <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/tumb8.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(soupexampleWrapper)" src="images/tumb7.png">
                     </label>
                 </span>
             </span>
@@ -811,6 +811,10 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
+                          <img class="" onclick="setGplot(soupexampleWrapper.common)" src="images/tumb7.png">
+                        </label>
+                        <label class="btn thumbWrap">
+                          <input type="radio" name="img2dVizButtons" autocomplete="off">
                           <img class="" onclick="setGplot(fontImageWrapper.common)" src="images/tumb0.png">
                         </label>
                         <label class="btn thumbWrap">
@@ -836,14 +840,6 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
                           <img class="" onclick="setGplot(spirited04exampleWrapper.common)" src="images/tumb5.png">
-                        </label>
-                        <label class="btn thumbWrap">
-                          <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(spirited05exampleWrapper.common)" src="images/tumb6.png">
-                        </label>
-                        <label class="btn thumbWrap">
-                          <input type="radio" name="img2dVizButtons" autocomplete="off">
-                          <img class="" onclick="setGplot(soupexampleWrapper.common)" src="images/tumb7.png">
                         </label>
                         <label class="btn thumbWrap">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -1550,7 +1546,7 @@ x_{i}y_{i}
         }
         inimg.src = shapeWrapper.imgsrc;
     }
-    const e = fontImageWrapper;
+    const e = soupexampleWrapper;
     setGplot(e.common);
     init_loadTransformStateAndImages(e.common.imgsrc, e.top.initialTransform, e.bottom.initialTransform);
 </script>
