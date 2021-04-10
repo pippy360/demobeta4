@@ -33,14 +33,9 @@ var g_globalState = {
 
 let imgw = 400;
 let imgh = 400;
-let images = ['images/image.png','images/image8-2.jpg', 'images/boo.jpg', 'images/spirited_away.jpg'];
-let g_src = images[0];
+let g_src = "";
 let g_img = new Image();
 g_img.src = g_src;
-
-
-
-
 
 function rotatePoint_matrix(degrees, point) {
     rads = degrees  * Math.PI / 180.0; //convert to rads
@@ -1331,96 +1326,4 @@ function abtoSelection(a, b, plotlyplot) {
         },
     }
 }
-
-const triangle_shape_wrap = {
-    shape: triangle_shape,
-    inShape: 0,
-    xAxisMult: .1,
-    xAxisAdd: 0,
-    yAxisMult: .1,
-    yAxisAdd: 0,
-    axisRes: 50,
-    maxSumVal: 100000,
-    xAxisAddFinal: -1,
-    yAxisAddFinal: -1,
-    yscale: 1,
-    xscale: 1,
-    img: null,
-}
-
-const square_shape_wrap = {
-    shape: square_shape_small,
-    inShape: 0,
-    xAxisMult: .05,
-    xAxisAdd: 0,
-    yAxisMult: .05,
-    yAxisAdd: 0,
-    axisRes: 50,
-    maxSumVal: 50,
-    xAxisAddFinal: 0,
-    yAxisAddFinal: -1,
-    yscale: 70,
-    xscale: 70,
-    img: null,
-}
-
-const circle_shape_small_wrapper = {
-    shape: circle_shape_small,
-    inShape: 0,
-    xAxisMult: .05,
-    xAxisAdd: 0,
-    yAxisMult: .05,
-    yAxisAdd: 0,
-    axisRes: 50,
-    maxSumVal: 50,
-    xAxisAddFinal: 0,
-    yAxisAddFinal: -1,
-    yscale: 70,
-    xscale: 70,
-    img: null,
-}
-circle_shape_small_wrapper.img = new Image();
-circle_shape_small_wrapper.img.src = "images/boo.jpg";
-
-const shape1_shape_wrapper = {
-    shape: shape1_shape,
-    inShape: 0,
-    xAxisMult: .05,
-    xAxisAdd: 0,
-    yAxisMult: .05,
-    yAxisAdd: 0,
-    axisRes: 50,
-    maxSumVal: 50,
-    xAxisAddFinal: 0,
-    yAxisAddFinal: -1,
-    yscale: 1,
-    xscale: 1,
-    img: null,
-}
-shape1_shape_wrapper.img = new Image();
-shape1_shape_wrapper.img.src = "images/image.png";
-
-const call_of_duty_shape_wrapper = {
-    shape: call_of_duty_shape,
-    inShape: 0,
-    xAxisMult: .05,
-    xAxisAdd: 0,
-    yAxisMult: .05,
-    yAxisAdd: 0,
-    axisRes: 50,
-    maxSumVal: 100000,
-    xAxisAddFinal: 0,
-    yAxisAddFinal: -1,
-    yscale: 1,
-    xscale: 1,
-    img: null,
-}
-call_of_duty_shape_wrapper.img = new Image();
-call_of_duty_shape_wrapper.img.src = "images/IMG_20191024_130833.jpg";
-
-document.addEventListener("DOMContentLoaded", function() {
-    // setGplot(square_shape_wrap);
-    // setGplot(triangle_shape_wrap);
-})
-
 
