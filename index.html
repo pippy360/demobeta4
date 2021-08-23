@@ -110,27 +110,26 @@
 <body>
 <div style="font-size: 1em" class="container clearfix">
     <div class="clearfix linebreak">
-        <div class="p-5">
-            <h1 style="margin: 30px 0">Improved Reverse Image Search</h1>
+        <div class="p-5" style="margin-bottom: 0px; padding-bottom: 0px !important;">
+            <h1 style="font-size: 3.125rem; font-family: Roboto,sans-serif; margin: 0">Improved Reverse Image Search</h1>
         </div>
-            <hr>
+<!--            <hr>-->
         <div class="p-5">
-            <h2>The Problem</h2>
             <p>
                 Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images.
                 It returns images of a similar colour before sections of the same image - which is often what the user is looking for but just as often, it’s not.
                 It’s the sort of tool that shows how far computer science has come and also how far it has to go before it compares to the human eye in terms of image-processing. Seeing a problem that puzzled and intrigued me, I set about trying to fix this little quirk.
             </p>
+
             <p>
                 Now I can’t claim to have solved this issue, nor did I ever really expect to compete with powerhouses like Google or Microsoft or TinEye.
                 However, what I was able to do was to achieve better results when matching certain types of images using math that even a high school student should be able to understand*. I’m going to walk you through, step-by-step, how I found a real-world application for the subject that everyone seemed to hate.
             </p>
+
             <p>
                 The steps below reference the input image but it should be noted that all of these steps have been carried out on all the images in our database already. This pre-processing of images allow the image matching to be completed in sublinear time.
             </p>
-            <p>
-                In order to find commonalities between two images, we need to be able to identify “shapes” within the image. This is achieved in four steps: firstly, we use canny edge detection [link here], which gives us a series of points that show the “edges” of the image (Figure 1a). Next, we have used OpenCV [link?] to find the contours in the image. In simple terms, this turns our points into continuous lines (Figure 1b). Now we need to turn these continuous lines into shapes - some of these lines form clear shapes already; circles, squares, rectangles, etc. However, some of the contours may not form closed loops so we create shapes out of their end points (Figure 1c). Finally, we remove shapes below a certain area threshold because as the number of pixels gets very low, the likelihood that we return a false positive match increases. We refer to the remaining shapes as “valid shapes” (Figure 1d).
-            </p>
+
             <style>
                 .edgeImages {
                     display: grid;
@@ -169,6 +168,10 @@
                     </figure>
                 </div>
             </div>
+            <p>
+                In order to find commonalities between two images, we need to be able to identify “shapes” within the image. This is achieved in four steps: firstly, we use canny edge detection [link here], which gives us a series of points that show the “edges” of the image (Figure 1a). Next, we have used OpenCV [link?] to find the contours in the image. In simple terms, this turns our points into continuous lines (Figure 1b). Now we need to turn these continuous lines into shapes - some of these lines form clear shapes already; circles, squares, rectangles, etc. However, some of the contours may not form closed loops so we create shapes out of their end points (Figure 1c). Finally, we remove shapes below a certain area threshold because as the number of pixels gets very low, the likelihood that we return a false positive match increases. We refer to the remaining shapes as “valid shapes” (Figure 1d).
+            </p>
+
             <p>
                 Once we have identified all of the shapes within the image, matching an image in our database to the same, unedited input image is simple. The real question is: how do we find matches for images that have been altered? In order to make the problem more manageable, I focused my efforts on matching images that have had 2D affine transformations applied to them. This means images which have been scaled, skewed, rotated, cropped or subjected to any combination of these transformations.
             </p>
