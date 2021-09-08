@@ -118,7 +118,7 @@
 <!--            <hr>-->
         <div class="p-5">
             <p>
-                This is a continuation of previous work I did on improving reverse image search for transformed images <a href="https://pippy360.github.io/transformationInvariantImageSearch/">which can be seen here</a>.
+                This is an improvement of a previous algorithm I worked on for improving reverse image search for transformed images <a href="https://pippy360.github.io/transformationInvariantImageSearch/">which can be seen here</a>.
                 The running time of the previous algorithm was
                 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.11411em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>
                 with respect to the size/complexity of the image. Hence it runs extremely slow on large complex images.
@@ -132,8 +132,17 @@
             <p style="padding-right: 30px; padding-left: 30px; color: rgba(0, 0, 0, 0.67); text-align: center">
             </p>
 
+            <!--
+                Intro
+                    -what the problem is
+                    -A quick overview of how we're going to solve this
+                        -extract shapes
+                        -fix the rotation, scale and any remaining transformations
+            -->
             <p>
-                Reverse image search is a brilliantly useful tool. It is also a frustrating tool. It frequently fails to recognize lightly edited, cropped, skewed or rotated images. This algorithm solves this problem by finding shapes in an image and splitting the image into fragments around those shapes.
+                Reverse image search is a brilliantly useful tool. It is also a frustrating tool.
+                It frequently fails to recognize lightly edited, cropped, skewed or rotated images.
+                This algorithm solves this problem by finding shapes in an image and splitting the image into fragments around those shapes.
                 We can then use the property of those shapes to find a common transformation between two transformed images.
             </p>
             <style>
@@ -186,12 +195,22 @@
                         <p>(F)</p>
                     </figure>
                 </div>
+                <div><span>Figure 1.</span></div>
             </div>
 
+            <!--
+                --explain using an example
+                    -cover how we do rotation
+                    -cover how we do scale
+                    -talk about how we'll need some way to undo the rest of the transformations
+            -->
             <p>
-                For example in Figure 1 we match images A and B by extracting the area around our chosen shape (in blue).
-                We split our image into shapes by performing edge detection, finding connected edges and taking the convex hull of those connected edges (Figure 2).
-                C and D show the extracted image fragments after we have found a common rotation and scale. E and F show the fragments after we have found and applied a common transformation. Notice how the fragments are now nearly visually identical and matching will be easy. We find a common rotation scale by simply scaling to some constant.
+                For example in Figure 1 we match images A and B by splitting our image into shapes by finding connected edges (Figure 2) and then extracting the area around each shape.
+                In this case we have chosen one of the shapes extracted from the image, the polygon drawn in blue.
+                C and D show the extracted image fragments after we have found a common rotation and scale.
+                E and F show the fragments after we have found and applied a common transformation.
+                Notice how the fragments are now nearly visually identical and matching will be easy.
+                We find a common scale by simply scaling to some constant.
                 We find a common rotation by hashing the fragment 360 times with a 1 degree change in rotation each time.
                 Finding a common transformation is more complicated and requires a more in depth explanation and some maths.
             </p>
@@ -236,10 +255,26 @@
             </div>
             <p>
             </p>
+            <!--
+                --explain that we're about to derive a function to calculate the common transformation
+                    -explain that example
+                    -explain what we're looking for
+                    -explain that the rest is just talking about how this is done
+            -->
             <h3>Finding a common transformation</h3>
 
             <p>
-                What exactly is a common transformation and talk about this example
+                To go from images (C) to (E) and (D) to (F) in figure 1 we need to agree on some common transformation
+                to transform these image fragments to so we can easily match them.
+
+                To keep our search time sublinear we need to avoid comparing images directly so we need to be able to find
+                a common transformation between two visually similar images without directly comparing them.
+                To do this we will use the properties of the shapes we extract from image in a way where visually similar
+                which have been transformed in different ways will be transformed to the same transformation.
+                You can see this in the demo below. We have extracted the same shape from the two visually similar image
+                on the left. The shapes only differ by a transformation but are otherwise identical. We have derived a function
+                for the transformations we can apply to this shape. The local minimum for this function will always give us the same
+                shape. You can see this by moving the orange circle to the local minimum and the two images fragments will then be indentical.
             </p>
             <style>
                 .thumbWrap {
@@ -524,7 +559,7 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
 
 
             <p>
-                Firstly we’re ONLY going to handle images that have had 2d affine transformations applied to them. So we can say for sure that each image will be a 2d affine transformed version of a matching image. Most importantly working with only 2d affine transformations makes the maths doable. So what are 2d affine transformations? they are any transformation which can be expressed with a 2x2 matrix.
+                I will now describe how we derive the funtion plotted in Firgure 3. Firstly we’re ONLY going to handle images that have had 2d affine transformations applied to them. So we can say for sure that each image will be a 2d affine transformed version of a matching image. Most importantly working with only 2d affine transformations makes the maths doable. So what are 2d affine transformations? they are any transformation which can be expressed with a 2x2 matrix.
                 Here's an example:
             </p>
 
