@@ -208,10 +208,12 @@
                     -talk about how we'll need some way to undo the rest of the transformations
             -->
             <p>
-                For example in Figure 1 we match images A and B by splitting our image into shapes by finding connected edges (Figure 2) and then extracting the area around each shape.
+                For example in Figure 1 images (A) and (B) are the images we hope to match using or algorithm.
+                Traditional reserve image search will fail to match these images because they are transformed.
+                We match them by first splitting the images into shapes by finding connected edges (Figure 2) and then extracting the area around these shapes.
                 In this case we have chosen one of the shapes extracted from the image, the polygon drawn in blue.
-                C and D show the extracted image fragments after we have found a common rotation and scale.
-                E and F show the fragments after we have found and applied a common transformation.
+                Images (C) and (D) show the extracted image fragments after we have found a common rotation and scale.
+                (E) and (F) show the fragments after we have found and applied a common transformation.
                 Notice how the fragments are now nearly visually identical and matching will be easy.
                 We find a common scale by simply scaling to some constant.
                 We find a common rotation by hashing the fragment 360 times with a 1 degree change in rotation each time.
@@ -235,7 +237,7 @@
                 }
             </style>
             <div>
-                <div class="edgeImages">
+                <div class="edgeImages" style="font-size: 15px">
                     <figure>
                         <img src="images/justimage05.jpg">
                         <p>
@@ -251,7 +253,7 @@
                     <figure>
                         <img src="images/validshapes05.png">
                         <p>
-                            Then we take the convex hull of each contour, transfrom to a common transformation and hash the area around it.
+                            Then for each contour take the convex hull, transform to a common transformation and hash the area around it.
                         </p>
                     </figure>
                 </div>
@@ -328,40 +330,40 @@
                 }
             </style>
             <div class="demoWrapper" style="text-align: center">
-                <div class="vizDemo2dContainer clearfix" style="width: 1020px; margin: auto">
-                    <div style="text-align: left">
-            <span style="float: right; margin-right: 15px;">
-                <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px;" data-toggle="buttons">
-                    <label class="btn thumbWrap active">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(soupexampleWrapper)" src="images/tumb7.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off" checked>
-                        <img onclick="loadVizDemo(fontImageWrapper)" src="images/tumb0.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(circleExampleWrapper)" src="images/tumb1.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/tumb2.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited02exampleWrapper)" src="images/tumb3.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited04exampleWrapper)" src="images/tumb5.png">
-                    </label>
-                    <label class="btn thumbWrap">
-                        <input type="radio" name="img2dVizButtons" autocomplete="off">
-                        <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/tumb8.png">
-                    </label>
-                </span>
-            </span>
+                <div class="vizDemo2dContainer clearfix" style="">
+                    <div style="text-align: left; height: 80px;">
+                        <span style="margin-right: 15px;">
+                            <span class="clearfix img2dVizButtons btn-group-toggle" style="margin-bottom: 10px;" data-toggle="buttons">
+                                <label class="btn thumbWrap active">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(soupexampleWrapper)" src="images/tumb7.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off" checked>
+                                    <img onclick="loadVizDemo(fontImageWrapper)" src="images/tumb0.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(circleExampleWrapper)" src="images/tumb1.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(callofdutyexampleWrapper)" src="images/tumb2.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(spirited02exampleWrapper)" src="images/tumb3.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(spirited04exampleWrapper)" src="images/tumb5.png">
+                                </label>
+                                <label class="btn thumbWrap">
+                                    <input type="radio" name="img2dVizButtons" autocomplete="off">
+                                    <img onclick="loadVizDemo(spirited05exampleWrapper)" src="images/tumb8.png">
+                                </label>
+                            </span>
+                        </span>
                     </div>
                     <div>
                         <!--            <ul class="list-group" style="width: 100px; float: left; display: inline-block">-->
@@ -376,30 +378,12 @@
                         <style>
                             .viz2dContainer {
                                 display: grid;
-                                grid-template-columns: 340px 340px 340px;
+                                grid-template-columns: 1fr 1fr 1fr;
+                                grid-gap: 20px;
                             }
                         </style>
-                        <div class="viz2dContainer" style="float: left; width: 1100px;">
-                            <div style="margin: 20px; height: 302px; width: 302px; display: inline-block">
-                                <div data-toggle="buttons" style="position: relative;">
-                                    <div style="position: absolute; left: 0; top: -35px;" class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-secondary transformOp active" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
-                                            <input type="radio" name="options" autocomplete="off" checked >Pan
-                                        </label>
-                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">
-                                            <input type="radio" name="options" autocomplete="off" >Zoom
-                                        </label>
-                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">
-                                            <input type="radio" name="options" autocomplete="off" >Stretch
-                                        </label>
-                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">
-                                            <input type="radio" name="options" autocomplete="off" >Rotate
-                                        </label>
-                                        <!--                    <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">-->
-                                        <!--                        <input type="radio" name="options" autocomplete="off" >Crop-->
-                                        <!--                    </label>-->
-                                    </div>
-                                </div>
+                        <div class="viz2dContainer" style="">
+                            <div style="height: 302px; width: 302px;">
                                 <div class="linebreak">
                                     <div class="canvasWrapper">
                                         <canvas class="canvasInline" height="300" id="imageNoChanges_top" width="300"></canvas>
@@ -407,7 +391,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="graph2DDataViz_top" style="margin: 20px; width: 302px; height: 302px; position: relative; border: 1px solid #cccccc">
+                            <div id="graph2DDataViz_top" style="width: 302px; height: 302px; border: 1px solid #cccccc">
                                 <div style="margin-right: 10px; width: 0px; height: 0px; position: relative; top: 60px; left: 60px">
                                     <div id="draggableButton_top" style="width: 30px; height: 30px; border-radius: 0px; cursor: pointer">
                                         <svg transform="translate(0, 0)" width="30" height="30">
@@ -461,7 +445,7 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin: 20px; height: 302px; width: 302px; display: inline-block">
+                            <div style="height: 302px; width: 302px;">
                                 <div class="linebreak">
                                     <div class="canvasWrapper">
                                         <canvas class="canvasInline" height="300" id="transformedImageAndShape_top" width="300"></canvas>
@@ -469,16 +453,35 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                                     </div>
                                 </div>
                             </div>
-                            <div style="color: rgba(0, 0, 0, 0.67); margin: 10px 20px; width: 302px;">
+                            <div style="color: rgba(0, 0, 0, 0.67);">
+                                <div data-toggle="buttons" style="position: relative;">
+                                    <div style="" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary transformOp active" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.TRANSLATE)">
+                                            <input type="radio" name="options" autocomplete="off" checked >Pan
+                                        </label>
+                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.UNIFORM_SCALE)">
+                                            <input type="radio" name="options" autocomplete="off" >Zoom
+                                        </label>
+                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.NON_UNIFORM_SCALE)">
+                                            <input type="radio" name="options" autocomplete="off" >Stretch
+                                        </label>
+                                        <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.ROTATE)">
+                                            <input type="radio" name="options" autocomplete="off" >Rotate
+                                        </label>
+                                        <!--                    <label class="btn btn-secondary transformOp" onclick="setCurrnetOperation(g_transformState, enum_TransformationOperation.CROP)">-->
+                                        <!--                        <input type="radio" name="options" autocomplete="off" >Crop-->
+                                        <!--                    </label>-->
+                                    </div>
+                                </div>
                                 <p>Click and drag on the images above and below to transform.</p>
                             </div>
-                            <div style="width: 302px; margin: 10px 20px;"></div>
-                            <div style="color: rgba(0, 0, 0, 0.67); float:left; margin: 10px 20px; width: 300px;">
+                            <div style=""></div>
+                            <div style="color: rgba(0, 0, 0, 0.67); float:left;">
                                 <div>PHash: <span id="topHashOutput" style="color: rgba(0, 0, 0, 1)">FDEA9660CD986640</span></div>
                                 <div>Hamming Distance: <span id="hashDistOutput" style="color: rgba(0, 0, 0, 1)">0</span></div>
                                 <div>PHash: <span id="bottomHashOutput" style="color: rgba(0, 0, 0, 1)">FDEA9660CD986640</span></div>
                             </div>
-                            <div style="margin: 20px; height: 302px; width: 302px; display: inline-block;">
+                            <div style="height: 302px; width: 302px; display: inline-block;">
                                 <div class="linebreak">
                                     <div class="canvasWrapper">
                                         <canvas class="canvasInline" height="300" id="imageNoChanges_bottom" width="300"></canvas>
@@ -486,7 +489,7 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                                     </div>
                                 </div>
                             </div>
-                            <div id="graph2DDataViz_bottom" style="border: 1px solid #cccccc; margin: 20px; width: 302px; height: 302px; position: relative">
+                            <div id="graph2DDataViz_bottom" style="border: 1px solid #cccccc; width: 302px; height: 302px; position: relative">
                                 <div style="width: 0px; height: 0px; position: relative; top: 60px; left: 60px">
                                     <div id="draggableButton_bottom" style="width: 30px; height: 30px; border-radius: 0px; cursor: pointer">
                                         <svg transform="translate(0, 0)" width="30" height="30">
@@ -541,7 +544,7 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin: 20px; border: 1px solid #cccccc; height: 302px; width: 302px; display: inline-block">
+                            <div style="border: 1px solid #cccccc; height: 302px; width: 302px; display: inline-block">
                                 <div class="linebreak">
                                     <div class="canvasWrapper">
                                         <canvas class="canvasInline" height="300" id="transformedImageAndShape_bottom" width="300"></canvas>
@@ -555,12 +558,13 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                 </div>
             </div>
             <div>
-                <div style="text-align: center; padding-bottom: 30px;"><b>Figure 3.</b></div>
+                <div style="text-align: center; padding-bottom: 20px; margin: 10px;"><b>Figure 3.</b></div>
             </div>
-
-
             <p>
-                I will now describe how we derive the function plotted in Figure 3. Firstly we’re ONLY going to handle images that have had 2d affine transformations applied to them. So we can say for sure that each image will be a 2d affine transformed version of a matching image. Most importantly working with only 2d affine transformations makes the maths doable. So what are 2d affine transformations? they are any transformation which can be expressed with a 2x2 matrix.
+                I will now describe how we derive the function plotted in Figure 3. Firstly we’re ONLY going to handle images that have had 2d affine transformations applied to them.
+                So we can say for sure that each image will be a 2d affine transformed version of a matching image.
+                Most importantly working with only 2d affine transformations makes the maths doable.
+                So what are 2d affine transformations? they are any transformation which can be expressed with a 2x2 matrix.
                 Here's an example:
             </p>
 
@@ -637,13 +641,8 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
                 </div>
             </div>
 
-            <p style="padding-top: 20px">
-                Now let's normalise the shape. By normalise the shape what we really mean is to distribute the area of the shape evenly in every direction.
-                By breaking the process into steps and normalising the shape first and then handling scaling and
-                rotation in later steps
-            </p>
             <p>
-                We can reduce the number of parameters in our transformation matrix from 4 parameters:
+                Because we deal with difference in rotation and scale separately this allows us to reduce the number of parameters in our transformation matrix from 4 parameters:
             </p>
             <div class="equationDiv">
                 <div>
@@ -781,9 +780,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             </div>
             
             <p>
-                //FIXME: repeated
-                Now to normalise our shape:
-                By normalise the shape what we really mean is we want to reduce the distance from the center of the
+                Now to normalise our shape. By normalise the shape what we really mean is we want to reduce the distance from the center of the
                 shape to every point in the shape.
                 First we'll start by minimising a function which gives us the sum of the squared distance* to each edge in our polygon.
             </p>
@@ -879,9 +876,9 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                 If we plot this function for our square it looks like this:
             </p>
 
-            <figure class="text-center" style="width: 790px; margin: auto; margin-bottom: 10px;">
+            <figure class="text-center" style="width: 790px; margin: auto;">
                 <div class="clearfix">
-                <span class="" style="float: right">
+                <span class="" style="">
                     <span class="clearfix img2dVizButtons btn-group-toggle" style="" data-toggle="buttons">
                         <label class="btn thumbWrap active">
                           <input type="radio" name="img2dVizButtons" autocomplete="off">
@@ -937,7 +934,7 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                         </div>
                     </div>
                 </div>
-                <figcaption style="color: rgba(0, 0, 0, 0.67)">
+                <figcaption style="color: rgba(0, 0, 0, 0.67); margin: 10px;">
                     The bottom axises are a and b in our transformation matrix and the vertical axis is the output of our function
                 </figcaption>
             </figure>
