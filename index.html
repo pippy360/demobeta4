@@ -275,8 +275,12 @@
                 To go from images (C) to (E) and (D) to (F) in figure 1 we need to agree on some common transformation
                 to transform these image fragments to so we can easily match them.
 
-                To keep our search time sublinear we need to avoid comparing images directly so we need to be able to find
-                a common transformation between two visually similar images without directly comparing them.
+                If we want to avoid making the running time of the algorithm scale linearly with the number of images in
+                our database we need to avoid comparing images directly when computing a common transformation.
+
+                Otherwise we will need to find visually similar images in our database before finding a common transformation.
+
+                So we need to be able to find a common transformation between two visually similar images without directly comparing them.
                 To do this we will use the properties of the shapes we extract from image in a way where visually similar
                 which have been transformed in different ways will be transformed to the same transformation.
                 You can see this in the demo below. We have extracted the same shape from the two visually similar image
@@ -561,11 +565,13 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                 <div style="text-align: center; padding-bottom: 20px; margin: 10px;"><b>Figure 3.</b></div>
             </div>
             <p>
-                I will now describe how we derive the function plotted in Figure 3. Firstly we’re ONLY going to handle images that have had 2d affine transformations applied to them.
-                So we can say for sure that each image will be a 2d affine transformed version of a matching image.
-                Most importantly working with only 2d affine transformations makes the maths doable.
-                So what are 2d affine transformations? they are any transformation which can be expressed with a 2x2 matrix.
-                Here's an example:
+                I will now describe how we derive the function plotted in Figure 3.
+                It's not feasible to handle all possible transformations that can be applied to an image,
+                some transformations are too destructive.
+                For this algorithm we will only focus on 2d affine transformations because they are easy to work with mathematically
+                and because these transformations preserve lines and parallelism we can gaurentee the transformation aren't so destructive that we can't find a common transformation.
+                2D affine transformations include everything from rotation, translation, scaling, skewing and any combination of these.
+                We can see an example of 2d affine transformations below:
             </p>
 
 
@@ -642,7 +648,8 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             </div>
 
             <p>
-                Because we deal with difference in rotation and scale separately this allows us to reduce the number of parameters in our transformation matrix from 4 parameters:
+                To reduce the number of transformations we will deal with rotation and scale separately.
+                This allows us to reduce the number of parameters in our 2d affine transformation matrix from 4 parameters:
             </p>
             <div class="equationDiv">
                 <div>
@@ -780,15 +787,12 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             </div>
             
             <p>
-                Now to normalise our shape. By normalise the shape what we really mean is we want to reduce the distance from the center of the
-                shape to every point in the shape.
+                Now that we have reduced the number of parameters we can derive a function to give us a common transformation.
+                We will derive a function which computes the transformation which minimises the squared distance from the center of our shape to every single point in our shape.
                 First we'll start by minimising a function which gives us the sum of the squared distance* to each edge in our polygon.
             </p>
             <p>
-                *we should really take the distance rather than the squared distance but taking the squared distance still gives us a good result and is much easier to differentiate later.
-            </p>
-            <p>
-                Our function is:
+                We will start with the function to sum the squared distance to each edge:
             </p>
             <div class="equationDiv">
                 <div>
