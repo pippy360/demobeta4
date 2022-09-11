@@ -117,45 +117,45 @@
         </div>
 <!--            <hr>-->
         <div class="p-5">
+            <h3>Introduction//TODO: update github link//TODO: change the title</h3>
             <p>
                 This is an improvement of a previous algorithm I worked on for improving reverse image search for transformed images
                 <a href="https://pippy360.github.io/transformationInvariantImageSearch/">which can be seen here</a>.
-                The methodology is based on finding and extracting image fragments and then applying a transformation to the fragments to enable comparison across images.
-                Like the previous algorithm, the new algorithm is a novel and more effective means of carrying out a reverse image search for transformed images, out-performing several existing methodologies in testing.
-                However the new algorithm also offers a significant efficiency gain over the previous algorithm.
+                The methodology is based on finding and extracting image fragments and then applying a transformation to the fragments
+                to enable constant time image matching of these transformed images.
+            </p>
+            <p>
+                I am publishing this work because it is an interesting and novel alternative approach to carrying out this type of search.
+                The algorithm would require significant additional work before being production-ready but in limited testing it was able
+                 to correctly match some transformed images which existing methods could not.
+                Overall I think the algorithm has the potential, in future more developed iterations, to enhance reverse image search.
+                Even if this does not prove the case, the solution will hopefully be of interest for its originality and analytical character.
+            </p>
+            <p>
+                Compared to the previous algorithm, the main improvement I made with the new algorithm is an efficiency gain.
                 The running time of the previous algorithm was
-                <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.11411em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>
-                with respect to the size/complexity of the image. Hence it runs extremely slow on large complex images.
-
+                 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.11411em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>
+                 with respect to the size/complexity of the image. Hence it runs extremely slow on large complex images.
                 This new algorithm scales linearly
-                <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>
-                with respect to the size/complexity of the image.
+                 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>
+                 with respect to the size/complexity of the image.
             </p>
             <p>
                 Below I firstly give an overview of how the entire algorithm works.
-                I then focus on a core element of the algorithm: how transformations are applied to image fragments to enable image matching.
+                I then focus on a core element of the algorithm: how it applies transformations to image fragments to
+                enable image matching.
                 In this regard I give a summary of the transformation process and then outline the mathematics involved.
             </p>
-
-
-            <p style="padding-right: 30px; padding-left: 30px; color: rgba(0, 0, 0, 0.67); text-align: center">
-            </p>
-
-            <!--
-                Intro
-                    -what the problem is
-                    -A quick overview of how we're going to solve this
-                        -extract shapes
-                        -fix the rotation, scale and any remaining transformations
-            -->
-            <h3>Overview</h3>
             <p>
-                Reverse image search is a brilliantly useful tool.
-                It is also a frustrating tool.
+                Reverse image search is a brilliantly useful tool. It is also a frustrating tool.
                 It frequently fails to recognize slightly edited, cropped, skewed or rotated images.
-                This algorithm solves this problem by defining shapes in an image based on connected edges and then splitting the image into the image fragments bounded by those shapes.
-                We then focus on hashing these image fragments which allows us to carry out partial image matching.
-                Using some maths, we can also find a common transformation for similar shapes which will allow us to perform reverse image search on images which have been transformed.
+            </p>
+            <p>
+                This algorithm solves this problem by defining shapes in an image based on connected edges
+                and then splitting the image into the image fragments bounded by those shapes.
+                Using some maths, we find a common transformation for similar shapes across all images.
+                The transformation of a shape of course reconfigures the image fragments enclosed by the shapes.
+                Our algorithm then hashes these fragments, allowing us to perform partial image matching in constant time.
             </p>
             <style>
                 .introImages {
@@ -211,25 +211,27 @@
                     <div style="text-align: center; padding-bottom: 30px;"><b>Figure 1.</b></div>
                 </div>
             </div>
-
-            <!--
-                --explain using an example
-                    -cover how we do rotation
-                    -cover how we do scale
-                    -talk about how we'll need some way to undo the rest of the transformations
-            -->
             <p>
                 For example, in Figure 1 images (A) and (B) are the images we hope to match using our algorithm.
-                Traditional reserve image search will fail to match these images because they have been transformed.
-                We match them by first dividing up the images into shapes by finding connected edges (Figure 2 below visually represents an algorithmic search for connected edges in an image).
-                The connected edges form shapes enclosing image fragments which we then extract.
+                Traditional reverse image search will fail to match these images because they have been transformed.
+                We match them by first dividing up the images into shapes by finding connected edges.
+                (Figure 2 below visually represents an algorithmic search for connected edges in an image).
+                The shapes enclose image fragments, which we then extract. 
+            </p>
+            <p>
                 In this example, images (C) and (D) show one of the fragments extracted from the image.
                 The fragment in this case is the polygon drawn in blue and is shown after we have found a common rotation and scale.
-                We find a common rotation by hashing the fragment 360 times with a 1 degree change in rotation each time.
+            </p>
+            <p>
                 To find a common scale, we simply scale to some constant.
-                Images (E) and (F) show the fragments after we have found and applied a common transformation.
-                Notice how the fragments are now nearly visually identical, making  matching easy.
-                Finding a common transformation is more complicated than finding a common rotation and scale so I give a more in-depth explanation, including the maths, below.
+                We find a common rotation by hashing the fragment 360 times with a 1 degree change in rotation each time.
+                I recognise this way of finding a rotation  is somewhat crude:
+                ideally the algorithm would be able to select an appropriate rotation without cycling through so many options.
+                This is clearly an area for possible improvement but the current solution, while inelegant, still works quite well.
+            </p>
+            <p>
+                Finding a common transformation is more complicated than finding a common rotation and scale,
+                so I give a more in-depth explanation, including the maths, below. 
             </p>
             <style>
                 .edgeImages {
@@ -275,28 +277,34 @@
             </div>
             <p>
             </p>
-            <!--
-                --explain that we're about to derive a function to calculate the common transformation
-                    -explain that example
-                    -explain what we're looking for
-                    -explain that the rest is just talking about how this is done
-            -->
             <h3>Finding a common transformation</h3>
 
             <p>
-                To go from images (C) to (E) and (D) to (F) in Figure 1 we need to agree on some common transformation to apply to these image fragments so we can easily match them.
-                If we want to avoid having the running time of the algorithm scale linearly with the number of images in our database, we must avoid comparing images directly when computing a common transformation.
-                Otherwise, we will need to find visually similar images in our database before finding a common transformation.
-                So we need to be able to find a common transformation between two visually similar images without directly comparing them.
-                To do this, we will use the properties of the fragments we extract from the images.
-                We will do so in such a way that visually similar fragments which have been transformed in different ways, will be transformed to the same transformation.
+                Intuitively, it is difficult to determine whether C and D are the same images.
+                However, after our algorithm has applied a transformation to both images, we end up with images E and F;
+                it is now easy to see that the images are the same. 
+            </p>
+            <p>
+                To actually go from images (C) to (E) and (D) to (F) in Figure 1 we need to agree on some common way to
+                 transform  both image fragments (a 'common transformation') so we can compare them and decide if they are a match.
+                However, unlike in the simplified example shown above, our algorithm must avoid comparing images directly when
+                 computing a common transformation.
+                This is so  the running time of the algorithm does not scale linearly with the number of images in our database.
+                Once we have found a common transformation, we can hash the transformed fragments and then make use of traditional
+                reverse image search techniques to perform partial image matching with our database images in constant time.
+            </p>
+            <p>
+                To find a common transformation between two visually similar images without directly comparing them,
+                 our algorithm uses the properties of the shapes we extract from the images.
+                We do this in such a way that visually similar fragments which have been subject to transformations of
+                 various types, will be transformed again (by the algorithm) to the same transformation. 
+            </p>
+            <p>
                 This is shown in the demo below.
             </p>
             <p>
-                We have extracted the same fragment from the two visually similar images on the left.
-                The fragments only differ by a transformation; they are otherwise identical.
-                We have derived a function for the transformations we can apply to this fragment.
-                The local minimum for this function will always give us the same fragment.
+                We have extracted the same fragment from the two visually similar images on the left. The fragments only differ by a transformation; they are otherwise identical.
+                We have derived a function for the transformations we can apply to this fragment. The local minimum for this function will always give us the same fragment.
                 You can see this in the demo: move the orange circle to the local minimum and the two image fragments will be identical.
             </p>
             <style>
@@ -581,8 +589,7 @@ C-1.3-6.8-1.6-6.8-2-6.8C-2-6.8-2-6.8-2-6.8L-2-6.8z"></path>
                 It is important to note at the outset that it is not feasible to handle all possible transformations that can be applied to an image;
                 some transformations are simply too destructive. For this algorithm we have only dealt with 2D affine transformations.
                 These include a wide range of changes to images: rotation, translation, scaling, skewing and any combination of these.
-                2D affine transformations are easy to work with mathematically and,
-                because they preserve lines and parallelism,
+                2D affine transformations are easy to work with mathematically and, because they preserve lines and parallelism,
                 we can guarantee the transformations aren't so destructive that we can't find a common transformation between two images.
                 We can see examples of 2D affine transformations below.
             </p>
@@ -1359,6 +1366,8 @@ c-4-3.333-8.333-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667
 219 661 l218 661zM702 80H400000v40H742z"></path></svg></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height: 2.49404em;"><span class=""></span></span></span></span></span></span></span></span>
                 </div>
             </div>
+
+
             <p>
                 To compute the values of
                 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mo>∑</mo><mrow><mo fence="true">[</mo><mtable rowspacing="0.15999999999999992em" columnspacing="1em"><mtr><mtd><mstyle displaystyle="false" scriptlevel="0"><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow></mrow><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">
@@ -1423,10 +1432,13 @@ x_{i}y_{i}
                 </div>
             </div>
 
-            //update the equations on the paper
-            //each vertex...to the line
-            //update the equations here
-            //commit and publish
+            <h1>
+                //update the equations on the paper
+                //each vertex...to the line
+                //update the equations here
+                //commit and publish
+    
+            </h1>
 
 
             <p>
@@ -1566,7 +1578,6 @@ x_{i}y_{i}
             const k2 = get_b(cShape);
             const k3 = getSumVal(cShape, k1, k2, shapeWrapper.maxSumVal);
 
-            console.log("here: k1: " + k1 + " k2: " + k2);
             g_plot = Plotly.newPlot('viz3dplot',
                 [{
                     x: x_axis,
