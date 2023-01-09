@@ -938,6 +938,8 @@ a^2x_{i}^2+2aby_{i}x_{i} +b^2y_{i}^2+ \dfrac{1}{a^2}(y_{i})^2
                     </span>
                 </span>
                 </div>
+                <div id="loadingImageInfo" style="color: rgba(0,0,0,.7)">
+                </div>
                 <div class="clearfix">
                     <div id="viz3dplot" style="float: left; width: 600px; height: 401px; display: inline-block"></div>
                     <div style="float: left; width: 172px; display: inline-block; margin-top: 2px; margin-left: 15px;">
@@ -1535,7 +1537,9 @@ x_{i}y_{i}
 
     function setGplot(shapeWrapper) {
         const inimg = new Image();
+        document.getElementById("loadingImageInfo").innerHTML = "Loading...";
         inimg.onload = function () {
+            document.getElementById("loadingImageInfo").innerHTML = "";
             const axisResX = 50;
             const axisResY = 50;
             // const data = getDataForShape(shapeWrapper.shape, axisResX, axisResY, shapeWrapper.pt1, shapeWrapper.pt2, 400000);
