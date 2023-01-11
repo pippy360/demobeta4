@@ -165,9 +165,11 @@ function drawVizBoxes(noChangesId_top, noChangesId_bottom, topTransform, bottomT
 async function initGraph(example) {
     let g_draggableMat_top      = getIdentityMatrix();
     let g_draggableMat_bottom   = getIdentityMatrix();
-
+    document.getElementById("dragPillDemoLoading").innerHTML = "Loading...";
     g_transformState = await init_loadTransformStateAndImages(example.common.imgsrc, example.top.initialTransform,
         example.bottom.initialTransform);
+    document.getElementById("dragPillDemoLoading").innerHTML = "";
+
     const d3VizId_top = "graph2DDataViz_top", draggableId_top = "draggableButton_top",
         animatedCanvasId_top = "transformedImageAndShape_top", noChangesId_top = "imageNoChanges_top",
         imageScaledId_top = "imageScaled_top", matId_top = "topMatV";
